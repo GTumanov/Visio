@@ -1,0 +1,19 @@
+Анализ ранее выполненных проектов, помогает нам выявить наиболее востребованные направления.
+Почти любая разработка требует разработки новых шейпов. Это могут быть сложные шейпы типа оборудования для стоек или смарт-шейпы (шейпы со сложным поведением).
+Часто разработка связана с анализом документа и сбором данных из документа. Это могут быть просто отчеты, операции экспорта данных в другой формат, загрузки данных в всевозможные хранилища, функции верификации документа. Иногда алгоритмы бывают достаточно сложными.
+Не реже встречается обратная функция - автопостроение документа по данным из базы данных или других внешних источников. И если операции импорта хорошо закрываются штатными средствами, то большая нагрузка может приходиться на всевозможные конверторы и алгоритмы автоматического размещения изображения на листе.
+Наконец, часто объектом разработки становятся специальные функции, который пользователь будет использовать как инструмент автоматизации - для повышения эффективности и производительности своего труда.
+Причем редко разрабатывается что-то одно из перечисленного. Чаще требуются комплексные решения, охватывающие несколько или все указанные направления.
+Не менее важно представлять цель новой разработки. 
+
+Analyzing previously completed projects, you can collect statistics - which often was the subject of development.
+Almost any development requires the development of new shapes. These can be complex shapes such as equipment for racks or smart shapes (shapes with complex behavior).
+Often the development is related to the analysis of the document and the collection of data from the document. It can be just reports, operations of exporting data to another format, uploading data to all kinds of repositories, document verification functions. Sometimes algorithms are quite complex.
+At least an inverse function is encountered - auto-building a document from data from a database or other external sources. And if the import operations are well closed by regular means, then a large load can occur on all possible converters and algorithms for automatically placing the image on the sheet.
+Finally, often the object of development are special functions that the user will use as an automation tool - to improve the efficiency and productivity of his work.
+And rarely one of the above is being developed. More often complex solutions are required that cover several or all of these areas.
+
+It is equally important to represent the purpose of the new development.
+
+Условия применения.  Получение экономии за счет применения более дешевых средств. Версия Standard с дополнительным комплектом макросов может быть дешевле и давать больший эффект, чем  массовая закупка более дорогой версии Professoinal.
+

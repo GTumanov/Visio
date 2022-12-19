@@ -1,0 +1,34 @@
+I specialize in developing solutions based on Visio.
+Solutions are diverse - from the simplest (the development of shapes and macros) to complex (small CAD for individual areas of business).
+For 20 years of work, the backlog has accumulated both in the form of ready-made solutions, and in the form of receptions, algorithms for solving various tasks. This contributes to a fast and high quality work.
+
+
+Custom development
+
+What is being developed. First of all, we are talking about what is connected with Visio. However, complex projects often capture Excel, Word, Access or other databases. XML, REST, etc. can be used to access data.
+
+Product form: smart shapes, stencils, templates, macros, additions.
+
+Languages: VBA, VB6, C #, WHS-scripts are more often used for program works. The cheapest solutions are obtained on VBA.
+
+Types of tasks:
+
+    Automation of construction of diagrams and diagrams based on data from the database;
+    scanning Visio documents, converting data with the output of reports and tables to databases and office documents;
+    small specialized CAD systems in which the Visio document acts as a tool for both inputting and displaying data;
+
+and much more (see the examples below).
+
+Preferences: I prefer to work with customers who will apply the result of the development themselves or within the framework of their enterprise. Short projects (duration of no more than 1-2 months) are preferable to dimensionless ones. Well, when the theme is relevant and allows you to use the result again with minor changes.
+
+I do not like to do things for customers who are going to sell them. First of all, this is due to the fact that in such cases it is often required to do something "for all versions of Visio, all operating systems, all user levels, include copy protection and digital signature of the product." At the same time, firstly, there are many works that are not related to Visio itself, and therefore not to the profile, and secondly, the customer often does not perceive the fact that the amount of work on the creation and testing of a universal solution may exceed by an order of magnitude the amount of actual development .
+
+The order of the order: for the beginning - the letter with questions or offers in the free form on gCroc@yandex.ru. All the rest is established during the correspondence.
+
+Cost: can vary widely. Depends on the workload at a particular moment, the urgency and nature of work, the presence of a reserve-prototype. The maximum level is hourly pay with the international level, characteristic for Upwork. But if there is no special workload, then during the discussion the price can be significantly reduced. The cost is also reduced if there is a reserve. If I previously developed a similar project and only need to finalize it for a new application, the costs will be less. Moreover, in special cases, when the project is interesting and can be considered as a reserve for future replication, it can be executed in general for free (this, of course, is an extreme case).
+Finished products
+
+Some of the previously developed solutions are on sale at the electronic store http://gumroad.com/. Their list is http://forvisio.blogspot.com/p/downloads.html. (They are allowed to sell there and for free).
+Examples of developed projects
+
+Some examples of previously developed projects are listed in http://visio.artberg.ru/prd/exper.htm.
