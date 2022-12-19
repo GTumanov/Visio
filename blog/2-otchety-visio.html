@@ -1,0 +1,297 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Отчеты Visio</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Отчеты Visio </h1>
+</div>
+
+<div itemprop="articleBody">
+		<p>Может быть вы обращали внимание, что многие расширения Visio сопровождаются примерами отчетов, сделанных специально под эти расширения. Более двух десятков отчетов. И это неспроста. Отчет является эффективным средством для сбора информации из готового документа Visio. Практически не затрачивая дополнительных усилий, вы можете сформировать файл Excel или XML, содержащий выбранные данные. При этом доступны такие функции как отбор нужных шейпов, сортировка, группировка и консолидация данных. А так как определение отчета можно сохранять для последующего использования, можно заранее подготовить набор типовых отчетов, которые будут использоваться в вашей деятельности.</p>
+<!-- continued -->
+<p>Я не буду повторять самой элементарщины. Простейшие действия, выполняемые при подготовке отчета, показаны, например, в <a href="https://blogs.technet.microsoft.com/visio_ru/2012/08/31/404/" target="_blank" rel="noopener noreferrer">блоге TechNet</a>.<br>Назначение полей на форме формирователя отчетов хорошо представлено в справке. Для ее получения достаточно нажать знак "?" на форме.</p>
+<p>Рассмотрим более интересные вещи. Инструментом является штатный аддон "VisRpt", который поставляется со всеми версиями Visio. Результат подготовки (определение отчета) может быть сохранен непосредственно в файле документа или выгружен в файл .vrd (visio report definition).<br>На вопрос, чем открыть файл .vrd, интернет чаще всего отвечает - только в Visio. Не верьте! Формат файла основан на XML, поэтому открыть его можно в любом текстовом редакторе. Однако для удобства просмотра я бы рекомендовал Notepad++ с плагином XML tools, который с помощью функции Pretty print покажет этот файл в удобном для чтения виде.</p>
+<p>Примерно вот так:<img src="2_f/rpt.gif"></p>
+<p>Формат файла определения отчета не менялся как минимум с Visio 2007 до Visio 2013, а скорее всего и даже больше. Так что его можно считать независимым от версии Visio.</p>
+<p>Несколько слов о секциях отчета можно найти в статье <a href="https://blogs.msmvps.com/visio/2006/10/15/visios-other-file-format-report-definition-files-vrd/" target="_blank" rel="noopener noreferrer">Visio’s other file format – Report Definition files *.VRD</a>. John Marshall поясняет в ней назначение секций. Хотя, это и так видно при просмотре текста определения отчета.</p>
+<p>Естественно, файл можно открыть и в Visio, в формирователе отчетов. Но там все содержимое будет разнесено на несколько страниц и множество полей формы. Для изменения это может быть удобно, а для просмотра и документирования, пожалуй, текстовое представление будет более удобным.</p>
+<h3>Выполнение отчета</h3>
+<p>Простейший вариант - нажать на кнопку Run непосредственно в формирователе отчетов, как рекомендуется в справке. Однако это не единственный способ.<br>Формирователь отчетов может быть вызван с помощью VBA или из другой программы. Примеры такого вызова:</p>
+<ul style="list-style-type: square;">
+<li>Application.Addons("VisRpt").Run ("/rptDefName=Coordinates /rptOutput=Excel_Shape")</li>
+<li>Application.Addons("VisRpt").Run ("/rptDefName=G:\Temp\Coordinates.vrd /rptrptSilent=True /rptOutputFilename=G:\Temp\coordinates.xlsx /rptOutput=Excel")</li>
+</ul>
+<p>К сожалению, возможность программного обращения толком не документирована. Поэтому информация о ключах и допустимых значениях будет несколько неполной:<br><strong>/rptDefName</strong> - имя отчета, присвоенное в формирователе отчетов, или полное имя внешнего файла определения отчета.<br><strong>/rptOutput</strong> - форма представления результата. Допустимые значения:</p>
+<ul>
+<li>HTML - результат в формате HTML;</li>
+<li>EXCEL_SHAPE - результат выводится в шейпе, непосредственно в документе Visio;</li>
+<li>XML - результат в файле XML;</li>
+<li>EXCEL - результат в файле Excel.</li>
+</ul>
+<p><strong>/rptOutputFilename</strong> - (не обязательный) имя выходного файла (включая путь). Используется в тех случаях, когда в качестве выходного формата заданы HTML, XML или Excel.</p>
+<p><strong>/rptSilent</strong> - (не обязательный) указание на то, что не нужно показывать формирователь отчетов.</p>
+<p>Кстати, "пустое" обращение Visio.Application.Addons("VisRpt").Run (" ") приводит к открытию формы формирователя отчетов без дальнейших действий Отчет не формируется, форма ожидает выбора или формирования нового отчета. Если указан вывод данных в шейп, формирователь не открывается. А при выводе в файл формирователь по умолчанию открывается и предотвратить это можно только использованием ключа /rptSilent.</p>
+<h3>Некоторые особенности</h3>
+<p>Особености формирователя отчетов могут потребовать соответствующей подготовки шейпов. То есть набор отчетов и трафареты с мастер-шейпами должны готовиться комплексно. В частности фильтрация может использовать логическое "И", но нет возможности "ИЛИ". Значит при наличии в документе множества разнообразных шейпов нужно озаботиться тем, чтобы нужные шейпы были помечены каким-либо общим признаком. Например, специальное значение в User ячейке или определенный класс шейпа. На этот предмет полезно проанализировать указанные выше примеры определения "штатных" отчетов. Найти отчеты можно поиском по шаблону *.vrd в папке установки Microsoft Office.</p>
+<p>Если вы рассчитываете на использование отчетов, то не рекомендуется целевые шейпы загонять в группы. Аддон не лезет в иерархию и обрабатывает только шейпы верхнего уровня.</p>
+<p>Ну е если возможностей формирователя отчетов не хватает, то следует рассмотреть технологию экспорта данных (например, в Excel) или разработать свою программку экспорта. Сделать немного подольше, чем работа с отчетами, но не сильно. Зато и возможности своей программы ограничиваются только фантазией.</p>
+<h3>&nbsp;Перечень готовых отчетов (в Visio 2007)</h3>
+<table>
+<tbody>
+<tr>
+<td>&nbsp;ASSET.VRD</td>
+<td>Space Plan: Belongs to, Asset Type, Name,&nbsp; Manufacturer</td>
+</tr>
+<tr>
+<td>CALEVENT.VRD</td>
+<td>Calendar Event report: Start date, Start time, End date, End time, Subject, Location, Label</td>
+</tr>
+<tr>
+<td>DOORSCHD.VRD</td>
+<td>Building Plan: Door Number, Size, Type, Thickness</td>
+</tr>
+<tr>
+<td>EQPLIST.VRD</td>
+<td>Process Engineering equipment components: Tag, Description, Material, Manufacturer, Model</td>
+</tr>
+<tr>
+<td>FLOCH.VRD</td>
+<td>Flowchart report: Displayed Text, Resources, Cost, Duration -grouped by Master Name</td>
+</tr>
+<tr>
+<td>GANTT.VRD</td>
+<td>Gantt Chart report: Name, Start Date, End Date, Duration, User-defined Number, Percent Complete -grouped by Resource</td>
+</tr>
+<tr>
+<td>HVACDIFF.VRD</td>
+<td>HVAC: Diffuser shape, Diffuser width, Diffuser depth, Flow rate, Neck diameter, Air flow type</td>
+</tr>
+<tr>
+<td>HVACDUCT.VRD</td>
+<td>HVAC: Master name, Duct length, Duct width</td>
+</tr>
+<tr>
+<td>INSTLIST.VRD</td>
+<td>Process Engineering instrumentation components: Tag, Description, Connection Size, Service, Manufacturer, Model</td>
+</tr>
+<tr>
+<td>INVENTRY.VRD</td>
+<td>Number of shapes on page, grouped by shape name.</td>
+</tr>
+<tr>
+<td>MOVE.VRD</td>
+<td>Space Plan: List where people are located</td>
+</tr>
+<tr>
+<td>NENWORK1.VRD</td>
+<td>Networked device list: Shape text, Net Name, IP Address, Sub Net Mask, Mac address, Net description</td>
+</tr>
+<tr>
+<td>NENWORK2.VRD</td>
+<td>Network PC Report: Shape text, Network name, Network description, Operating system, Memory, CPU, Hard drive capacity</td>
+</tr>
+<tr>
+<td>NENWORK3.VRD</td>
+<td>Network Equipment report: Building, Room, Shape text, Network name, Network description, IP address, Manufacturer, Product description, Product number, Part number, Serial number, Asset Number</td>
+</tr>
+<tr>
+<td>ORGCH.VRD</td>
+<td>Name, Title, Number of direct reports, Telephone -grouped by Department</td>
+</tr>
+<tr>
+<td>ORGPOS.VRD</td>
+<td>Organization Chart: Count similar Titles</td>
+</tr>
+<tr>
+<td>PIPELINE.VRD</td>
+<td>Process Engineering pipeline components: Tag, Description, Line Size, Schedule, Design Pressure, Design Temperature</td>
+</tr>
+<tr>
+<td>SPACE.VRD</td>
+<td>Space Plan: Department, Room Number, Use, Area</td>
+</tr>
+<tr>
+<td>VALVE.VRD</td>
+<td>Process Engineering valve components: Tag, Description, Line Size, Valve Class, Manufacturer, Model</td>
+</tr>
+<tr>
+<td>WDALLLINK.VRD</td>
+<td>Web Diagram Report: List all links discovered</td>
+</tr>
+<tr>
+<td>WDERRLINK.VRD</td>
+<td>Web Diagram Report: List all discovered links that contain errors</td>
+</tr>
+<tr>
+<td>WINSCHD.VRD</td>
+<td>Building Plan: Window Number, Size, Type</td>
+</tr>
+</tbody>
+</table>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 28 December 2018</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Двухуровневый список в данных шейпа</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Двухуровневый список в данных шейпа </h1>
+</div>
+		
+<div class="pull-none item-image"> <img src="26_f/cs006.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>Описание задачи. Шейп имеет два поля данных. Оба - фиксированные списки. Причем второй список зависит от того, какое значение выбрано в первом списке. По-существу, получается двух уровневый список в Shape Data.</p>
+<!-- continued --> 
+<pre class="language-python"><code>Prop1 = value1; value 2; value 3 - первый список
+Prop2= value1.1; value1.2; value1.3 - при Prop1 = value1
+Prop2= value2.1; value2.2; value2.3 - при Prop1 = value2
+Prop2= value3.1; value3.2; value3.3 - при Prop1 = value3</code></pre>
+<p>Задача сводится к тому, что после выбора конкретного значения из первого списка нужно изменить второй список, чтобы в нем появились соответствующие значения.</p>
+<p>В принципе, это можно сделать как программно, так и на уровне шейп-листа.</p>
+<h3>Программное решение</h3>
+<p>Алгорим программного решения предельно прост - поймать событие изменения данных для Prop1 и в обработчике записать новую строку в ячейку Format Prop2. В качестве события подшла бы ячейка TheData секции Events. Но к сожалению, эта ячейка уже много лет остается "reserved for future use", то есть не работает. Значит придется искать другое событие.</p>
+<p>Лучший способ подбора нужного события - запуск Event Monitor. Раньше он поставлялся отдельно от Visio в составе Visio SDK, который нужно было скачивать и устанавливать отдельно. Сейчас имеется готовая кнопочка на вкладке Developer.</p>
+<p>Запускаем, сбрасываем все фильтры, щелкаем Prop1 в окошке данных шейпа и видим, что при переключении возникают всего лишь два события: FormulaChanged и CellChanged.</p>
+<p><img src="26_f/cs001.png" alt=""></p>
+<p>Это разочаровывает, потому как события достаточно неудобные. Они ведь срабатывают при любом изменении любой ячейки. Значит теоретически обработка таких событий может замедлить работу Visio. Пользоваться, конечно, можно. Только желательно пометить нужные шейпы каким-либо уникальным признаком и в самом начале обработчика отфильтровывать все изменения всех ячеек, кроме Prop1.Value нужных шейпов.</p>
+<p>Самое время вспомнить, что Visio позволяет разработчику генерить собственные события с помощью функции QUEUEMARKEREVENT. Это уже более тонкий инструмент, который можно настроить даже на единственный шейп или ячейку. Например, так</p>
+<p><img src="26_f/cs002.png" alt=""></p>
+<p>Теперь при каждом изменении свойства Prop1 приложение будет ловить событие MarkerEvent. Если бы источников было много, то дополнительный аргумент (в данном случае "prop") мог быть использован для фильтрации. Если такой необходимости нет, то ContextString в обработчике можно просто не анализировать.</p>
+<p>В обработчике события MarkerEvent в зависимости от значения первого свойства записываем тот или инй список в ячейку Format второго свойства.</p>
+<p>&nbsp;</p>
+<pre class="language-python"><code>Dim WithEvents app As Visio.Application
+Sub Start()
+  Set app = ActiveDocument.Application
+End Sub
+
+Private Sub app_MarkerEvent(ByVal app As IVApplication, ByVal SequenceNum As Long, ByVal ContextString As String)
+  s = app.ActiveWindow.Selection(1).Cells("Prop.Prop1").ResultStr(0)
+  With app.ActiveWindow.Selection(1).Cells("Prop.Prop2.Format")
+    Select Case s
+    Case "value1"
+      .Formula = """value1.1;value1.2;value1.3"""
+    Case "value2"
+      .Formula = """value2.1;value2.2;value2.3"""
+    Case "value3"
+      .Formula = """value3.1;value3.2;value3.3"""
+    End Select
+  End With
+End Sub</code></pre>
+<p>Необходимая дополнительная нагрузка - переменная app ее инициализация. В примере переменная инициализируется процедурой Start. В рабочем приложении логично делать это в обработчике события октрытия документа.</p>
+<h3>Решение в ShapeSheet</h3>
+<p>Как уже сказано выше, задача имеет решение и на уровне шейп-листа. Здесь уже не требуется обработка событий, достаточно формулами выделить нужный фрагмент данных и подставить его в ячейку Format.</p>
+<p>Формул требуетя много, но все они упаковываются в одну строку секции Scrath. Разберем формулы подробнее.</p>
+<p><img src="26_f/cs003.png" alt=""></p>
+<p><img src="26_f/cs005.jpg" alt=""></p>
+<pre class="language-markup"><code>Scratch.A1=LOOKUP(Prop.Prop1,Prop.Prop1.Format)</code></pre>
+<p>Формула в Scratch.A1 вычисляет позицию выбранного значения в списке выбора первого свойства. В данном случае будет принимать значение 0,1или 2.</p>
+<pre class="language-markup"><code>Scratch.B1="value1.1,value1.2,value1.3;value2.1,value2.2,value2.3;value3.1,value3.2,value3.3"</code></pre>
+<p>Scratch.B1 содержит список для всех возможных значений второго свойства. Заметим, что в списке использованы разные разделители: запятая и точка с запятой. Это важно, потому как в каждом конкретном случае из этого комбинированного списка нужно выделить подсписок. Но Visio требует, чтобы значения в списке разделялись точкой с запятой. Поэтому выборка производится в два этапа. Сначала выбирается список второго уровня как одно значение (с запятыми). Потом в ячейке Scratch.C1 запятые превращаются в точки с запятой и список получает нужный формат.</p>
+<pre class="language-markup"><code>Scratch.C1=SUBSTITUTE(INDEX(Scratch.A1,Scratch.B1),",",";")</code></pre>
+<p>Остается только функцией SETF забросить полученный список в ячейку Prop.Prop2.Format.</p>
+<pre class="language-markup"><code>Scratch.D1=SETF(GetRef(Prop.Prop2.Format),Scratch.C1)</code></pre>
+<p>Это все. Решение на уровне шейп-листа внешне для пользователя выглядит точно так же, как и программное решение. Формулы немного посложнее, зато отсутствуют макросы, значит не требуется утрясать связанные с ними вопросы безопасности.</p>
+<h3>Групповое переключение</h3>
+<p>Пожалуй, следует рассмотреть и этот вопрос. Дело в том, что окно Shape Data в принципе позволяет изменять значения одновременно в нескольких шейпах. Это требуется не часто, но все-таки иногда требуется. И при групповом переключении приведенные решения ведут себя по-разному.</p>
+<p>Решение на уровне шейп-листа работет так, как и ожидается. То есть групповые операции срабатывают так, как будто действия выполнены с каждым шейпом по-отдельности.</p>
+<p><img src="26_f/cs006.gif" alt=""></p>
+<p>Да это и понятно. Ведь формулы действуют внутри каждого шейпа.</p>
+<p>А вот попытка сделать то же самое для опубликованного выше программного решения не проходит.</p>
+<p><img src="26_f/cs007.gif" alt=""></p>
+<p>Причина понятна - приведенный выше обработчик изменяет формулу только в одном шейпе - первом из селектированных. Это нужно менять.</p>
+<p>Событие MarkerEvent будет сгенерировано для каждого из селектированных шейпов. Значит, в параметрах нужно каким-то образом передать указание на шейп. Таким указанием может стать идентификатор шейпа, переданных в параметре ContextString. Для этого изменяем формулу с QUEUEMARKEREVENT, добавляя функцию ID().</p>
+<pre class="language-markup"><code>Scratch.A1= =QUEUEMARKEREVENT("prop"&amp;ID())+DEPENDSON(Prop.Prop1)</code></pre>
+<p>И меняем обработчик</p>
+<pre class="language-python"><code>Private Sub app_MarkerEvent(ByVal app As IVApplication, ByVal SequenceNum As Long, ByVal ContextString As String)
+  s = app.ActiveWindow.Selection(1).Cells("Prop.Prop1").ResultStr(0)
+  If Left(ContextString, 4) &lt;&gt; "prop" Then Exit Sub
+  ind = CLng(Mid(ContextString, 5, Len(s) - 4))
+  With app.ActivePage.Shapes.ItemFromID(ind).Cells("Prop.Prop2.Format")
+    Select Case s
+    Case "value1"
+      .Formula = """value1.1;value1.2;value1.3"""
+    Case "value2"
+      .Formula = """value2.1;value2.2;value2.3"""
+    Case "value3"
+      .Formula = """value3.1;value3.2;value3.3"""
+    End Select
+  End With
+End Sub</code></pre>
+<p>Теперь Visio будет искать шейп на активной странице по идентификатору шейпа. Проверка показывает, что исправленное программное решение заработало нормально.</p>
+<p>В итоге получаем, что программное решение не только тянет за собой макросы, но и может добавить некоторые "подводные камни", которые могут быть пропущены при первоначальном тестировании и выяввятся только впоследствии. Так что решение в шейп-листе для данной задачи явно выглядит предпочтительным.</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="primer.html" itemprop="genre">Как это устроено</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 19 January 2020</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

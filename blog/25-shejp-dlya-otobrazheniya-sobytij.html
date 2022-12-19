@@ -1,0 +1,219 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Шейп для отображения событий</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Шейп для отображения событий </h1>
+</div>
+		
+<div class="pull-none item-image"> <img src="25_f/tmshp.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>Картинка на заставке иллюстрирует способ автоматического создания довольно специфичной диаграммы. Диаграмма создается буквально одним движением мыши путем перетаскивания нескольких строк из окна внешних данных на страницу рисунка.</p>
+<p>Интересно то, что макросы здесь не используются. Существует только один специальный шейп, который все делает. Посмотрим, как это сделано.</p>
+<!-- continued --> 
+<h3>Отступление</h3>
+<p>Исторически эта задача возникла из программной области. В процессе работы с объектом WebBrowser появляются цепочки перекрывающихся во времени запросов-ответов, порождающих множество событий. И возникает необходимость разобраться с их взаимовлиянием и последовательностью появления.</p>
+<p>Зафиксировать время возникновения событий довольно легко. Сохранить протокол в текстовом файле или в Excel тоже несложно. В итоге имеем файл, в котором есть множество записей и в каждой из них: номер события, время возникновения и название. Теперь нужно быстро получить наглядную диаграмму.</p>
+<h3>Конструкция</h3>
+<p>Если рассчитывать на использование в Visio Professional, то задача хорошо решается с помощью окна внешних данных. Нужно подготовить мастер-шейп, управляемый данными, и открыть источник данных в окне внещних данных. После этого "перетаскивание" строки данных на страницу рисунка приведет к появлению копии селектированного мастер-шейпа, а переданные данные заставят его переместиться в нужное место. А так как перетащить можно сразу несколько строк, то одним этим движением мы сразу построим всю диаграмму.</p>
+<p>Собственно, для минимальной реализации достаточно было бы двух формул в секции 1D Endpoints: BeginX=Prop.T и EndX=BeginX<br>При этом шейп смещался бы по оси X пропорционально значению свойства T (время наступления события).<br>Остальные добавки обеспечивают дополнительные возможности для управления диаграммой.</p>
+<p><img src="25_f/shg001.jpg" alt=""></p>
+<p>Функция GUARD() защищает формулы от непреднамеренного искажения в результате действий оператора. Элементы диаграммы нельзя будет подвинуть вручную.</p>
+<p><img src="25_f/shg002.jpg" alt=""></p>
+<p>Prop._VisDM_N вносит дополнительный искусственный сдвиг. Так как некоторые события возникают почти одновременно, то и на графике они сливались бы, перекрывали друг друга. Во избежание этого вносится искусственное искажение. Строки нумеруются (параметр N) и каждое очередное значение смещается на 0.01 дюйма, что делает их раздичимыми даже при одинаковом времени.</p>
+<p>Параметр Xb (Prop.Xb) позволяет управлять масштабом по горизонтали. Действие основано на способности окна Shape Data изменять данные сразу нескольких шейпов. То есть, если селектировать всю диаграмму и изменить значение Xb в окне Shape Data, то новое значение будет передано во все селектированные шейпы и значение BeginX будет пересчитано для всех шейпов. Строка Xb отсутствует в файле данных. Этот параметр введен специально для управления масштабом отображения.</p>
+<p>Схожим образом действуют параметры Yb и dY. Yb участвует в формуле BeginY и косвенно в EndY, что позволяет сместить селектированные шейпы диаграммы по вертикали.</p>
+<p>dY смещает текст.</p>
+<p><img src="25_f/shg003.jpg" alt=""></p>
+<p><img src="25_f/shg004.jpg" alt=""></p>
+<p>В виде текста отображается название события. Как правило, названия длинные и перекрывали бы друг друга. Поэтому каждое очередное название смещается вверх пропорционально номеру события. Но при большом количестве измерений это смещение может стать слишком большим. Вот в этом случае и подключается dY. Можно селектировать часть шейпов диаграммы и изменить для них значение dY. При этом тексты селектированной части будут смещены на заданную величину.</p>
+<h3>Обращение с полученной диаграммой</h3>
+<p>Размещение шейпов с помощью формул, да еще и защищенных функцией GUARD, хорошо работает при построении одиночной диаграммы, но фиксированная привязка затрудняет создание более сложных документов. Частично помогают описанные выше возможности сдвига и масштабирования через окно внешних данных. Если их не хватает, то можно порекомендовать следующие способы:</p>
+<p>1. Группировка. Если полученное изображение сгруппировать, то координаты будут привязаны уже не к листу, а к группе. Группа в целом легко транспортируется в нужное место.</p>
+<p>2. Построенное изображение может быть сохранено в формате рисунка (.gif, .jpeg, .emf...). В таком виде оно легко транспортируется и может быть вставлено в любой другой документ. Причем не обязательно сохранять рисунок в файле - достаточно после команды Copy использовать Paste Special и выбрать формат рисунка.</p>
+<p>3. Можно также после построения трансформировать формулы шейпов макросом, заменяя жесткую связь с данными на значения. Пример макроса ниже:</p>
+<pre class="language-python"><code>Sub defreeze()
+ For Each sh In ActiveWindow.Selection
+  sh.Cells("BeginX").FormulaForce = sh.Cells("BeginX").ResultIU
+  sh.Cells("BeginY").FormulaForce = sh.Cells("BeginY").ResultIU
+  sh.Cells("EndX").FormulaForce = sh.Cells("EndX").ResultIU
+  sh.Cells("EndY").FormulaForce = sh.Cells("EndY").ResultIU
+ Next
+End Sub
+</code></pre>
+<p>Последний способ дает наибольшую свободу, но в документе появляется макрос, а этого некоторые пользователи стараются избегать.</p>
+<h3>Условия применения</h3>
+<p>Способ построения диаграммы путем перетаскивания данных на страницу рисунка рассчитан на применение в Visio Professional. И причина только одна - Visio Standard не имеет окна внешних данных, то есть не позволяет выполнить такой изящный взмах мышкой. Все остальное можно выполнить и в версии Standard. Но для переброски данных из источника в шейпы вполне можно использовать макрос и тогда ограничение на версии снимается.<br>В каких-то случаях передача данных с помощью макроса может быть даже удобнее, потому как позволяет сократить или вообще исключить "ручные" операции. Примером может служить <a href="https://visioport.ru/navi/png_1.htm">Visio navigator</a>.</p>
+<p><img src="25_f/shg005.png" alt=""></p>
+<p><br>Он тоже использует шейп, управляемый данными, но процесс создания и публикации диаграммы повторяется при каждом изменении данных, поэтому применение макросов здесь не только оправдано, но и желательно. А попутно снимается и требование к использованию старших версий Visio.</p>
+<p>Однако передача данных - это уже другая тема и не будем ее рассматривать здесь.</p>
+<h3>Материалы</h3>
+<p>Шейп для самостоятельного исследования показанного подхода можно взять <a href="https://visioport.ru/blog/images/sampledata/shgr/shg.zip">здесь</a>. В архиве находится документ Visio, содержащий шейп в Document stencil и пример данных в файле Excel.</p>	</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="primer.html" itemprop="genre">Как это устроено</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 16 December 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

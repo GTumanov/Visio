@@ -1,0 +1,211 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Случай с защитой от воздействия тем в Visio</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Случай с защитой от воздействия тем в Visio </h1>
+</div>
+<div itemprop="articleBody">
+		<p>Не секрет, что механизм тем, появившийся в последних версиях Visio, иногда плохо воспринимает трафареты, рассчитанные на отсутствие тем.</p>
+<p>David J Parker в статье "<a href="https://blog.bvisual.net/2016/06/10/protecting-shapes-from-themes-in-visio-2013/">Protecting Shapes from Themes in Visio 2013+</a>" показал основные принципы защиты от воздействия тем. Но недавно я наткнулся на случай, в котором предложенный метод защиты оказался недостаточным.</p>
+<p>Пользователь переделывает старые трафареты под новую версию Visio и никак не может заставить их не воспринимать темы. После более глубокого изучения трафарета оказалось, что причина кроется в использовании стилей.</p>
+<p>Со стилями Microsoft поступила оригинально. Когда-то это был основной механизм предварительной настройки форматов и им часто пользовались. При переходе к темам доступ к стилям практически исключили из GUI, но сами-то стили остались. И там внутри они не только работают, но и могут существенно влиять на поведение шейпов.</p>
+<p>В рассматриваемом случае в мастер-шейпе был использован стиль DFD Normal, основанный на стиле Normal. Вроде, никакого криминала. Но при переходе в новую систему наследование начинается со стиля Theme. В результате, стоит только перебросить мастер из трафарета на страницу рисунка, как в документе появляется новый стиль со следующей цепочкой наследования DFD Normal =&gt; Normal =&gt; Theme.</p>
+<!-- continued -->
+<p>Но стиль Theme является основой применения тем, поэтому он тащит свои установки в копию мастера в Document Stencil и в образованные от него копии. При этом защита от тем, установленная в мастер-шейпе средствами окна Protection, просто игнорируется. Все индексы из секции Theme Properties (значение по умолчанию 65534) проникают из мастер-стиля в шейп и заставляют его перекрашиваться. И это несмотря на то, что в исходном мастер-шейпе в трафарете в секции Theme Properties стоят нули. (Они там устанавливаются в момент применения защиты через окно Protection.)</p>
+<p>Значит для восстановления справедливости нужно рвать цепочку наследования. Метод получился интересный. Если открыть мастер-шейп в трафарете на редактирование и в шейп-листе заменить нули на нули в секции Theme Properties, то цепочка наследования рвется. До операции нули были черными (то есть наследуемыми), после операции они становятся голубыми, то есть установленными локально.</p>
+<p><img src="14_f/edt.gif" alt=""></p>
+<p>Теперь трафарет начинает работать нормально, потому что индексы из стиля наткнутся на локальные нули и не пролезут в шейп.</p>
+<p>Но есть тонкость. Стили приписаны к документу. Мы изменили стиль в трафарете. Так как стиль оригинальный, то в новом чистом документе его не будет. Значит при переносе мастер-шейпа на страницу этот стиль скопируется в документ и все будет нормально. Но это в новом документе, а что будет, если пользователь захочет воспользоваться отремонтированным трафаретом в каком-то старом документе, неизвестно. Особенно если в документе такой стиль появился из-за применения трафарета до ремонта. Скорее всего так и останется стиль с длинной цепочкой наследования.<br>В этом случае можно попробовать проделать ту же операцию уже в документе. Кстати, удобно это сделать макросом. Например, таким:</p>
+<pre class="language-python"><code>Sub ttt()
+For i = 0 To 7
+ActiveDocument.Styles.ItemU("DFD Normal").CellsSRC(visSectionObject, visRowThemeProperties, i).FormulaU = "0"
+Next
+End Sub</code></pre>
+<p>В примере имя стиля жестко задано в коде.</p>
+<p><img src="14_f/sty.gif" alt=""></p>
+<p>Таким образом, с конкретным документом можно справиться даже не исправляя стили в трафарете. Пусть сначала переброшенные шейпы будут перекрашенными, но после исправления стиля в документе все они примут "правильный" вид. Последующие переброски будут подхватывать уже исправленный стиль и сразу же принимать нормальные цвета.</p>
+<p>Следом возникнет вопрос, а какие же стили подлежат ремонту. Кстати, в рассматриваемом конкретном случае стилей в трафарет было понапихано с избытком и большая часть из них не использовалась, но все копировались в новый документ. На этот случай полезно воспользоваться вот таким макросом, который распишет только примененные в шейпах стили. Правда, с ограничением на количество уровней группировки и на жестко заданое имя трафарета. Так что, в идеале код нужно бы усовершенствовать, но на суть проблемы это не влияет.</p>
+<pre class="language-python"><code>Sub MasterStyleRelation()
+Set doc = Documents("after.vssx")
+For Each m In doc.Masters
+Debug.Print "=== Master Name: " &amp; m.Name
+With m.Shapes(1)
+Debug.Print .NameID, .Style
+For Each shp In .Shapes
+Debug.Print " " &amp; shp.NameID, shp.Style
+For Each shp2 In shp.Shapes
+Debug.Print " " &amp; shp2.NameID, shp2.Style
+Next
+Next
+End With
+Next
+End Sub</code></pre>
+<p>Вывод: переделывая старые трафареты, помните, что наличие в них стилей может потребовать дополнительных усилий при защите от тем.</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 11 July 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

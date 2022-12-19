@@ -1,0 +1,215 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Документирование облачных хранилищ в Visio TreeView</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Документирование облачных хранилищ в Visio TreeView </h1>
+</div>
+
+<div class="pull-none item-image">
+	<img src="/blog/35_f/img_001.png" alt="" itemprop="image">
+</div>
+<div itemprop="articleBody">
+	<p>Шаблон Visio TreeView изначально был разработан для документирования файловой системы. Однако пользователи постоянно задают вопрос - нельзя ли использовать его для облачных хранилищ.</p>
+	<p>Отвечаю - можно, хотя и потребуются некоторые дополнительные усилия.</p>
+	<p>Во-первых, помимо сканирования файловой системы шаблон обеспечивает прием данных из текстового файла. То есть достаточно каким-то образом отсканировать любое хранилище и представить данные в определенном формате, чтобы потом отобразить их в Visio TreeView. По этому варианту было сделано два дополнительных приложения:</p>
+<!-- continued -->	
+	<ul>
+		<li>
+			<a href="https://visioport.ru/work/index.php/vdvn/m-others/10-ftpscanner">FTP scanner for Visio TreeView template</a>. Сканер выполнен в виде EXE, инсталлятор в ZIP-архиве прилагается к статье.</li>
+		<li>
+			<a href="https://visioport.ru/work/index.php/vdvn/m-others/7-googledrivescanner">Google Drive scanner for Visio TreeView template</a> (https://visioport.ru/work/index.php/vdvn/m-others/7-googledrivescanner). Сканер выполнен в виде Python скрипта и прилагается к статье.</li>
+	</ul>
+	<p>Во-вторых, в последнее время стали появляться программы-агрегаторы, позволяющие отобразить структуру облачного хранилища в виде локального диска. С точки зрения файловой структуры облако становится неотличимым от локального диска. Рассмотрим один из таких агрегаторов - Диск-О.</p>
+	<p>Диск-О: позволяет подключить все самые популярные облачные хранилища</p>
+	<p>В общем случае данные можно делать локальные копии удаленных данных, но это не обязательно. То есть имеется режим, в котором на локальные диски ничего не передается.</p>
+	<p>Сервис платный, но имеется ограниченная бесплатная версия, которой вполне достаточно для работы с TreeView. Основные ограничения: бесплатная версия может подключить в любой момент времени только одно хранилище и есть ограничение на количество загружаемых файлов в день. Но загрузка файлов для TreeView вообще не нужна, а хранилища можно переключать по мере необходимости. Подключать только то, структуру которого нужно просмотреть или задокументировать в данный момент.</p>
+	<p>Приведу несколько картинок, поясняющих процесс переподключения облака.</p>
+	<h2>Отключение ранее подключенного диска</h2>
+	<p> <img src="/blog/35_f/img_002.png" alt=""/> </p>
+	<p>В главном окне программы Диск-О имеется кнопка «Перейти к списку». При ее нажатии открывается окно со списком подключенных дисков. Естественно, в бесплатной версии в списке только одно имя. При наведении курсора на эту позицию становится видимой иконка настройки. Нужно щелкнуть по ней и на последующих экранах щелкнуть по кнопкам «Отключить» и «Удалить». Никакие файлы из облака при этом не удаляются, только отключается связь с хранилищем.</p>
+	<p>
+		<img src="/blog/35_f/img_003.png"
+			 alt=""/>
+	<h2>Подключение нового облака</h2>
+	<p>Примечание: подразумевается, что вы уже являетесь владельцем некой области в облаке и задача состоит только в том, чтобы подкючить облако через программу Диск-О.</p>
+	<p>Щелкаем по кнопке «Подключить» и выбираем нужный сервис из 13 предложенных. Например, Dropbox. Программа предложит вам войти в свой аккаунт в облаке.</p>
+	<p>
+		<img src="/blog/35_f/img_004.png"
+			 alt=""/>
+	<p>Далее управление передается сервису Dropbox для того, чтобы вы, как владелец облака, разрешили доступ к нему приложения Диск-О. Нужно ввести Email, пароль, щелкнуть по “Sign in” и на следующем экране – по кнопке “Allow”.</p>
+	<p>Последует сообщение, что браузер больше не нужен и программа Диск-О покажет в списке подключенных дисков новую позицию.</p>
+	<p>
+		<img src="/blog/35_f/img_005.png"
+			 alt=""/>
+	<p>На этом все. Можно запускать Visio TreeView и приступать к сканированию и отрисовке структуры папок и файлов облачного хранилища.</p>
+	<p>Скорее всего облачное хранилище вышлет уведомление по Email о том, что был открыт доступ к нему программе Диск-О. Когда необходимость в этом доступе отпадет, можно будет удалить это разрешение через ваш аккаунт в облачном хранилище.</p>
+</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 28 February 2022</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

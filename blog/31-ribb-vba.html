@@ -1,0 +1,299 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Вызов макросов из риббона в Visio</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Вызов макросов из риббона в Visio </h1>
+</div>
+
+<div class="pull-none item-image"> <img src="31_f/rvba1.png" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>Эта статья не содержит открытий, а больше похожа на запись "для памяти". Чтобы, когда понадобится, можно было быстренько вспомнить и подключить к документу Visio риббон с пользовательской вкладкой.</p>
+<p><strong>Постановка задачи</strong>. Имеется документ с макросами; задача - добавить вызов макросов из риббона.</p>
+<p>В районе 2007-2010 с появлением риббона было несколько публикаций на тему, как добавить к нему свою вкладку. Практически все они основывались на интерфейсе IRibbonExtensibility и подключении пользовательского риббона в момент открытия документа.</p>
+<p>Однако с появлением в Visio 2013 нового (пакетного) формата файлов появилась возможность намертво связать пользовательский риббон с документом, просто навсегда включить его в состав документа. Получается простая и компактная конструкция, которой вполне достаточно, чтобы управлять несколькими макросами.</p>
+<!-- continued -->
+<p>Итак, что нужно сделать для решения задачи.</p>
+<ol>
+<li>Создать файл CustomUI.xml - описание новых элементов риббона.</li>
+<li>Подобрать картинки для иконок (при желании).</li>
+<li>Создать обработчики, срабатывающие при нажатии кнопок риббона.</li>
+<li>Подключить риббон к документу.</li>
+</ol>
+<h3>Файл CustomUI.xml</h3>
+<p>Пример текста такого файла.</p>
+<pre class="language-python"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui"&gt;
+  &lt;ribbon&gt;
+    &lt;tabs&gt;
+      &lt;tab id="tab1" label="ORG CHART"&gt;
+        &lt;group id="group1" label="OrgChart"&gt;
+          &lt;button id="RefreshAll"
+            label="Refresh All"
+            size="large"
+            supertip="Refresh All DataRecordSets"
+            imageMso="DataRefreshAllDialog"
+            onAction="OnAction"/&gt;
+          &lt;button id="Compare"
+            label="Compare"
+            size="large"
+            supertip="Compare Visio to DB"
+            imageMso="DiagramCheck"
+            onAction="OnAction"/&gt;
+          &lt;button id="ClearCallouts"
+            label="Clear all callouts"
+            size="large"
+            supertip="Clear all callouts"
+            imageMso="SubprocessCreateNew"
+            onAction="OnAction"/&gt;
+          &lt;button id="Link"
+            label="Create link"
+            size="large"
+            supertip="Create link between shapes"
+            imageMso="SubprocessLinkToExisting"
+            onAction="OnAction"/&gt;
+          &lt;button id="BestFit"
+            label="Best Fit"
+            size="large"
+            supertip="Set Fit to Window for all pages"
+            imageMso="ZoomFitToWindowVisio"
+            onAction="OnAction"/&gt;
+        &lt;/group&gt;
+      &lt;/tab&gt;
+    &lt;/tabs&gt;
+  &lt;/ribbon&gt;
+&lt;/customUI&gt;</code></pre>
+<p>Здесь описана группа кнопок с минимумом необходимых атрибутов. Пять кнопок для вызова пяти макрсов.</p>
+<p>Кнопки назначены большими. В качестве иконок на кнопках использованы иконки из imageMso.</p>
+<h3>Картинки для иконок</h3>
+<p>Картинки указываются в параметре imageMso, например <strong>imageMso="DataRefreshAllDialog"</strong>.</p>
+<p>В принципе, можно нарисовать свои картинки для иконок... Но проще использовать то, что уже имеется в составе офисных программ. Из такого множества имеющихся иконок всегда можно подобрать подходящие для имеющихся макросов.</p>
+<p>Для подбора иконок удобно использовать перечни идентификаторов, собранные в <a href="https://github.com/OfficeDev/office-fluent-ui-command-identifiers">https://github.com/OfficeDev/office-fluent-ui-command-identifiers</a> . Там подборка сразу для нескольких офисов.</p>
+<p>Перечни представляют собой Excel-файлы с именами типа VisioControls.xlsx.</p>
+<p>Можно открыть соответствующее приложение, подсмотреть подходящие иконки, а затем, фильтруя по полям "Tab", "Tab Set" и "Control Type", выбрать соответствующий идентификатор из поля "Control Name". Именно значение этого поля прописывается в параметре imageMso.</p>
+<h3>Обработчики</h3>
+<p>Обработчики должны размещаться в модуле и принимать параметр "ByVal control As IRibbonControl".</p>
+<p>В принципе, можно писать отдельный обработчик под каждую кнопку. А можно один общий, который будет выбирать идентификатор кнопки и вызывать соответствующий макрос.</p>
+<p>Идентификатор - это то что описано в XML файле в атрибуте "id=", например &lt;button id="RefreshAll"...</p>
+<p>Вот пример такого обработчика переадресатора для приведенного выше XML описания риббона.</p>
+<pre class="language-python"><code>Public Sub OnAction(ByVal control As IRibbonControl)
+  Select Case control.ID
+    Case "Compare"
+      ThisDocument.Compare
+      Exit Sub
+    Case "RefreshAll"
+      ThisDocument.RefreshData
+      Exit Sub
+    Case "ClearCallouts"
+      ThisDocument.ClearAllCallouts
+      Exit Sub
+    Case "Link"
+      ThisDocument.LinkShapes
+      Exit Sub
+    Case "BestFit"
+      ThisDocument.BestFit
+      Exit Sub
+  End Select
+End Sub
+</code></pre>
+<h3>Подключение риббона к документу</h3>
+<p>По сути, для подключения риббона нужно вскрыть документ (в новом формате документ является архивом), добавить в него папку CustomUI с файлов CustomUI.xml внутри и ссылку на него в файле _rels типа</p>
+<pre class="language-python"><code>&lt;Relationship Id="rUI1" Type="http://schemas.microsoft.com/office/2006/relationships/ui/extensibility" Target="customUI/customUI.xml"/&gt;</code></pre>
+<p>Примерно так и приходится поступать в некоторых приложениях, например в Excel, что слегка утомительно.</p>
+<p>Visio в этом смысле радует. Здесь достаточно просто программно вписать текст XML файла в свойство CustomUI документа. Visio сам создаст папку, файл и ссылку.</p>
+<p>Я написал для таких случаев VBS скрипт и использую его при возникновении необходимости подключения риббона.</p>
+<p>Вот текст скрипта.</p>
+<pre class="language-python"><code>UIFile = "C:\Work\!RibTest\2\CustomUI.xml"
+VisFile = "C:\Work\!RibTest\2\DrTest2.vsdm"
+'
+Set fso = CreateObject("Scripting.FileSystemObject")
+Set file = fso.OpenTextFile(UIFile,1)
+xml = file.ReadAll
+file.Close
+Set app = CreateObject("Visio.InvisibleApp")
+Set doc = app.Documents.Open(VisFile)
+doc.CustomUI = xml
+doc.Save
+app.Quit
+</code></pre>
+<p>В начале указаны две переменных (UIFile и VisFile), которые приходится править в каждом случае. Это путь к описанию интерфейса и файлу, к которому его нужно подключить.</p>
+<p>Иллюстрация процесса "зарядки"&nbsp;файла риббоном с помощью VBS скрипта показана на&nbsp;титульной картинке.</p>
+<p>А связи между компонентами при работе показаны ниже.</p>
+<p><img src="31_f/rvba2.png" alt=""></p>
+<h3>Другие применения - скрыть вкладку</h3>
+<p>С добавлением вкладок и кнопок вроде бы разобрались. Но есть и еще интересное применения данного подхода.</p>
+<p>Известно, что существует возможность ручной настройки риббона, позволяющая в том числе скрыть какие-либо кнопки. Но эта настройка&nbsp;действует не на отдельный документ, а на все приложение в целом.</p>
+<p>В XML файле риббона тоже можно назначить какие-то вкладки или кнопи невидимыми. Это уже можно применить к отдельному документу. Но при подключении риббона обычным, более распространенным способом либо будет задействован Add-In, который можно отключить, либо Visio документ обязан поддерживать макросы.</p>
+<p>Так вот описанный выше способ свободен от таких недостатков. Во-первых, риббон подключается строго к указанному документу и только к нему. Во-вторых это может быть файл .vsdx, то есть без макросов. То есть разработчик получает&nbsp;возможность удалить из риббона мешающие ему штатные органы управления вообще или заменить их своими. А такая потребность&nbsp;время от времени возникает, как миниимум в форумах вопросы на эту тему встречаются.</p>
+<p>Как это делается? XML описание риббона ведь не обязано&nbsp;содержать новые элементы. А если их не будет, то и исполняющая часть не нужна. То есть если в приведенном выше примере вместо &lt;tab id="tab1"... вставить вот такую запись для штатной вкладки Viev</p>
+<pre class="language-python"><code>&lt;tab idMso="TabView" visible="false"&gt;
+&lt;/tab&gt;
+</code></pre>
+<p>то после подключения риббона мы не увидим вкладку View в интерфейсе.</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 29 July 2020</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

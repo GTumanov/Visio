@@ -1,0 +1,209 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Создание сложных формул в Visio с помощью Excel</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Создание сложных формул в Visio с помощью Excel </h1>
+</div>
+		
+<div itemprop="articleBody">
+		<p>&nbsp;</p>
+<p>Недавно потребовалось сделать смарт-шейп... Такой весь из-себя управляемый данными. И формулы получались довольно сложными. Вот например, есть список типов</p>
+<pre class="language-markup"><code>принтер;МФУ;копир;сканер;терминал;инж.сист.;факс;дупликатор</code></pre>
+<p>и задание к нему - в зависимости от типа отображать одну из 5 картинок. В итоге требование вылилось вот в такую формулу с вложенными IF, OR и STRSAME.</p>
+<pre class="language-markup"><code>IF(STRSAME(Prop._VisDM_Тип_устр,"Принтер",1),4,IF(STRSAME(Prop._VisDM_Тип_устр,"Инж.сист.",1),3,IF(OR(STRSAME(Prop._VisDM_Тип_устр,"Сканер",1),STRSAME(Prop._VisDM_Тип_устр,"Факс",1)),2,IF(OR(STRSAME(Prop._VisDM_Тип_устр,"МФУ",1),STRSAME(Prop._VisDM_Тип_устр,"Копир",1),STRSAME(Prop._VisDM_Тип_устр,"Дупликатор",1)),1,0))))</code></pre>
+<p>Написал, проверил - получил ошибку. Исправил - опять ошибка. Ну невозможно сходу и без ошибок создать такое.</p>
+<!-- continued -->
+<p>Естественно возникает мысль, как бы упростить такую работу. Напрашивается - придумать что-то с подстановками. То есть разложить условие на несколько более простых и проверяемых строчек, которые потом программно соберутся вместе. Вроде бы такое можно реализовать хоть на VBA, но возникает проблема с кавычками. Их придется либо задваивать, либо вообще добавлять CHR(34), что явно снизит уровень удобства.</p>
+<p>В итоге наиболее удобным оказался Excel. В ячейки можно занести все подстановки (здесь кавычки не мешают), а собрать потом можно простейшим макросом.</p>
+<p>Выбрал формат из двух колонок: слева метка, справа подстановка. Метки обозначил произвольно, взял комбинацию, которая в тексте больше не встречается: ww1, ww2... Можно было и другие придумать - это не так важно.</p>
+<p><img src="19_f/vfe001.png" alt=""></p>
+<p>Макрос получился тоже довольно примитивным. Последовательно просматривает селектированную область и подставляет вместо меток их значения из второго столбца. В конце выводит результат в следующую строку под селектированной областью. Остается только скопировать ее в Visio.</p>
+<pre class="language-markup"><code>Sub ttt()
+  Dim i1 As Long, i2 As Long, s As String
+  s = ""
+  i1 = Selection.Cells(1).Row
+  i2 = Selection.Cells(Selection.Cells.Count).Row
+  s = Cells(i1, 2)
+  For i = i1 + 1 To i2
+    s = Replace(s, Cells(i, 1), Cells(i, 2))
+  Next
+  Cells(i, 2) = s
+End Sub
+</code></pre>
+<p>&nbsp;Вот так это выглядит в работе.</p>
+<p><img src="19_f/vfe003.gif" alt=""></p>
+<p>Так как макрос обрабатывает только селектированную область, то на одном листе Excel можно собрать и даже сохранить на всякий случай множество таких формул. На весь смарт-шейп хватит, а то и на несколько.</p>
+<p>Таким образом, будет полезно иметь под рукой файл Excel с макросом, которым можно будет воспользоваться для формирования сложных формул. Будет такой технологический инструмент на всякий случай. Можно даже оставить в нем несколько примеров, чтобы через некоторое время не вспоминать, как это работает.</p>
+<p>Кстати, Excel все-таки не очень удобен для работы с текстом. Поэтому я приловчился сначала формировать нужную таблицу подстановок в блокноте (отделяя метки табуляцией), потом копировать ее в Excel и запускать макрос. Так получается быстрее всего.</p>
+<p>P.S.: В заключение хотелось бы добавить, что иногда вместо формулы с вложенными IF можно использовать конструкцию LOOKUP-INDEX, как показано ниже на рисунке.</p>
+<p><img src="19_f/vfe004.png" alt=""></p>
+<p>Здесь решается аналогичная задача, но управляющее значение поступает не через источник данных, а выбирается пользователем из фиксированного списка. В этом случае можно функцией LOOKUP определить номер выбранного значения, а потом функцией INDEX выбрать результат с тем же порядковым номером уже из второго списка. Но это уже другая тема...</p>
+<p>&nbsp;</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 01 November 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

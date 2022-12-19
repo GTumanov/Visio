@@ -1,0 +1,220 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Пользовательская справка для шейпов</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Пользовательская справка для шейпов </h1>
+</div>
+		
+<div class="pull-left item-image"> <img src="15_f/hlp.png" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>&nbsp;</p>
+<p>Расширение Visio воспринимается лучше, когда оно сопровождается справкой. В простейшем случае это может быть текстовый файл, иногда PDF. Если объем справочных сведений достаточно большой, то желательно оформить справку в формате CHM. Это уже несколько труднее, чем просто написать файл Word. Вот о справке в CHM и пойдет речь ниже.</p>
+<p>Собственно, сделать CHM файл не составляет особого труда. Существуют бесплатные инструменты, помогающие либо конвертировать сайт в формат CHM, либо прямо в этом инструменте вручную набрать оглавление и текст страничек справки. Для вызова такой справки можно либо предусмотреть кнопку на риббоне, либо вызывать ее макросом. При этом вызванная справка по умолчанию позиционируется на главную страницу, а далее действуют кнопки управления движком справки.</p>
+<p>Но иногда хочется напрямую вызвать страницу, связанную с определенным щейпом. Такой вариант тоже возможен. Документация Visio советует использовать меню Developer / Shape Name и вписывать ссылку в поле Help: в формате FILENAME!#Number, где FILENAME - имя файла справки, а Number - числовой ID нужной страницы, назначенный в MAP секции проекта справки. Предполагается, что достаточно вписать туда нечто типа ShapeHelp.chm!#20000 и при нажатии на F1 откроется заданная страница справки. Кстати, попробовал и так и не добился успеха. По F1 упорно открывается стандартная справка Visio. Поэтому пришлось поискать другие методы.</p>
+<!-- continued --> 
+<p>Успешными оказались вызов через VBA и функция HELP().</p>
+<h3>Вызов через VBA</h3>
+<p>При вызове через VBA методом .InvokeHelp можно использовать как имя CHM файла, так и полный путь к нему. Имя работает если файл справки размещен рядом с документом или путь к файлу прописан в File locations. В иных случаях - просто писать полное имя, как в примере:</p>
+<pre class="language-markup"><code>Application.InvokeHelp "testhelp.chm", 15, 0
+Application.InvokeHelp "C:\temp\h2c\testhelp.chm", 15, 0</code></pre>
+<p>Третий параметр - Help Context ID топика. Тот числовой идентификатор, который советовали писать в документации Visio.</p>
+<h3>Функция HELP()</h3>
+<p>Функцию HELP() можно использовать в контекстном меню шейпа, то есть добавлять через секцию Actions. Формат приблизитеьно такой</p>
+<pre class="language-markup"><code>=HELP("testhelp.chm!#10000")</code></pre>
+<h3>Как получить Help Context ID</h3>
+<p>Вопрос закономерный, потому как далеко не все инструменты с ним работают. Например, распространенный htm2chm формирует выходной CHM без секции MAP. То есть если требуется выход на конкретные страницы справки из шейпов, то для формирования справки нужно искать другой инструмент.</p>
+<p>Зато хорошо подходит HTML Help Workshop от Microsoft. В нем можно росматривать или редактировать содержание, видеть текст проекта. Собственно, проект это обычный текстовый файл, который можно редактировать, что позволяет вставить секции [MAP] и [ALIAS]. Разберем на примере структуру этих секций.</p>
+<p><img src="15_f/hhw.jpg" alt=""></p>
+<pre class="language-markup"><code>[MAP]
+#define IDH_a10000 10000
+#define IDH_a10010 10010
+#define IDH_a10020 10020
+[ALIAS]
+IDH_a10000=CSRR_____Exh_Fan.htm
+IDH_a10010=RIB________Exh_Fan.htm
+IDH_a10020=Non-DDC_Exh_Fan.htm</code></pre>
+<p>Секция [MAP] сопоставляет метку (например, IDH_a10000) определенному числу (10000). Секция [ALIAS] назначает этой же метке имя файла, то есть имя страницы справки. Таким образом, если при вызове указать ContextID = 10000, то движок справки доберется до метки IDH_a10000 и по ней вычислит файл топика CSRR_____Exh_Fan.htm.</p>
+<p>Таким образом расписываются все контекстные страницы, которые впоследствии будут вызываться из шейпов документа или элементов управления форм VBA.</p>
+<h3>Подведем итог</h3>
+<p>Кратко суммируем, что же нужно сделать, чтобы сопроводить изготовленный трафарет (Stencil) CHM справкой для каждого имеющегося в нем мастера.</p>
+<p>1. Скачать HTML Help Workshop.</p>
+<p>2. Сделать и собрать в папку HTML странички по одной для каждого мастер-шейпа.</p>
+<p>3. Создать текстовый файл с расширением .hhp, заполнить в нем секции [FILES], [MAP], [ALIAS].</p>
+<p>4. Запустить HTML Help Workshop и, скомпилировав проект, получить файл CHM.</p>
+<p>5. Добавить в мастер-шейпы строку Actions для вызова справки функцией HELP() или обеспечить этот вызов через VBA методом InvokeHelp.</p>
+<p>6. Позаботиться, чтобы на местах установки путь к справке был указан в настройках Visio.</p>
+<h3>Примечания</h3>
+<p>Я не упомянул про файл оглавления, потому что для контекстной справки он не нужен. При необходимости узнать о нем можно в документации HTML Help Workshop или в любом руководстве по изготовлению справки.</p>
+<p>Последнюю редакцию HTML Help Workshop всегда можно разыскать на сайте Microsoft.</p>
+<p>Полезной может оказаться программка htm2chm (гуглить). Скомпилирует справку без контекстных вызовов или декомпилирует CHM файл, если хочется конструкцию или оформление сделать, как в имеющемся образце.</p>
+<p>Существуют и постоянно появляются приложения (в том числе платные), специально предназначенные для разработки справок в разных форматах. При желании можно найти, но они могут быть дорогими, либо сложными для обучения, либо делать не совсем то, что нужно и т.д.</p>
+<p>&nbsp;</p>	</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 09 October 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

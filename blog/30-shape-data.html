@@ -1,0 +1,256 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Shape Data Window и отложенные события</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Shape Data Window и отложенные события </h1>
+</div>
+
+<div itemprop="articleBody">
+		<p>Недавно в форуме возник вопрос - почему не отображается изменение данных в окне Shape Data Window. Рассматривалась вот такая конструкция.</p>
+<p><img src="/blog/30_f/sdt001.png" alt=""></p>
+<p>Страница имеет 4 поля данных. По замыслу переключение значения в поле Show/Hide All должно переключать видимость остальных трех полей.Цепочка событий:</p>
+<ul>
+<li>изменяем Show на Hide в окне Shape Data;</li>
+<li>значение ячейки User.HideAll изменяется с FALSE на TRUE;</li>
+<li>значение ячеек Invisible трех остальных полей переключается в TRUE;</li>
+<li>поля A, B, C в окне Shape Data становятся скрытыми.</li>
+</ul>
+<p>Так вот, пользователь заметил, что такая конструкция на уровне шейпа работает, как и задумано, а вот на уровне страницы поведение сильно отличается.</p>
+<!-- continued --> 
+<p>Ниже картинка для шейпа.</p>
+<p><img src="/blog/30_f/sdt002.gif" alt=""></p>
+<p>А теперь смотрим такую же конструкцию для страницы.</p>
+<p><img src="/blog/30_f/sdt003.gif" alt=""></p>
+<p>Как видите, изменение данных проникает вплоть до ячеек Invisible, но вот в окно Shape Data это изменение не передается. Поля данных продолжают находиться в том же состоянии, как и до переключения поля Show/Hide All.</p>
+<p>Возникает два вопроса:</p>
+<ol>
+<li>Чем объясняется различие в поведении шейпа и страницы?</li>
+<li>Как заставить страницу тоже работать нормально?</li>
+</ol>
+<p>Было замечено, что несколько позже изменения все-таки доходят до окна. Например, если селектировать шейп, а потом опять щелкнуть по странице, то окно Shape Data обновится и изменения "проявятся".</p>
+<p>Более того, как показано на следующей картинке, они проявляются даже при изменении форматирования текста.</p>
+<p><img src="/blog/30_f/sdt004.gif" alt=""></p>
+<p>Да практически факт изменения значения в любой ячейке шейп-листа страницы приводит к обновлению окна. То есть создается впечатление, что цепочка изменений в какой-то момент обрывается и не доходит до конца. Но достаточно вновь запустить процесс пересчета через некоторое время, чтобы "протолкнуть" события дальше.</p>
+<p>Примечание. Нужно отметить, что с модальным окном Shape Data, которое вызывается по DoCmd(1312), такого не происходит. Тормознутостью отличается только немодальное окно, вызываемое DoCmd(1658).</p>
+<p>В итоге создается впечатление, что немодальное окно просто становится "глухим" к событиям на некоторое время. А именно на то, пока Visio отрабатывает инициированные им изменения. А когда чувствительность включается, событие уже потеряно и окно не дергается.</p>
+<p>Другое предположение, что в цепочке взаимовлияния участвует объект Selection. И в случае, когда коллекция пуста (как раз когда изменяются данные страницы), цепочка рвется. Это хорошо объясняло бы отличия в поведении шейпа и страницы, но кажется маловероятным. Тогда это было бы слишком грубой ошибкой разработчиков. А блокировка - это вроде как и не ошибка, просто так обстоятельства складываются.</p>
+<h3>Как же вернуть странице нормальное поведение? Принцип понятен - немного выждать и подтолкнуть.</h3>
+<p>Вариантов реализации может быть множество.</p>
+<p><strong>Во-первых, можно ничего не делать</strong>. То есть проигнорировать ошибку, зная, что после каких-то очередных действий оператора процесс обновления дойдет и до окна Shape Data. В принципе, это самый легкий путь, но если неопытный пользователь обратит внимание на такую задержку, то реакция может быть от недоумения до паники.</p>
+<p><strong>Можно написать памятку</strong> для тех, кто будет работать с таким документом. Типа, "если окно не отреагировало на ваши действия, то селектируйте какой-нибудь шейп и опять щелкните по странице". Так себе решение. Хочется все-таки не грузить лишний раз пользователя. Значит нужно искать автоматические методы.</p>
+<p><strong>Можно использовать функцию Now()</strong>. Например, прописать ее в шейп-лист документа, в какую-нибудь User или Scratch ячейку. Это поможет обновлению окна, но плохо то, что такая функция срабатывает только раз в минуту. Значит задержка будет весьма ощутима.</p>
+<p><strong>Неплохим решением выглядит обновление окна Shape Data при закрытии и открытии</strong>. Если дважды использовать функцию DOCMD(1658) при изменении ячейки User.HideAll, то окно моргнет и обновится. И пользователь скорее всего это даже не заметит.</p>
+<pre class="language-python"><code>Scratch.A1=DOCMD(1658)+DOCMD(1658)+DEPENDSON(User.HideAll)</code></pre>
+<p>Наверно это можно считать оптимальным решением, хотя еще лучше было бы использовать таймер или событие VisioIsIdle для изменения какой-нибудь ячейки в шейп-листе старницы или документа, а дальше уже Visio сам выстроил бы цепочку до обновления окна. К сожалению, ничего похожего среди функций шейп-листа нет.</p>
+<p>Задача облегчается, если разрешено <strong>использование макросов</strong>. Тогда и таймер и обработчик события IsIdle не являются проблемой. Хотя, городить из-за этого программный таймер, наверное нецелесообразно. IsIdle проще. Например, используем вот такой код:</p>
+<pre class="language-python"><code>Dim WithEvents ap As Visio.Application
+Sub PostponedEvent()
+  Set ap = ActiveDocument.Application
+End Sub
+Private Sub ap_VisioIsIdle(ByVal app As IVApplication)
+  ActiveDocument.DocumentSheet.Cells("User.Timer") = ActiveDocument.DocumentSheet.Cells("User.Timer").ResultIU + 1
+  Set ap = Nothing
+End Sub
+</code></pre>
+<p>И вызов</p>
+<pre class="language-python"><code>Scratch.A1=RUNMACRO("ThisDocument.PostponedEvent")+DEPENDSON(User.HideAll)</code></pre>
+<p>Теперь при переключении свойства Show/Hide All запустится макрос PostponedEvent, создаст объект ap, с отслеживаемым событием VisioIsIdle. Первое же срабатывание этого события изменит значение ячейки User.Timer и вызовет в итоге обновление окна Shape Data. И уничтожит более не нужный объект ap, чтобы не отвлекаться на обработку лишних событий.</p>
+<p>Кстати, похожим образом можно обеспечивать управляемую задержку, если подсчитывать количество срабатываний VisioIsIdle и помнить, что они происходят примерно через 20 мсек.</p>
+<p>Например, вот с таким обработчиком</p>
+<pre class="language-python"><code>Private Sub ap_VisioIsIdle(ByVal app As IVApplication)
+  WithActiveDocument.DocumentSheet
+  If .Cells("User.Timer").ResultIU &lt; 100 Then
+    .Cells("User.Timer") =.Cells("User.Timer").ResultIU + 1
+  ElseIf.Cells("User.Timer").ResultIU = 100 Then
+    Set ap = Nothing
+  End If
+  End With
+End Sub</code></pre>
+<p>Если включить Event Monitor и сравнить происходящие события, то без обработки VisioIsIdle при изменении Show/Hide All можно увидеть вот такую цепочку событий</p>
+<p><img src="/blog/30_f/sdt005.png" alt=""></p>
+<p>а после добавления обработчика - вот такую</p>
+<p><img src="/blog/30_f/sdt006.png" alt=""></p>
+<p>То есть полностью повторяются все события, вызванные действием пользователя. Где-то в конце срабатывает вызов макроса и, как результат, после VisioIsIdle изменяется формула в User.Timer и обновляется окно.</p>
+<p>Наконец, еще один "экзотический" способ. Если использование макросов запрещено, но хочется иметь отложенное событие, то можно использовать <strong>специальный Add-on</strong>. Например, создаем в VB6 экзешник AddonMinMin.exe вот с таким кодом</p>
+<p>Его задача - после запуска записать единичку в ячейку User.Timer.</p>
+<pre class="language-python"><code>Option Explicit
+Sub Main()
+  Dim appVisio As Visio.Application
+  Set appVisio = GetObject(, "Visio.Application")
+  appVisio.Documents(1).DocumentSheet.Cells("User.Timer").Formula = "1"
+  Set appVisio = Nothing
+End Sub
+</code></pre>
+<p>В шейп-листе страницы прописываем вызов аддона</p>
+<pre class="language-python"><code>=RUNADDON("AddonMinMin")+DEPENDSON(User.HideAll)</code></pre>
+<p>Далее все происходит аналогично. При изменении ячейки User.HideAll вызывается аддон. В нем можно было бы организовать и таймер, но для данной задачи уже процесс запуска аддона даст нужную минимальную задержку, поэтому без таймера тоже работает. Аддон изменит User.Timer, что приведет к обновлению нужного окна. Нужно только не забыть прописать в настройках Visio путь к экзешнику в качестве разрешенного пути к аддонам, а то не сработает.</p>
+</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 20 July 2020</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

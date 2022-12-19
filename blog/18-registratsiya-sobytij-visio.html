@@ -1,0 +1,295 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Регистрация событий Visio</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Регистрация событий Visio </h1>
+</div>
+		
+<div class="pull-left item-image"> <img src="18_f/fnm_02.png" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>&nbsp;</p>
+<p>В предыдущей статье <a href="17-funktsiya-filename-i-vse-takoe.html">Функция FILENAME() и все такое</a> я рассказывал о конструкции из формул шейп-листа, в которой формулы выстраивались в своего рода логическую цепочку и должны были срабатывать одна за другой. Кстати, цепочка была замкнутой, что еще интереснее. Но так как наши представления о последовательности выполнения формул не всегда соответствуют действительности, возникло желание каким-то образом посмотреть реальную последовательность.</p>
+<p>Итак, имеем исходный документ (VSDX), в котором прописаны несколько связанных формул в шейп-листе документа и ссылающаяся на него формула в единственном шейпе на странице. Повторю картинку-схему.</p>
+<!-- continued -->
+<p>&nbsp;<img src="18_f/fnm_01.png" alt=""></p>
+<p>Так как нас интересует последовательность изменения ячеек, напрашивается использование события CellChanged. Как выбрать ячейки, за которыми будем следить? Простейший вариант - берем объект документ и объект шейп и следим за изменениями всех ячеек. А чтобы потом разобраться, выводим в протокол: имя ячейки, время срабатывания, формулу в ячейке. Кроме этого добавил четвертый параметр - значение в ячейке, из-за которой все и затевалось.</p>
+<p>Сразу приведу всю программную часть</p>
+<p>&nbsp;</p>
+<pre class="language-python"><code>Dim WithEvents shpDoc As Visio.Shape
+Dim WithEvents shpField As Visio.Shape
+Dim s As String
+Dim c As Visio.Cell
+
+Private Sub Document_DocumentOpened(ByVal doc As IVDocument)
+Set shpDoc = doc.DocumentSheet
+Set shpField = doc.Pages(1).Shapes(1)
+Set c = shpDoc.Cells("User.FileName")
+shpDoc.Data1 = "," &amp; Timer() &amp; "," &amp; "," &amp; c.ResultStr(0)
+End Sub
+Private Sub Start()
+Set shpDoc = ActivePage.Document.DocumentSheet
+Set shpField = ActivePage.Shapes(1)
+Set c = shpDoc.Cells("User.FileName")
+shpDoc.Data1 = "," &amp; Timer() &amp; "," &amp; "," &amp; c.ResultStr(0)
+End Sub
+Private Sub StopS()
+Set shpDoc = Nothing
+Set shpField = Nothing
+End Sub
+
+Private Sub shpDoc_CellChanged(ByVal Cell As IVCell)
+'Debug.Print Cell.Name, Timer(), Cell.FormulaU
+shpDoc.Data1 = shpDoc.Data1 &amp; Chr(10) &amp; Cell.Name &amp; "," &amp; Timer() &amp; "," &amp; Cell.FormulaU &amp; "," &amp; c.ResultStr(0)
+End Sub
+
+Private Sub shpField_CellChanged(ByVal Cell As IVCell)
+shpDoc.Data1 = shpDoc.Data1 &amp; Chr(10) &amp; Cell.Name &amp; "," &amp; Timer() &amp; "," &amp; Cell.FormulaU &amp; "," &amp; c.ResultStr(0)
+End Sub
+
+Private Sub PriRes()
+Debug.Print ActiveDocument.DocumentSheet.Data1
+End Sub</code></pre>
+<p>Обработчики простейшие. Под вопросом было только место вывода протокола. Debug.Print не устроил, потому как регистрация событий по условиям эксперимента должна начаться прямо с момента открытия документа. Естественно, в это время окно Immediate еще закрыто и такой ввод уйдет вникуда.</p>
+<p>Вывод в файл может нежелательно исказить картинку эксперимента. Вдруг появятся лишние задержки.</p>
+<p>Поэтому было принято решение - накапливать результаты в поле Data1 документа. Поле достаточно продолговатое, если событий не очень много, то его вполне хватит. А в конце содержимое можно выбросить в файл или для простоты - в то же Immediate.</p>
+<table>
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td>46353.18</td>
+<td>&nbsp;</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>Scratch.A1</td>
+<td>46353.18</td>
+<td>NOW()</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>Scratch.C1</td>
+<td>46353.18</td>
+<td>0</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>User.FileName</td>
+<td>46353.18</td>
+<td>FILENAME()</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>Fields.Value</td>
+<td>46353.18</td>
+<td>TheDoc!User.FileName</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>Scratch.A1</td>
+<td>46412.2</td>
+<td>NOW()</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>Scratch.C1</td>
+<td>46412.2</td>
+<td>0</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>User.FileName</td>
+<td>46412.2</td>
+<td>FILENAME()</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+<tr>
+<td>Fields.Value</td>
+<td>46412.21</td>
+<td>TheDoc!User.FileName</td>
+<td>dfn_v23.vsdm</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>После переброски результатов в файл Excel (через CSV) получилась приведенная выше табличка. Честно говоря, результат оказался несколько неожиданным. Попробуем в нем разобраться.</p>
+<p>Маленькая тонкость: файл был сохранен из Visio под именем dfn_v22.vsdm, потом переименован вручную в dfn_v23.vsdm и открыт двойным щелчком по имени файла.</p>
+<p>Поэтому ожидалось, что в момент открытия документа будет зафиксировано еще старое имя (из-за бага в функции FILENAME). Однако в первой же строке протокола (событие DocumentOpened) видно новое имя файла.</p>
+<p>Следующие 4 строки иллюстрируют срабатывание цепочки событий. Сначала срабатывает таймер Scratch.A1, потом изменяется флаг Scratch.C1, результирующая ячейка User.FileName и ссылающийся на нее шейп Fields.Value.</p>
+<p>Последние 4 строки - это уже через одну минуту после старта вновь срабатывает таймер и повторяются изменения четырех ячеек.</p>
+<p>Так как дискретность функции Timer невелика, все четыре события в цепочке фиксируются с одним временем, но хотя бы последовательность событий мы видим. Хотя, изменения в шейпе иногда отстают от изменений в документе.</p>
+<p><strong>Итак, моменты, которые требуют объяснений:</strong></p>
+<p>1. Почему уже при открытии документа фиксируется новое имя.</p>
+<p>2. Ожидалась последовательность: C1=1, User.FileName=[значение], C1=0, User.FileName=[функция], но в протоколе видим только вторую половину.</p>
+<p>Относительно пункта 1 можно предположить, что один из циклов Visio провел еще до срабатывания события DocumentOpened, и в этом случае цикл из 4 строк просто не вошел в протокол. В принципе предположение правдоподобно и наверное его следует принять в качестве объяснения.</p>
+<p>По второму пункту хуже. Конечно, при таком генераторе события C1=1, User.FileName=[значение] длятся очень короткое время. Теоретически перехват может быть построен так, что пропускает очень короткие события. Но все равно создается ощущение какой-то ненадежности. Событие произошло, но программа его не почувствовала. При таком подходе когда-нибудь можно напороться на действительно критическую ошибку.</p>
+<p>Ну а метод исследования вроде бы годится. Показал практически то, что ожидалось.</p>
+<p><a href="18_f/dfn_v23.vsdm">Файл для продолжения исследований</a></p>
+<p>&nbsp;</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 17 October 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

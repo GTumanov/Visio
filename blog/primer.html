@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="">
+		<meta name="description" content="%description%">
+		<title>Как это устроено</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Как это устроено </h1>
+</div>
+<div itemprop="articleBody">
+<p>&nbsp;</p>
+<div class="page-header"> <h2> <a href ="29-macro-in-stencil.html">Движок для макросов в трафарете</a></h2></div>
+		
+<div itemprop="articleBody">
+		<p>Идея - вынести макросы из основного документа в трафарет - не нова и используется довольно часто. Понятно, что она не всегда осуществима. Например, те же обработчики событий поневоле будут размещены в основном документе. Но существует множество документов, в которых нет специальных обработчиков. Кроме того, бывают вообще "инструментальные" макросы, который не связаны с определенным документом, а реализуют некоторые универсальные операции, типа формирования универсального отчета, подсчет шейпов, мастеров и т.д. Уж они-то прямо напрашиваются для выноса в трафарет.</p>
+<div class="jcomments-links"><a class="readmore-link" href="29-macro-in-stencil.html" title="Движок для макросов в трафарете"> Подробнее: Движок для макросов в трафарете</a></div><dl class="muted"><dt class="article-info-term"></dt><dd>Категория: <a href="primer.html">Как это устроено</a></dd> <dd><time>Опубликовано: 01 July 2020</time></dd></dl></div><!-- end articleBody -->
+<div class="page-header"> <h2> <a href ="26-list2level.html">Двухуровневый список в данных шейпа</a></h2></div>
+		
+<div class="pull-none item-image"> <img src="26_f/cs006.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>Описание задачи. Шейп имеет два поля данных. Оба - фиксированные списки. Причем второй список зависит от того, какое значение выбрано в первом списке. По-существу, получается двух уровневый список в Shape Data.</p>
+<div class="jcomments-links"><a class="readmore-link" href="26-list2level.html" title="Двухуровневый список в данных шейпа"> Подробнее: Двухуровневый список в данных шейпа</a></div><dl class="muted"><dt class="article-info-term"></dt><dd>Категория: <a href="primer.html">Как это устроено</a></dd> <dd><time>Опубликовано: 19 January 2020</time></dd></dl></div><!-- end articleBody -->
+<div class="page-header"> <h2> <a href ="25-shejp-dlya-otobrazheniya-sobytij.html">Шейп для отображения событий</a></h2></div>
+
+		
+<div class="pull-none item-image"> <img src="25_f/tmshp.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>Картинка на заставке иллюстрирует способ автоматического создания довольно специфичной диаграммы. Диаграмма создается буквально одним движением мыши путем перетаскивания нескольких строк из окна внешних данных на страницу рисунка.</p>
+<p>Интересно то, что макросы здесь не используются. Существует только один специальный шейп, который все делает. Посмотрим, как это сделано.</p>
+<div class="jcomments-links"><a class="readmore-link" href="25-shejp-dlya-otobrazheniya-sobytij.html" title="Шейп для отображения событий"> Подробнее: Шейп для отображения событий</a></div><dl class="muted"><dt class="article-info-term"></dt><dd>Категория: <a href="primer.html">Как это устроено</a></dd> <dd><time>Опубликовано: 16 December 2019</time></dd></dl></div><!-- end articleBody -->
+<div class="page-header"> <h2> <a href ="23-smart-shejp-printer.html">Смарт-шейп Принтер</a></h2></div>
+
+		
+<div class="pull-none item-image"> <img src="23_f/prDemo.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<h3>Требования, которые были выдвинуты как задание на шейп:</h3>
+<p>Шейп предназначен для использования на плане помещения.</p>
+<p>Шейп должен выглядеть как иконка с переключаемым изображением, подсветкой и числовой индикацией.</p>
+<p>Набор данных: Бренд, Модель, Тип, Технология, Формат, Цвет. Модель однозначно определяет остальные поля.</p>
+<p>Выбор одной из 5 иконок в зависимости от типа устройства. 1 - круг (тип не задан). 2 - Принтер. 3 - МФУ, Копир, Дупликатор. 4 - Сканер, Факс. 5 - Инж.сист.</p>
+<p>Индикатор цвета на два положения (дополнительное кольцо): цветной, монохромный.</p>
+<p>Индикатор формата: буквенное обозначение для принтера А3.</p>
+<p>Индикатор технологии на 4 положения (подсветка): 1 - не указана. 2 - струйная. 3 - матричная. 4 - светодиодная, лазерная, твердочернильная.</p>
+<p>Данные принимаются из справочника (Excel).</p>
+<p>Индикатор номера (в пределах документа). Число в правом верхем углу. Формируется автоматом при опускании шейпа на страницу или задается вручную.</p>
+<p>Два варианта установки связи с данными: 1. Drag&amp;Drop из окна внешних данных; 2 - выбор модели в специальном окне с возможностью предварительной фильтрации по текстовому фрагменту (сокращение списка выбора).</p>
+<p>Версия Visio - 2019 Pro.</p>
+<div class="jcomments-links"><a class="readmore-link" href="23-smart-shejp-printer.html" title="Смарт-шейп Принтер"> Подробнее: Смарт-шейп Принтер</a></div><dl class="muted"><dt class="article-info-term"></dt><dd>Категория: <a href="primer.html">Как это устроено</a></dd> <dd><time>Опубликовано: 17 November 2019</time></dd></dl></div><!-- end articleBody -->
+<div class="page-header"> <h2> <a href ="24-smart-shejp-aktivy.html">Смарт-шейп Активы</a></h2></div>
+
+		
+<div itemprop="articleBody">
+		<p>Еще один пример смарт-шейпа в виде иконки. На этот раз конфигурация шейпа мало изменяется, в основном данные превращаются в изменения цвета или толщины линии.</p>
+<div class="jcomments-links"><a class="readmore-link" href="24-smart-shejp-aktivy.html" title="Смарт-шейп Активы"> Подробнее: Смарт-шейп Активы</a></div><dl class="muted"><dt class="article-info-term"></dt><dd>Категория: <a href="primer.html">Как это устроено</a></dd> <dd><time>Опубликовано: 17 November 2019</time></dd></dl></div><!-- end articleBody -->
+<div class="page-header"> <h2> <a href ="20-peremeshchenie-dereva.html">Перемещение дерева</a></h2></div>
+
+		
+<div class="pull-left item-image"> <img src="20_f/tr001.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p><br>В Visio существует несколько типов диаграмм с похожим поведением при перемещении шейпов. Это древовидные диаграммы, в которых перемещение старшего по иерархии узла вызывает аналогичное перемещение подчиненных узлов. Так ведут себя Brainstorming диаграммы, организационные схемы.</p>
+<p>Для пользователя это очень удобно и существенно ускоряет получение наиболее удобного для восприятия изображения. В Brainstorming диаграммах есть еще и дополнительный плюс - когда вершина куста пересекает центр родительского шейпа, то куст зеркально отражается. Причем это действует как по горизонтали, так и по вертикали. В организационных структурах такое отражение отсутствует, да там оно и не требуется.<br>Попробуем разобраться, как это сделано и как может быть повторено в своих решениях.</p>
+<h3>Brainstorming</h3>
+<p>Для начала рассмотрим шейп-лист одного из подчиненных узлов Brainstorming диаграммы.</p>
+<div class="jcomments-links"><a class="readmore-link" href="20-peremeshchenie-dereva.html" title="Перемещение дерева"> Подробнее: Перемещение дерева</a></div><dl class="muted"><dt class="article-info-term"></dt><dd>Категория: <a href="primer.html">Как это устроено</a></dd> <dd><time>Опубликовано: 15 November 2019</time></dd></dl></div><!-- end articleBody -->
+<div class="page-header"> <h2> <a href ="21-dinamicheskoe-otslezhivanie-konnektov.html">Динамическое отслеживание коннектов</a></h2></div>
+
+
+<div class="pull-left item-image"> <img src="21_f/dc001.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>&nbsp;</p>
+<p>Задача: имеется диаграмма, состоящая из двумерных шейпов, соединенных коннекторами. Диаграмма <br>должна динамически отображать текущие соединения путем изменения окраски присоединенных шейпов.<br>Решение реализовано в виде шаблона и трафарета, оба с макросами. В шаблон вынесена не зависящая от <br>функционала часть. Это минимальные обработчики событий, задача которых - вызвать функциональные <br>макросы из трафарета.</p>
+<p>Трафарет содержит мастер-шейпы и логику изменения окраски. Предполагается, что логика со временем <br>может изменяться и размещение макросов в трафарете облегчит проведение изменений. Для изменения <br>достаточно будет просто заменить трафарет. Основной документ остается неизменным.</p>
+<div class="jcomments-links"><a class="readmore-link" href="21-dinamicheskoe-otslezhivanie-konnektov.html" title="Динамическое отслеживание коннектов"> Подробнее: Динамическое отслеживание коннектов</a></div><dl class="muted"><dt class="article-info-term"></dt><dd>Категория: <a href="primer.html">Как это устроено</a></dd> <dd><time>Опубликовано: 15 November 2019</time></dd></dl></div><!-- end articleBody -->
+</div>
+</main>
+<!-- End Content -->
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

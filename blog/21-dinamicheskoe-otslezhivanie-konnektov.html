@@ -1,0 +1,276 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Динамическое отслеживание коннектов</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Динамическое отслеживание коннектов </h1>
+</div>
+
+<div class="pull-left item-image"> <img src="21_f/dc001.gif" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>&nbsp;</p>
+<p>Задача: имеется диаграмма, состоящая из двумерных шейпов, соединенных коннекторами. Диаграмма <br>должна динамически отображать текущие соединения путем изменения окраски присоединенных шейпов.<br>Решение реализовано в виде шаблона и трафарета, оба с макросами. В шаблон вынесена не зависящая от <br>функционала часть. Это минимальные обработчики событий, задача которых - вызвать функциональные <br>макросы из трафарета.</p>
+<p>Трафарет содержит мастер-шейпы и логику изменения окраски. Предполагается, что логика со временем <br>может изменяться и размещение макросов в трафарете облегчит проведение изменений. Для изменения <br>достаточно будет просто заменить трафарет. Основной документ остается неизменным.</p>
+<!-- continued --> 
+<p><img src="21_f/dc002.png" alt=""></p>
+<h3>VBA проект шаблона</h3>
+<p>&nbsp;</p>
+<pre class="language-python"><code>Dim WithEvents pg As Visio.Page
+Public Sub StartRunMode()
+Set pg = ActivePage
+End Sub
+
+Private Sub Document_DocumentCreated(ByVal doc As IVDocument)
+Set pg = ActivePage
+End Sub
+
+Private Sub Document_DocumentOpened(ByVal doc As IVDocument)
+Set pg = ActivePage
+End Sub
+
+Private Sub pg_ConnectionsAdded(ByVal Connects As IVConnects)
+Set con = Connects.Item(1).FromSheet
+vssPro.ThisDocument.ConnectionsAdded con
+End Sub
+
+Private Sub pg_ConnectionsDeleted(ByVal Connects As IVConnects)
+Set con = Connects.Item(1).FromSheet
+Set sh = Connects.Item(1).ToSheet
+vssPro.ThisDocument.ConnectionsDeleted con, sh
+End Sub</code></pre>
+<p>Обработчики DocumentCreated и DocumentOpened создают объект, события которого должны отслеживаться <br>в процессе работы. При создании файла по шаблону сработает Docu-mentCreated, при последующем <br>открытии сохраненного документа - DocumentOpened.</p>
+<p>Рабочими событиями являются события ConnectionsAdded и ConnectionsDeleted страницы документа Visio. <br>Эти обработчики назначаются объекту pg, который создается в момент создания или открытия документа. <br>Если диаграмма размещается на единственной странице документа, то такой подход вполне допустим.<br>Обработчики принимают параметр Connects, из которого формируются ссылки на шейп коннектора и <br>присоединенный к нему шейп. Причем в событии ConnectionsDeleted это будет шейп, который был <br>присоединен до события, но будет отсоединен после него. Шейпы передаются в качестве параметров <br>обращения в макросы логической части, размещенные в трафарете. Шейп коннектора получается методом <br>FromSheet, 2D шейп - методом ToSheet объекта Connects.</p>
+<h3>VBA проект трафарета</h3>
+<p>Две процедуры (ConnectionsAdded и ConnectionsDeleted) служат приемниками для соответствующих <br>обработчиков основного документа, а две остальные содержат собственно логику.</p>
+<pre class="language-python"><code>Public Sub ConnectionsAdded(ByVal con As Visio.Shape)
+If IsACB(con, 1) Then con.Connects(1).ToSheet.Cells("Prop.Color") = 5
+End Sub
+
+Public Sub ConnectionsDeleted(ByVal con As Visio.Shape, ByVal sh As Visio.Shape)
+TestCon sh 'Near shape
+cc = con.Connects.Count
+If cc = 1 Then
+TestCon con.Connects(1).ToSheet 'Remote shape
+End If
+End Sub
+
+Private Function IsACB(ByVal con As Visio.Shape, ByVal n As Integer) As Boolean
+'con = connector
+IsACB = False
+If con.Connects.Count = 2 Then
+If con.Connects(1).FromPart = 9 Then
+Sig = ""
+Set m1 = con.Connects(1).ToSheet.Master
+If Not m1 Is Nothing Then Sig = Sig &amp; m1.Name
+Set m3 = con.Master
+If Not m3 Is Nothing Then Sig = Sig &amp; m3.Name
+Set m2 = con.Connects(2).ToSheet.Master
+If Not m2 Is Nothing Then Sig = Sig &amp; m2.Name
+Select Case Sig
+Case "ACB", "ADB", "BCA", "BDA":
+IsACB = True 'Condition is right
+End Select
+Else
+End If
+End If
+End Function
+
+Private Sub TestCon(ByVal shp As Visio.Shape)
+'Test all connection to shape
+Flag = True
+For i = 1 To shp.FromConnects.Count
+Set con = shp.FromConnects(i).FromSheet
+If con.Connects.Count = 2 Then
+If con.Connects(1).ToSheet Is shp Then n = 1 Else n = 2 'К проверяемому шейпу подключен 
+n конец коннектора.
+If IsACB(con, n) Then Flag = False
+End If
+Next
+If Flag Then
+Set m1 = shp.Master
+If Not m1 Is Nothing Then
+If StrComp(m1.Name, "A") = 0 Then
+shp.Cells("Prop.Color") = 3
+Else
+shp.Cells("Prop.Color") = 2
+End If
+End If
+End If
+End Sub</code></pre>
+<p>Причем логика в данном случае довольно специфична, поэтому ее можно бы и не рассматривать, полезно <br>только отметить несколько наиболее общих моментов по определению частей коннектора и присоединенных <br>шейпов. Небольшая шпаргалка:</p>
+<p><img src="21_f/dc004.gif" alt=""></p>
+<p>Если объект con является коннектором, то в его коллекции Connects будет 0, 1 или 2 соединения и <br>свойство con.Connects.Count вернет 0, 1 или 2.</p>
+<p>Сам шейп коннектора можно вычислить по соединению методом FromSheet, то есть <br>con=Connects.Item(1).FromSheet.</p>
+<p>Начало и конец коннектора определяются по значению свойства FromPart. У начала коннектора это будет <br>9, у конца - 12. Интересна связь между количеством подключений и номером коннекта.</p>
+<p>После подключения одним концом con.Connects(1).FromPart может принимать значения: 9, 12. Смотря чем <br>подключили.</p>
+<p>Однако после подключения второго конца con.Connects(1).FromPart всегда 9. То есть при двух <br>соединениях начало коннектора всегда con.Connects(1). Знание этого факта позволяет несколько <br>упростить анализ соединения.</p>
+<p>Шейпы и точки подключения, к которым подключен коннектор, определяются методами ToSheet и ToPart <br>соответственно.</p>
+<p><strong>Примечание</strong>. Особенностью данного решения является то, что подкраска меняется в моменты подключения <br>или отключения коннектора, причем анализируется только одно звено - коннектор и подключенные шейпы. <br>Именно эта особенность позволила задействовать анализ, основанный на событиях. Нужно помнить, что <br>такое решение не годится для случаев, когда требуется анализировать более длинные цепочки <br>соединений. Там как правило используются либо рекурсивные алгоритмы с последовательным обходом <br>цепочки, либо рассматривается коллекция Connects страницы.</p>	</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="primer.html" itemprop="genre">Как это устроено</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 15 November 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

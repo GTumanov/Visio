@@ -1,0 +1,249 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Про контекстные меню</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Про контекстные меню </h1>
+</div>
+		
+<div itemprop="articleBody">
+		<p>Недавно в форуме возник вопрос - как пристроить пункт контекстного меню шейпа не сверху, а внизу. Что удивительно, вопрос провисел долго, выдержал несколько неточных ответов и был закрыт только после появления истинного корифея. Похоже, что тема освещена явно недостаточно. Попробую слегка раскрыть.</p>
+<p>Итак, контекстное меню. Довольно простой и быстрый способ придать интерактивность своему произведению. Не требует знания программирования, только шейп-лист. Может быть навешено как на шейп, так и на страницу. Очень удобно, когда не хочется заморачиваться с риббоном.</p>
+<h2>Как добавить к шейпу свое меню</h2>
+<p>Краткий рецепт: открыть шейп-лист, добавить секцию Actions, добавить несколько строк по количеству требуемых пунктов меню, заполнить как минимум ячейки Action и Menu.</p>
+<p>У шейпа или страницы уже существует контекстное меню. Пользовательские пункты пристраиваются к нему дополнительно. По умолчанию они пристраиваются сверху. Такое поведение получается автоматически после заполнения двух указанных ячеек.</p>
+<p>Плюс существует еще почти десяток ячеек, распоряжающихся нюансами поведения меню. Вот на нюансах хотелось бы остановиться подробнее. Каким может быть меню и как этого достичь.</p>
+<!-- continued -->
+<p><img src="13_f/m1.png" alt=""></p>
+<p><img src="13_f/m2.png" alt=""></p>
+<p>1. Можно <strong>подчеркнуть символ в меню</strong>. Обычно так делают, когда хотят показать, что аналогичного действия можно достичь с помощью сочетания клавиш. В меню это достигается добавлением спецсимвола перед нужным символом. Например, ="&amp;Еще дочернее меню".</p>
+<p>2. <strong>Добавить черту-разделитель</strong>. Достигается одним из двух способов: или в начало доабвляется символ подчеркивания ("_Разделитель") или устанавливается значение TRUE в ячейку BeginGroup.</p>
+<p>3. <strong>Отправить пункт меню в конец существующего контекстного меню</strong>. Требуется добавить в начало строки знак процента (="%&amp;Нижнее меню"). Как видим, спецсимволы могут использоваться совместно.</p>
+<p>4. <strong>Сортировка меню</strong>. Если какое-то меню уже есть и теперь нужно встроить новую строку между существующими пунктами, то не нужно переписывать строки заново. Достаточно задать цифрами порядок сортировки в ячейках SortKey. Строки с незаполненными ячейками выдвигаются наверх. Далее в порядке возрастания значений. Одинаковые значения допускаются, при этом пункты располагаются в порядке заполнения.</p>
+<p>5. <strong>Добавить иконку</strong> перед текстом пункта меню. Использовать ячейку ButtonFace. Вставляется номер иконки. С поиском иконок могут быть некоторые проблемы. Одна из возможностей - использовать в Excel макрос, приведенный ниже. Показывает в тулбаре иконки и соответствующие им FaceID.</p>
+<p>6. <strong>"Отметить" пункт меню</strong>. Нужно записать 1 в ячейку Checked.</p>
+<p>7. Добавить <strong>"выпадающие" пункты меню</strong>. Такие пункты должны быть размещены после пункта меню первого уровня и помечены значением TRUE в ячейке FlyoutChild. (Встречал ошибочное утверждение, что эта ячейка появилась только в Visio 2016. Это не так. В Visio 2010, например, она тоже есть.)</p>
+<p>8. <strong>Сделать пункт не активным</strong> или вообще скрыть его - используются ячейки Disabled и Invisible.</p>
+<p>9. Есть еще ячейка Readonly, но полезного применения ей не видно. Вроде как и пункт будет показан, но нажать нельзя. Отличие от Disabled только в отсутствии затенения. Разве что использовать в качестве заголовка для нескольких последующих пунктов.</p>
+<p><img src="13_f/m3.png" alt=""></p>
+<p>Но нюансы этим не ограничиваются. Меню ведь можно повесить не только на сам шейп, но и на такой его довесок, как Smart Tag (другое название Action Tag).</p>
+<p>Смарт-теги задаются в секции Action Tags. Строк в секции может быть несколько и каждая строка задает свой тег. Чтобы избежать перекрытия их разносят значениями в ячейках X и Y (относительно шейпа).</p>
+<p><img src="13_f/m4.png" alt=""></p>
+<p>Для меню важно, что и секция Actions и секция Action Tags содержат колонку TagName. И если в обеих секциях в этйо колонке встречается одинаковое значение, то данный пункт контекстного меню будет показан не на самом шейпе, а на соответствующем смарт-теге.</p>
+<p>Иногда это очень удобно, потому как такое меню не загромождается пунктами, присутствующими по умолчанию. Да и разнесение по разным смарт-тегам тоже может быть полезным.</p>
+<p><img src="13_f/m5.png" alt=""></p>
+<p>Я не стал подробно описывать все ячейки, потому как эту информацию всегда можно получить в справке. Щелкните мышью на нужную ячейку шейп-листа и нажмите F1 и вы получите описание этой ячейки в документации Microsoft.</p>
+<h2>Исполняющая часть меню</h2>
+<p>Исполняющая часть меню (что именно предписывается сделать при выборе пункта меню) прописывается в ячейку Action. Там тоже есть несколько вариантов.</p>
+<p>В штатных шейпах, использующих контекстное меню, как правило, вызывается соответствующий Add-on. Например, так:</p>
+<p>RUNADDON("NETWORK SHAPE PROPERTIES")</p>
+<p>Пользователь, знакомый с программированием, чаще всего вызывает свой макрос, используя функцию RUNMACRO или CALLTHIS. CALLTHIS немного побогаче, потому что позволяет передавать еще и параметры обращения. Обе функции при необходимости позволяют обращаться как к VBA проекту основного документа, так и другого открытого документа, например, трафарета.</p>
+<p>RUNMACRO ("ThisDocument.MyTest")<br>RUNMACRO (macroname [, projname_opt])<br>CALLTHIS("ThisDocument.MyTest",,"Click", " OK.")<br>CALLTHIS("procedure",["project"],[arg1,arg2,...])</p>
+<p>Еще можно использовать функцию DOCMD. Например, для открытия окна Shape Data.</p>
+<p>DOCMD (1312)</p>
+<p>Контекстное меню может также напрямую воздействовать на ячейки шейп-листа, что позволяет вообще обойтись без программных решений. Ниже показано, как с помощью функции SETF можно переключать значение в той же строке секции Actions.</p>
+<p>IF(Actions.Row_1.Checked=0,SETF(GetRef(Actions.Row_1.Checked),"1"),SETF(GetRef(Actions.Row_1.Checked),"0"))</p>
+<p>При каждом выполнении такого меню ячейка Checked будет принимать попеременно то значение 1, то 0. Если теперь добавить ссылочные формулы в секции Geometry, то такое меню сможет переключать изображение шейпа.</p>
+<h2>Процесс добавления меню к шейпу</h2>
+<p>К тому времени, как возникает желание добавить свое меню, пользователь обычно уже знает, как добавить секцию шейп-листа и строку в секцию. Тем не менее, вот краткая видеоинструкция.</p>
+<p><img src="13_f/menu.gif" alt=""></p>
+<h3>Приложение. Макрос для просмотра и подбора иконок в Excel</h3>
+<pre class="language-python"><code>Sub ShowFaceIds()
+Dim cb As CommandBar
+Dim ctl As CommandBarControl
+Dim x As Long
+Dim i As Integer
+Dim v As Variant
+'Delete, recreate and show commandbar 'FaceIdList'
+On Error Resume Next
+Application.CommandBars("FaceIdList").Delete
+
+On Error GoTo 0
+Set cb = Application.CommandBars.Add(Name:="FaceIdList", Temporary:=True)
+cb.Visible = True
+cb.Position = msoBarLeft
+
+'Add 500 buttons with different FaceIds
+v = InputBox("Enter a batch number from 1 to 17", "Face IDs", "1")
+If Not IsNumeric(v) Then
+Exit Sub
+ElseIf v &lt; 1 Or v &gt; 17 Then
+Exit Sub
+Else
+i = CInt(v)
+End If
+For x = ((i - 1) * 500) + 1 To ((i - 1) * 500) + 500
+Set ctl = cb.Controls.Add(Type:=msoControlButton, Temporary:=True)
+ctl.FaceId = x
+ctl.TooltipText = x
+Next x
+End Sub</code></pre>
+<p>&nbsp;</p>	</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 27 June 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

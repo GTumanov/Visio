@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Движок для макросов в трафарете</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Движок для макросов в трафарете </h1>
+</div>
+		
+<div itemprop="articleBody">
+		<p>Идея - вынести макросы из основного документа в трафарет - не нова и используется довольно часто. Понятно, что она не всегда осуществима. Например, те же обработчики событий поневоле будут размещены в основном документе. Но существует множество документов, в которых нет специальных обработчиков. Кроме того, бывают вообще "инструментальные" макросы, который не связаны с определенным документом, а реализуют некоторые универсальные операции, типа формирования универсального отчета, подсчет шейпов, мастеров и т.д. Уж они-то прямо напрашиваются для выноса в трафарет.</p>
+<!-- continued --> 
+<p>Однако запуск макроса из трафарета несколько неприятен.</p>
+<p><img src="29_f/stm01.gif" alt=""></p>
+<p>Во-первых, при запуске показываются макросы только из основного документа. Чтобы добавить в список макросы из трафарета, нужно лишний раз щелкнуть мышкой. Во-вторых, из-за добавления к имени макроса имени трафарета и модуля названия разрастаются и не так-то просто быстро найти в длинном списке нужное имя. Поэтому возникает естественное желание "облагородить" процесс запуска.</p>
+<p>Ниже как раз пойдет речь об одном из возможных способов повышения удобства запуска макросов из трафарета. Вот схема всей конструкции.</p>
+<p><img src="29_f/stm02.png" alt=""></p>
+<p>В данном примере вся функциональная часть размещается в модуле Counter. Именно там находятся макросы, из-за которых все затевается. Естественно, функциональных модулей может быть много.</p>
+<p>Дополнительная нагрузка представлена модулем rmModule (там всего несколько строк кода) и формой rmForm. И в самом трафарете помимо программной начинки имеется один мастер-шейп - MacroForm. Это так называемый "движок", который может быть использован в любом программном трафарете.</p>
+<p>Вот так выглядит процесс его применения с точки зрения оператора.</p>
+<p><img src="29_f/stm03.gif" alt=""></p>
+<p>Перетащили мастер на страницу рисунка и нажали кнопку на форме. Все. Если макросов в трафарете много, то и кнопок на форме будет много. Можно добавить заголовки, комментарии и т.д.</p>
+<p>Разберем порядок срабатывания элементов движка.</p>
+<p>Мастер-шейп MakroForm начинен обработчиком события EventDrop</p>
+<pre class="language-csharp"><code>CALLTHIS("rmModule.StartForm","ShpCounter")</code></pre>
+<p>То есть как только оператор перетащит мастер-шейп на страницу, будет вызван макрос StartForm из служебного модуля, этот мастер откроет форму rmForm и удалит только что брошенный на страницу шейп. Форма останется.</p>
+<p>Далее оператор кликом по кнопке на форме запускает уже нужный функциональный макрос и получает результат.</p>
+<p>В принципе, такой движок может быть прицеплен практически к любому программному трафарету. Естественно, набор кнопок на форме должен соответствовать набору функциональных макросов, поэтому содержимое формы должно переписываться для каждого нового трафарета.</p>
+<p>Подытожим особенности разбираемого способа:</p>
+<ol>
+<li>Макросы не связаны с документом и не создают угрозу безопасности при передаче документа куда-либо.</li>
+<li>Макросы запускаются практически в один клик и снабжаются поясняющими метками для удобства выбора.</li>
+<li>В отличие от Add-in не требуется инсталляция и управление расширениями. Просто открыл нужный трафарет и используй.</li>
+</ol>
+<p>(Отмечу, что не я первый открыл такой способ, но надеюсь, что описание все равно будет полезным).</p>
+<p>&nbsp;</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="primer.html" itemprop="genre">Как это устроено</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 01 July 2020</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

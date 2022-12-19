@@ -1,0 +1,205 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Опыты с утилитой для просмотра пакетного формата Visio</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Опыты с утилитой для просмотра пакетного формата Visio </h1>
+</div>
+
+<div class="pull-none item-image"> <img src="32_f/pck001.png" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>Пакетный формат файла появился в Visio, начиная с версии 2013, и остается основным действующим во всех последующих версиях. Документ Visio представляет собой архив, содержащий множество папок и XML файлов. В принципе, это обычный ZIP архив. То есть всегда можно разархивировать его и посмотреть любой отдельный файл. Причем, не только вручную, но и программно.</p>
+<p>Это привело к тому, что документ Visio стал "прозрачным", то есть его можно рассматривать не только через шейп-лит или программно через объектную модель, но и в текстовом редакторе. Хочу остановиться на вопросе - как это может помочь при документировании разработки?</p>
+<p>Вообще, документирование разработки - это очень непростой вопрос. Вот например, все привыкли, что разработка прибора всегда сопровождается разработкой схемы и технического описания. К программе тоже обязан прилагаться как минимум текст программы и чаще всего описание. А теперь вспомните - встречали ли вы когда-нибудь документацию на решение на основе Visio? Скорее всего - нет.</p>
+<!-- continued -->
+<p>Хотя, программную часть документировать легче. Это можно сделать даже вручную, скопировав текст из VB Editor или Visual Studio. Можно применить автоматизацию. Известно приложение, экспортирующее все модули VBA проекта в структуру из папок и файлов. Даже самому приходилось делать программку, выдающую тексты VBA проекта в виде документа Word. Но вот за автоматизацию описания структуры шейпа вроде бы никто еще не брался. Почему? Да потому, что сложно.</p>
+<p>Например, разработали вы шейп. Пусть это будет группа из десятка входящих шейпов, связанных зависимостями между собой и с внешними данными (через Shape Data). Вопрос - как описать эту конструкцию? Лазить по шейп-листам и копировать формулы? Можно, но довольно утомительно. Да и легко пропустить что-нибудь.</p>
+<p>Однажды я пытался решить эту задачу в приложении VisioGraph. Макрос сканировал связи между ячейками и строил граф зависимостей. В принципе, подход рабочий, но решение было слишком ограниченным. Взаимодействие прослеживалось только в пределах одного шейп-листа, то есть группы не анализировались. Да и не все секции были доступны для анализа.</p>
+<p>На основе XML вроде бы получается проще. Имеется небольшое приложение - Visio Package Helper, позволяющее открыть Visio документ и увидеть состав пакета (перечень XML файлов).</p>
+<p>Можно выбрать любой из компонентов и просмотреть его содержимое в отдельном окне. Или перебросить текст через Clipboard в любой текстовый редактор (в целях документирования).</p>
+<p>Это немного ускоряет работу по сравнению с ручным разархивированием, но идея в другом. С точки зрения документирования XML файлы содержат слишком много избыточной информации. Хотелось бы выбросить все ненужное и оставить только то, что отражает суть конструкции с точки зрения разработчика шейпа.</p>
+<p>Первое, что приходит в голову - исключить все значения и оставить только ячейки с формулами. Ведь чаще всего именно они используются при разработке. Такой примитивный фильтр уже позволил сократить текст файла master1.xml до нескольких строк. Собственно, остались две самые важные для конструкции данного шейпа ячейки: Value в секции User и Value в секции Property.</p>
+<p><img src="32_f/pck003.png" alt=""></p>
+<p>Для еще большего сокращения вывода можно дополнительно исключить из рассмотрения секции Geometry и Transform. Отмечено, что эти секции часто поставляют совсем неинтересную, повторяющуюся от шейпа к шейпу информацию. В результате в этом конкретном примере остались зафиксированы как раз две наиболее важных формулы.</p>
+<p><img src="32_f/pck004.png" alt=""></p>
+<p>Но к сожалению, если следить только за наличием формул, то можно пропустить и важную информацию. Как в данном случае, когда фильтр выбросил было ячейку Prop.Row_1.Format, которая тоже важна для понимания конструкции, но содержит не формулу, а только значение и поэтому была отброшена. Поэтому алгоритм фильтрации пришлось усложнять, добавляя особую обработку для некоторых секций.</p>
+<p>В первую очередь это сделано для секций User и Property. Добавлено протоколирование ячеек даже если они не содержат формул, но значение отличается от значения по умолчанию.</p>
+<p>В итоге при включении всех фильтров вывод стал довольно компактным. Вот, например, как выводится страница с двумя шейпами. Второй из шейпов является группой с несколькими полями Shape Data и выводом их значений в тексте группы и одного из входящих шейпов.</p>
+<p><img src="32_f/pck005.png" alt=""></p>
+<p>Конечно, полностью автоматизировать очистку данных пока не удалось. Да наверное и никогда не удастся. Получается, инструмент такого типа должен использоваться в интерактивном режиме. Разработчик должен будет подбирать фильтры для каждого конкретного случая. Так, чтобы максимально исключить "мусорную" информацию и не пропустить ничего полезного. В крайнем случае, можно и вручную что-то добавить.</p>
+<p>Надо отметить, что инструмент лучше применять к мастер-шейпам, находящимся в трафарете документа, то есть к файлам masterNNN.xml. Это связано с наследованием в Visio. Если попытаться рассмотреть копию мастер-шейпа, переброшенную на страницу рисунка, то мы просто не увидим те данные, которые унаследованы без изменения. К примеру, на странице рисунка шейп будет иметь две User строки, а его прототип в трафарете - десять User строк.</p>
+<p><strong>Подведем итог</strong></p>
+<p>1. Идея использовать XML представление в качестве источника данных для документирования вроде бы выглядит вполне работоспособной.</p>
+<p>2. Visio Package Helper может быть полезным разработчику. Хотя и не как самодостаточный инструмент, а в дополнение к мозгам разработчика. А просмотр "сырых" XML он уж точно упрощает.</p>
+<p>3. Думаю, по мере накопления опыта количество алгоритмов фильтрации будет расширяться.</p>
+<p>Желающие попробовать утилитку в текущем состоянии могут <strong>скачать ее здесь</strong> -</p>
+<p><a href="https://drive.google.com/file/d/1vJwcHW__OZuDoNqFFk4gq9n3x6ZIjIW8/view?usp=sharing">https://drive.google.com/file/d/1vJwcHW__OZuDoNqFFk4gq9n3x6ZIjIW8/view?usp=sharing</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 07 August 2020</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

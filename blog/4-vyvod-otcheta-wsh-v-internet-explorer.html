@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Вывод отчета WSH в Internet Explorer</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Вывод отчета WSH в Internet Explorer </h1>
+</div>
+		
+<div itemprop="articleBody">
+		<p>Вот сделал утилитку для вывода отчета в виде таблицы из скрипта. Всегда этого не хватало.</p>
+<p>Известно, что для автоматизации Visio можно использовать не только VBA и различные виды Add-On и Add-In, но и скрипты на js, vbs, python и т.д. Скрипты хороши тем, что им не нужны никакие инсталляторы, они не мешают безопасности Visio и не требует наличия в системе каких-либо дополнительных компонентов. Вот только с представлением данных небольшая проблема. Строку с результатом вывести легко. А если нужна табличка, то приходится выводить в файл, который потом нужно открывать в другом приложении.</p>
+<p>Решил побороть эту проблему с помощью Internet Explorer. Раз уж он есть в любой Windows системе, пусть поработает. В результате получилась процедура, которая выводит произвольный массив в виде таблички.</p>
+<!-- continued -->
+<p>Для удобства формирования в качестве входного формата взят массив массивов. То есть одномерный массив (строки), каждый элемент которого является одномерным массивом (столбцы). Двумерный массив был бы более естественным, но его тяжелее динамически расширять. Количество строк и столбцов не ограничено.</p>
+<p>Текст процедуры:</p>
+<p><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">Private Sub ReportToIE(ByVal ar)</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; Dim ie</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; If TypeName(ar) = "String" Then&nbsp; 'error message</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = ar</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ElseIf IsArray(ar) Then&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'Array of arrays</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r0 = LBound(ar)</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r1 = UBound(ar)</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c0 = LBound(ar(0))</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c1 = UBound(ar(0))</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = "&lt;table&gt;"</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For i = r0 To r1</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = s &amp; "&lt;tr&gt;"</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For j = c0 To c1</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;s = s &amp; "&lt;td&gt;" &amp; ar(i)(j) &amp; "&lt;/td&gt;"</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Next</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = s &amp; "&lt;/tr&gt;"</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Next</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = s &amp; "&lt;/table&gt;"</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; Else</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = "Unknown error"</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; End If</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp; &nbsp;</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; Set ie = CreateObject("InternetExplorer.Application")</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Silent = True</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp; &nbsp;</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.AddressBar = False</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Fullscreen = False</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.MenuBar = False</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Resizable = False</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.StatusBar = False</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Toolbar = False</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp; &nbsp;</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Height = 300</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Width = 480</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp; &nbsp;</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Navigate "about:blank"</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Document.Write s</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">&nbsp;&nbsp;&nbsp; ie.Visible = True</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">'&nbsp;&nbsp;&nbsp; ie.Quit</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">'&nbsp;&nbsp;&nbsp; Set ie = Nothing</span><br><span style="font-family: courier new,courier,monospace; background-color: #ccffff;">End Sub</span></p>
+<p>Для использования нужно сформировать массив указанного формата и обратиться к процедуре. Она откроет окошко в IE и выведет в нем данные из массива в виде таблички.</p>
+<h3>Пример использования</h3>
+<p>Например, нам захотелось увидеть список открытых в данный момент окон Visio. Мы знаем, что на верхнем уровне всегда имеется как минимум одно окно с рисунком. У него несколько подчиненных окон - трафареты, ShapeData и т.д. Кроме того, могут быть еще окна на верхнем уровне, например свободные трафареты (в том числе и скрытые).</p>
+<p>Пусть вот такая процедура соберет нам нужные данные в массив:</p>
+<p><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">Sub ListWindowsToIE()</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; Dim c()</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; s = "Window Caption;Type;Visibility;Level"</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; b = Split(s, ";")</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; ReDim a(0)</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; a(0) = b</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; For i = 1 To vApp.Windows.Count</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set w1 = vApp.Windows(i)</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = w1.Caption &amp; ";" &amp; w1.Type &amp; ";" &amp; w1.Visible &amp; "; level 1"</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AddRow s&nbsp;&nbsp;&nbsp; 'to a</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If w1.Windows.Count &gt; 0 Then</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For j = 1 To w1.Windows.Count</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set w2 = w1.Windows(j)</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s = w2.Caption &amp; ";" &amp; w2.Type &amp; ";" &amp; w2.Visible &amp; ";"</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AddRow s</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Next</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; End If</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; Next</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; ReportToIE a</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">End Sub</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">Private Sub AddRow(ByVal newrow)</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; n = UBound(a) + 1</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; ReDim Preserve a(n)</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp;&nbsp; a(n) = Split(newrow, ";")</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">End Sub</span></p>
+<p>Ну и наконец, нужен головной скрипт, который будет обращаться к этим процедурам.</p>
+<p><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">Dim a()</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">Dim vApp</span><br><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;On Error Resume Next</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;Err.Clear</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;Set vApp = GetObject(,"Visio.Application")</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;If Err.Number &gt; 0 Then</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;MsgBox "Visio is not opened"</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;WScript.Quit</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;End If</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;On Error Goto 0</span><br><span style="background-color: #ccffff; font-family: courier new,courier,monospace;">&nbsp;&nbsp; &nbsp;ListWindowsToIE</span></p>
+<p>Задача головного скрипта - найти открытое приложение Visio. С остальным справится ListWindowsToIE.<br>Собираем все это в файлик с расширением .VBS и проверяем, как оно работает. Открываем Visio, открываем в нем трафарет в скрытом окне. Открываем ShapeSheet.</p>
+<p>&nbsp;<img src="4_f/scr000.jpg" alt=""></p>
+<p>Наконец, щелкаем по иконке скрипта и видим отчет</p>
+<p>&nbsp;<img src="4_f/scr001.jpg" alt=""></p>
+<p>В главном окне - шесть подчиненных, причем все скрытые.</p>
+<p>Еще на первом уровне - скрытое окно с трафаретом Blocks, у которого в свою очередь одно подчиненное. (Это Drawing Explorer для трафарета).</p>
+<p>Также на первом уровне выводится ShapeSheet (видимый) с двумя скрытыми подчиненными окнами.</p>
+<p>Еще раз напоминаю преимущества такого способа:<br>- отсутствие необходимости инсталляторов;<br>- работа со всеми версиями Windows и Visio (в пределах локальной машины);<br>- ничего не добавляется в файл Visio;<br>- отсутствие требований к установленным компонентам и исполняющим системам;<br>- отсутствие промежуточных файлов (как это было бы при выводе в CSV-Excel).</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 28 January 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

@@ -1,0 +1,369 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Локализация и разделители в Visio</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Локализация и разделители в Visio </h1>
+</div>
+		
+<div itemprop="articleBody">
+		<p>Ошибки, связанные с локализацией вообще не редкость. Думаю, каждый натыкался на случай, когда копируешь код из справки, а он не работает. А все потому, что в справке стоит точка, а по условиям локализации нужна запятая. Или запятая вместо точки с запятой.</p>
+<p>Но еще неприятнее, когда нужен макрос, который должен работать в любой локализации. Здесь уже не обойдешься простой заменой символа в коде. Или как минимум такую замену нужно делать "на лету", во время исполнения макроса. Рассмотрим несколько примеров.</p>
+<h2>Десятичный разделитель</h2>
+<p>Предположим, имеется небрежно составленный файл Excel, в котором нас интересуют дробные числа. Небрежность состоит в том, что не соблюдается однообразие форматов. Например, имеются и ячейки, отформатированы как текстовые, и ячейки, отформатированные как числа. Ниже показано, как пользователь будет видеть такой файл на машинах с разной локализацией.</p>
+<p><img src="11_f/ex000.jpg" alt="">&nbsp;&nbsp;<img src="11_f/ex001.jpg" alt=""></p>
+<!-- continued -->
+<p>Ячейки с числовым форматированием будут отображаться по-разному в зависимости от локализации. Англичанин увидит 136.11, а русский 136,11.&nbsp;Это нормально.</p>
+<p>А вот ячейки с текстовым форматированием будут показаны в Excel одинаково при любой локализации. Где-то запятые, где-то точки. Человеку такая каша не сильно помешает, но если такие данные импортировать в Visio, то велика вероятность появления ошибок.</p>
+<p>Вид данных в системе с разделителем - точкой.</p>
+<table>
+<tbody>
+<tr>
+<td>34</td>
+<td>98</td>
+</tr>
+<tr>
+<td>24.4</td>
+<td>11,46</td>
+</tr>
+<tr>
+<td>136.11</td>
+<td>187.4</td>
+</tr>
+</tbody>
+</table>
+<p>С запятой</p>
+<table>
+<tbody>
+<tr>
+<td>34</td>
+<td>98</td>
+</tr>
+<tr>
+<td>24.4</td>
+<td>11,46</td>
+</tr>
+<tr>
+<td>136,11</td>
+<td>187,4</td>
+</tr>
+</tbody>
+</table>
+<p>Естественно, возникает желание создать функцию, приводящую подобные данные к нормальному виду. Она должна работать только с текстовым типом данных, пропуская числовые без изменения. А для преобразования из текстового представления нужно знать действующий в системе десятичный разделитель и заменять точку на запятую либо наоборот. Вот код такой функции.</p>
+<pre class="language-python"><code>Private Function ToDbl(ByVal sinp) As Double
+If TypeName(sinp) = "String" Then
+If IsNumeric("0.1") Then delimiter = "." Else delimiter = ","
+If delimiter = "." Then
+s = Replace(Trim(sinp), ",", ".")
+Else
+s = Replace(Trim(sinp), ".", ",")
+End If
+Else
+s = sinp
+End If
+If IsNumeric(s) Then
+ToDbl = CDbl(s)
+Else
+ToDbl = 0
+MsgBox "Ошибка преобразования: " &amp; CStr(sinp)
+End If
+End Function</code></pre>
+<p>И результаты ее работы в обеих системах (справа).</p>
+<p>С разделителем - точкой.</p>
+<table>
+<tbody>
+<tr>
+<td>34</td>
+<td>98</td>
+<td>34</td>
+<td>98</td>
+</tr>
+<tr>
+<td>24.4</td>
+<td>11,46</td>
+<td>24.4</td>
+<td>11.46</td>
+</tr>
+<tr>
+<td>136.11</td>
+<td>187.4</td>
+<td>136.11</td>
+<td>187.4</td>
+</tr>
+</tbody>
+</table>
+<p>С запятой</p>
+<table>
+<tbody>
+<tr>
+<td>34</td>
+<td>98</td>
+<td>34</td>
+<td>98</td>
+</tr>
+<tr>
+<td>24.4</td>
+<td>11,46</td>
+<td>24,4</td>
+<td>11,46</td>
+</tr>
+<tr>
+<td>136,11</td>
+<td>187,4</td>
+<td>136,11</td>
+<td>187,4</td>
+</tr>
+</tbody>
+</table>
+<p>В приведенной функции разделитель вычисляется по выражению IsNumeric("0.1").</p>
+<pre class="language-python"><code>If IsNumeric("0.1") Then delimiter = "." Else delimiter = ","</code></pre>
+<p>Возможно, более корректно было бы принять значение разделителя непосредственно из системы через Win32API. Однако IsNumeric прельщяет существенно более коротким кодом.</p>
+<p>Но на всякий случай приведу и пример использования функции GetLocaleInfo:</p>
+<pre class="language-python"><code>Private Declare Function GetLocaleInfo Lib "kernel32" Alias "GetLocaleInfoA" (ByVal LOCALE As Long, _
+ByVal LCType As Long, ByVal lpLCData As String, ByVal cchData As Long) As Long
+
+Private Const LOCALE_USER_DEFAULT = &amp;H400
+Private Const LOCALE_ILDATE As Long = &amp;H22
+Private Const LOCALE_ICOUNTRY As Long = &amp;H5
+Private Const LOCALE_SENGCOUNTRY = &amp;H1002 ' English name of country
+Private Const LOCALE_SENGLANGUAGE = &amp;H1001 ' English name of language
+Private Const LOCALE_SNATIVELANGNAME = &amp;H4 ' native name of language
+Private Const LOCALE_SNATIVECTRYNAME = &amp;H8 ' native name of country
+
+Private Const LOCALE_SDECIMAL As Long = &amp;HE
+Private Const LOCALE_SLIST As Long = &amp;HC
+Private Const LOCALE_STHOUSAND As Long = &amp;HF
+
+Public Function GetInfo(ByVal lInfo As Long) As String
+Dim Buffer As String
+Dim Ret As String
+Buffer = String$(256, 0)
+Ret = GetLocaleInfo(LOCALE_USER_DEFAULT, lInfo, Buffer, Len(Buffer))
+If Ret &gt; 0 Then
+GetInfo = Left$(Buffer, Ret - 1)
+Else
+GetInfo = ""
+End If
+End Function
+
+Sub GetInfoExample()
+Debug.Print "SList: " &amp; GetInfo(LOCALE_SLIST)
+Debug.Print "SDecimal: " &amp; GetInfo(LOCALE_SDECIMAL)
+Debug.Print "SThousand: " &amp; GetInfo(LOCALE_STHOUSAND)
+Debug.Print "SCountry: " &amp; GetInfo(LOCALE_SENGCOUNTRY)
+Debug.Print "SLanguage: " &amp; GetInfo(LOCALE_SENGLANGUAGE)
+Debug.Print "VisioListSep(): " &amp; ActivePage.PageSheet.Cells("Scratch.A1").ResultStr(0)
+End Sub</code></pre>
+<h2>Разделитель списков</h2>
+<p>Сказанное выше касалось в основном десятичного разделителя. Но не менее важен разделитель списков.</p>
+<p>Пример из справки - формула =MAX(PageWidth,PageHeight), будучи вписанной в ячейку шейп-листа, отлично работает в любой локали. Это потому что в шейп-листе пользователь видит универсальные формулы, а в универсальной формуле разделитель споска - всегда запятая.</p>
+<p>Теперь подлянка от функции SETF. Предположим, мы хотим вписать приведенную выше формулу с помощью SETF, то есть в другой ячейке поместить</p>
+<pre class="language-python"><code>=SETF(GetRef(Scratch.D1),"MAX(PageWidth,PageHeight)")</code></pre>
+<p>Так вот, это уже будет работать только у американцев, но не будет у итальянцев. Дело в том, что SETF передает формулу в локальную формулу, не универсальную. И в этом случае запятая для итальянцев является криминалом. Чтобы как-то выкрутиться, придумали функцию ListSep(). Пересылающая формула стала такой</p>
+<pre class="language-python"><code>=SETF(GetRef(Scratch.D1),"MAX(PageWidth"&amp;LISTSEP()&amp;"PageHeight)")</code></pre>
+<p>Вот это работает уже в любой локали, так как в целевую формулу будет подставлена либо запятая, либо точка с запятой.</p>
+<p>Другой вариант - если мы пытаемся прописать похожую формулу с помощью VBA. В принципе, можно по аналогии использовать разделитель LOCALE_SLIST, предварительно полученный с помощью GetLocaleInfo. К счастью, это не обязательно. Так как для VBA доступны и Formula, и FormulaU, можно просто использовать FormulaU и всегда писать список через запятую.</p>
+<p>Небольшой нюанс - функция ListSep() демонстрирует результат в шейп-листе далеко не сразу после переключения локали. Это не влияет на работу, но может слегка сбить с толку. Если в ячейке записана эта функция, то после изменения разделителя в системе значение ячейки не изменяется. Но после перезаписи формулы все приходит в норму.</p>
+<p>Существуют списки, игнорирующие разделитель списков. Например, при использовании в Shape Data фиксированных списков в ячейку Format тоже заносится список. Типа "0.4;0.2;0.3". Разделитель в этом списке на зависит от локали, всегда используется точка с запятой.</p>
+<p>Можно еще сказать пару слов по поводу списка в функции RGB. Функция необычна тем, что ее результат заранее непредсказуем. Так как функция действует через таблицу цветов документа, результат вычисляется не напрямую, а с учетом уже имеющихся в таблице значений. Например, при установке .Cells("LineColor").Formula = "RGB(0,0,0)" можем получить следующие значения формул и результата:</p>
+<table>
+<tbody>
+<tr>
+<td>RGB(0,0,0)</td>
+<td>Formula</td>
+</tr>
+<tr>
+<td>RGB(0,0,0)</td>
+<td>FormulaU</td>
+</tr>
+<tr>
+<td>28</td>
+<td>ResultIU</td>
+</tr>
+<tr>
+<td>RGB(0, 0, 0)</td>
+<td>ResultStr</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;И если значения формул предсказуемы, то вместо значения 28 (ResultIU) вполне может оказаться какое-нибудь другое.</p>
+<p>Комбинация RGB с SETF укладывается в рамках вышеизложенного. То есть работает</p>
+<pre class="language-python"><code>SETF(GetRef(LineColor),SUBSTITUTE("RGB(0,0,255)",",",LISTSEP())).</code></pre>
+<p>Интересные варианты могут получиться при наличии вложенных списков. Например в том же Fixed List в Shape Data может встретиться формула типа</p>
+<pre class="language-python"><code>="RGB(0,0,255);RGB(255,0,0);RGB(0,255,0)"</code></pre>
+<p>Здесь в одной формуле мы видим список первого уровня с неизменяемым разделителем (точка с запятой) и вложенные списки внутри RGB, которые уже подвержены влиянию локали и при работе через локальную формулу потребуют использования LISTSEP().</p>
+<h2>Выводы:</h2>
+<p>Если вы хотите продлить жизнь своим решениям в Visio, желательно делать их нечувствительными к локализации как на уровне макросов, так и на уровне шейп-листа.</p>
+<p>1. На уровне макросов старайтесь использовать универсальные формулы .FormulaU вместо локальных .Formula и универсальные разделители.</p>
+<p>2. При необходимости записывать макросом дробные значения в локальные формулы используйте разделители, получаемые функцией GetLocaleInfo (или через IsNumeric("0.1")).</p>
+<p>3. В шейп-листе совместно с функциями типа SETF следует использовать подстановку разделителя, получаемого функцией LISTSEP().</p>
+<p>4. При необходимости импортировать "замусоренные" данные, в которых может присутствовать текстовое представление дробных чисел, следует использовать преобразование типа приведенной выше функции ToDbl.</p>
+<h2>Приложение</h2>
+<p>Приложен файл <a href="https://visioport.ru/store/Tester.vsd">Tester.vsd</a>, послуживший базой для упоминавшихся проверок. В том числе в файле присутствуют пример работы с GetLocaleInfo и функция ToDbl.</p>	</div>
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 07 June 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

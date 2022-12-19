@@ -1,0 +1,210 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Разбираемся с галочкой Match master by name on drop</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Разбираемся с галочкой Match master by name on drop </h1>
+</div>
+		
+<div class="pull-none item-image"> <img src="33_f/c01.PNG" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p>Недавно в форуме задали вопрос - что делает эта галочка. Справка высказывается по этому поводу довольно невнятно, поэтому я решил нарисовать для пояснения несколько примеров. Все-таки картинки бывают понятнее, чем слова.</p>
+<p>Начнем с того, что главным словом здесь будет "наследование". В данном случае наследование шейпом свойств мастер-шейпа при перетаскивании его на страницу рисунка. Причем рассматривается конфликт при наследовании. Ведь мы обычно ожидаем, что при перетаскивании мастер-шейпа на страницу мы получим его копию. То есть копия должны унаследовать все свойства мастер-шейпа. В простейшем случае это так и есть. Но при наличии нескольких похожих мастер-шейпов реакция может оказаться неожиданной.</p>
+<!-- continued --> 
+<p>Исходное состояние перед экспериментами.&nbsp;Имеется пустой документ и три внешних трафарета S1.vss, S2.vss и S3.vss. Трафарет документа (Document Stencil) тоже открыт, он понадобится для наблюдения.</p>
+<p><img src="33_f/c00.PNG" alt=""></p>
+<p>&nbsp;Все три трафарета содержат только по одному шейпу. Они и получены путем копирования с последующим небольшим изменением. То есть делаем вид, что трафарет несколько раз редактировался, и теперь встретились различные версии. Важно, что имя мастер-шейпа во всех трех трафаретах одинаковое - m1.</p>
+<p>Теперь перетащим m1 из трафарета S1 на страницу.</p>
+<p><img src="33_f/c01.PNG" alt=""></p>
+<p>Вполне ожидаемо, новый шейп похож на мастер-шейп из трафарета. И его копия появляется в трафарете документа.</p>
+<p>Смотрим свойства мастер-шейпа m1 в трафарете документа. Галочка Match master by name on drop установлена. Можно было бы посмотреть это свойство прямо в исходном внешнем трафарете, но это дольше. Пока трафарет не находится в режиме редактирования, свойства мастер-шейпа не доступны для просмотра. А трафарет документа всегда в режиме редактирования.</p>
+<p>В остальных внешних трафаретах галочка в начале опыта находится в таком же состоянии.</p>
+<p>Переходим к активным действиям. Перетаскиваем мастер-шейп m1 из трафарета S2 на страницу рисунка.</p>
+<p><img src="33_f/c02.PNG" alt=""></p>
+<p>Вот и первый конфликт!</p>
+<p>Перетаскивали зеленый шейп, а на странице получили желтый. Новичка такое поведение может даже слегка напугать. Причина как раз в установленной галочке, которая заставляет Visio сверять новые копии с имеющимися в случае совпадения имен мастер-шейпов.<br>Главным здесь является тот m1, который появился в трафарете документа. Он командует.</p>
+<p>Так как в трафарете S1 галочка была установлена, она переползла и в трафарет документа. И теперь этот мастер-шейп начинает навязывать свое форматирование всем мастер-шейпам с таким же именем. Если мы перетащим на страницу рисунка треугольник из трафарета S3, то тоже получим желтый прямоугольник.</p>
+<p><img src="33_f/c03.PNG" alt=""></p>
+<p>Сменим начальника. Удалим все три копии на странице рисунка и мастер m1 в трафарете документа. А теперь первым перебросим m1 из из трафарета S3.</p>
+<p><img src="33_f/c04.PNG" alt=""></p>
+<p>Так как первым в трафарет документа попал треугольник, уже он становится начальником и начинает давить другие копии. Поэтому при перебрасывании мастеров из S1 и S2 тоже получим треугольники.</p>
+<p><img src="33_f/c05.PNG" alt=""></p>
+<p>Раз с поведением при установленной галочке определились, начинаем исследовать альтернативное поведение. Ставим трафарет S1 на редактирование, снимаем галочку и сохраняем трафарет. Остальные два не трогаем.</p>
+<p><img src="33_f/c06.PNG" alt=""></p>
+<p>Удаляем все со страницы рисунка и из трафарета документа. А потом копируем по очереди m1 из трафаретов S1, S2 и S3.</p>
+<p><img src="33_f/c07.PNG" alt=""></p>
+<p>Поведение резко изменяется. На странице рисунка появляются три разных шейпа, а в трафарете документа три мастер-шейпа. Один из них так и называется m1, а остальные получают в имени добавочные порядковые номера.</p>
+<p>Объяснение - первым попал шейп без галочки, значит командира нет и остальные похожие мастер-шейпы копируются в своем исходном виде.</p>
+<p>А теперь опять почистим страницу и трафарет документа и копируем мастер-шейпы из трех трафаретов в обратном порядке. Сначала из S3.</p>
+<p><img src="33_f/c08.PNG" alt=""></p>
+<p>Ситуация опять меняется. Первым скопирован m1 из S3, а у него мы галочку не снимали. Следовательно, он первым попадает в трафарет документа и начинает давить своей галочкой на все последующие поступления. Включая m1 из S1, хоть его галочка и снята.</p>
+<p>Последнее обстоятельство усваивается пользователями далеко не сразу и может стать причиной ошибок при недостаточно строгом отношении к этому элементу управления.</p>
+<p>Надеюсь, кому-нибудь эта статья поможет сэкономить время при разборе необычных ситуаций.</p>	</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 17 September 2020</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>

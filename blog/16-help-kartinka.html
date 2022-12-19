@@ -1,0 +1,200 @@
+﻿
+<!DOCTYPE html>
+<html lang="ru-ru"
+      dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type"
+		      content="text/html; charset=UTF-8">
+		<meta name="viewport"
+			  content="width=device-width, initial-scale=1.0">
+		<base href=".">
+		
+		<meta name="author" content="Геннадий Туманов">
+		<meta name="description" content="%description%">
+		<title>Help-картинка</title>
+		
+		<link href="/blog/template.css"
+			  rel="stylesheet">
+		<style>
+		h1, h2, h3, h4, h5, h6, .site-title {
+			font-family: 'Open Sans', sans-serif;
+		}
+		</style>
+	</head>
+	<body class="site com_content view-article no-layout no-task itemid-101">
+		<!-- Body -->
+		<div class="body"
+			 id="top">
+			<div class="container">
+				<!-- Header -->
+				<header class="header"
+						role="banner">
+					<div class="header-inner clearfix">
+						<a class="brand pull-left"
+						   href="https://visioport.epizy.com/blog/">
+							<span class="_site-title"
+								  title="VisioPort blog">VisioPort blog</span>
+						</a>
+						<div class="header-search pull-right"></div>
+					</div>
+				</header>
+				<div class="row-fluid">
+					<main id="content" role="main" class="span9">
+						<!-- Begin Content -->
+						<div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+							<meta itemprop="inLanguage" content="ru-RU">
+<div class="page-header">
+	<h1> Help-картинка </h1>
+</div>
+		
+<div class="pull-left item-image"> <img src="16_f/hpic2.png" alt="" itemprop="image"> </div>
+			<div itemprop="articleBody">
+		<p><br>В предыдущей статье говорилось о том, как создать CHM справку для шейпов разработанного трафарета. Сейчас хочу показать несколько другой подход.</p>
+<p>CHM справка все-таки требует наличия дополнительного файла. Его надо правильно разместить и настроить взаимодействие с шейпами. Но что если встроить справку непосредственно в сам шейп! То есть внедрить OLE объект, сжать его в точку для невидимости в обычном режиме и открывать при необходимости.</p>
+<p>Windows позволяет встроить множество типов разных объектов: Wordpad, документ Word, даже документ Visio. Но есть еще более интересный вариант - встроить универсальный контейнер для объектов. Такой контейнер существует - это объект Package.</p>
+<!-- continued -->
+<p><img src="16_f/hpic1.png" alt=""></p>
+<p>В целом конструкция получается следующей</p>
+<p><img src="16_f/hpic2.png" alt=""></p>
+<p>Нужный шейп должен быть группой. В составе группы размещается встроенный Package, а в него помещается картинка со справкой для шейпа-группы. В моем случае это был пример схемы подключения целевого шейпа. Такой Help будет гулять вместе с шейпом без всяких дополнительных файлов.</p>
+<p><img src="16_f/hpic3.png" alt=""></p>
+<p>Далее нужно решить задачу обращения к справке из шейпа. Один из привычных методов - добавление контекстного меню. Чтобы при щелчке правой кнопкой по шейпу появилось меню с пунктом Help, а при его выборе раскрылась справка.</p>
+<p><img src="16_f/hpic4.png" alt=""></p>
+<p>Решаем это так. Собственно вызов встроенного объекта размещаем в шейпе - контейнере, то есть в Package. Чуть выше в Drawing Explorer он виден как OLEshape. Вызов обеспечивается функцией DOOLEVERB() в ячейке Scratch.A1. А чтобы передать управление этой ячейке организуем счетчик в ячейке Scratch.C1 средствами основного шейпа.</p>
+<p><img src="16_f/hpic5.png" alt=""></p>
+<p>Теперь при выполнении меню Help функция SETF увеличит на 1 значение Scratch.C1 вложенного шейпа, а это в свою очередь через функцию DEPENDSON вызовет открытие встроенного объекта.</p>
+<p><img src="16_f/hpic6.png" alt=""></p>
+<p>Так как Package универсален, в него может быть встроен объект любого типа. А уже в зависимости от типа Windows откроет содержимое в наиболее подходящем приложении. В данном случае JPG картинка открылась в Windows Photo Viewer.</p>
+<p>Однажды вставленную картинку можно в любое время заменить. Это делается средствами того приложения, которое показывает картинку. Если в примере картинка показывается в Windows Photo Viewer, то можно использовать его меню Open для входа в режим редактирования и заменить одно изображение на другое (Copy-Paste). С учетом этого я сначала начинял весь трафарет картинками по-умолчанию (программно), а потом уже вручную заменял ее на нужную. Такой режим получился наиболее эффективным.</p>
+<p>Заметьте, что вся система отображения работает без применения VBA, используются только функции шейп-листа.</p>
+<p>Показанный способ имеет одну особенность - при переносе мастера на страницу рисунка Visio будет каждый раз сообщать, что встроенный объект превращается в локальную копию, то есть не будет в дальнейшем наследовать изменения встроенного объекта в мастере.</p>
+<p><img src="16_f/hpic7.png" alt=""></p>
+<p>Дублирование уже размещенного на странице рисунка шейпа такого сообщения не вызывает, потому как это уже локальная копия.&nbsp;</p>
+<p>&nbsp;</p>	</div>
+
+	<dl class="article-info muted">
+		<dt class="article-info-term"> </dt>
+		<dd class="category-name"> Категория: <a href="index.html" itemprop="genre">Блог</a>
+		</dd>
+		<dd class="published">
+			<time itemprop="datePublished">Опубликовано: 10 October 2019</time>
+		</dd>
+	</dl>
+</div>
+<div class="clearfix"/>
+	<!-- End Content -->
+</main>
+
+<div id="aside" class="span3">
+<div class="well">
+<h3 class="page-header">Меню</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="/index.html">Сайт</a></li>
+<li><a class="mod-articles-category-title active" href="https://visio.getbb.ru">Форум</a></li>
+<li><a class="mod-articles-category-title active" href="index.html">
+Блог</a></li>
+<li><a class="mod-articles-category-title active" href="m-loads.html">
+Загрузка</a></li>
+<li><a class="mod-articles-category-title active" href="primer.html">
+Как это устроено</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Блог</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="35-treeview-cloud.html">
+Документирование облачных хранилищ в Visio TreeView</a></li>
+<li><a class="mod-articles-category-title active" href="34-thedocref.html">
+Опасные ссылки на TheDoc в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="33-matchondrop.html">
+Разбираемся с галочкой Match master by name on drop</a></li>
+<li><a class="mod-articles-category-title active" href="32-visio-package-helper.html">
+Опыты с утилитой для просмотра пакетного формата Visio</a></li>
+<li><a class="mod-articles-category-title active" href="31-ribb-vba.html">
+Вызов макросов из риббона в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="30-shape-data.html">
+Shape Data Window и отложенные события</a></li>
+<li><a class="mod-articles-category-title active" href="19-sozdanie-slozhnykh-formul-v-visio-s-pomoshchyu-excel.html">
+Создание сложных формул в Visio с помощью Excel</a></li>
+<li><a class="mod-articles-category-title active" href="18-registratsiya-sobytij-visio.html">
+Регистрация событий Visio</a></li>
+<li><a class="mod-articles-category-title active" href="17-funktsiya-filename-i-vse-takoe.html">
+Функция FILENAME() и все такое</a></li>
+<li><a class="mod-articles-category-title active" href="16-help-kartinka.html">
+Help-картинка</a></li>
+<li><a class="mod-articles-category-title active" href="15-polzovatelskaya-spravka-dlya-shejpov.html">
+Пользовательская справка для шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="14-sluchaj-s-zashchitoj-ot-vozdejstviya-tem-v-visio.html">
+Случай с защитой от воздействия тем в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="13-pro-kontekstnye-menyu.html">
+Про контекстные меню</a></li>
+<li><a class="mod-articles-category-title active" href="12-skorost-avtokonnekta-shejpov.html">
+Скорость автоконнекта шейпов</a></li>
+<li><a class="mod-articles-category-title active" href="11-lokalizatsiya-i-razdeliteli-v-visio.html">
+Локализация и разделители в Visio</a></li>
+<li><a class="mod-articles-category-title active" href="10-metody-indikatsii-rezultatov.html">
+Методы индикации результатов</a></li>
+<li><a class="mod-articles-category-title active" href="9-osobennosti-metoda-drop-shape.html">
+Особенности метода Drop Shape</a></li>
+<li><a class="mod-articles-category-title active" href="8-iz-visio-v-excel-cherez-power-query.html">
+Из Visio в Excel через Power Query</a></li>
+<li><a class="mod-articles-category-title active" href="7-obnovlenie-makrosov-s-pomoshchyu-vbs.html">
+Обновление макросов с помощью VBS</a></li>
+<li><a class="mod-articles-category-title active" href="5-avtomatizatsiya-masshtabirovaniya-dokumenta.html">
+Автоматизация масштабирования документа</a></li>
+<li><a class="mod-articles-category-title active" href="6-avtomatizatsiya-masshtabirovaniya-risunka.html">
+Автоматизация масштабирования рисунка</a></li>
+<li><a class="mod-articles-category-title active" href="4-vyvod-otcheta-wsh-v-internet-explorer.html">
+Вывод отчета WSH в Internet Explorer</a></li>
+<li><a class="mod-articles-category-title active" href="3-zapushchen-visio-navigator.html">
+Запущен Visio Navigator</a></li>
+<li><a class="mod-articles-category-title active" href="2-otchety-visio.html">
+Отчеты Visio</a></li>
+<li><a class="mod-articles-category-title active" href="1-start-bloga.html">
+Старт блога</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Загрузка</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="28-counters.html">
+Трафарет счетчиков электроэнергии для Visio</a></li>
+<li><a class="mod-articles-category-title active" href="27-meandr-stencils.html">
+Трафареты электрики Меандр для Visio</a></li>
+</ul>
+</div>
+<div class="well">
+<h3 class="page-header">Как это устроено</h3>
+<ul class="category-module mod-list">
+<li><a class="mod-articles-category-title active" href="29-macro-in-stencil.html">
+Движок для макросов в трафарете</a></li>
+<li><a class="mod-articles-category-title active" href="26-list2level.html">
+Двухуровневый список в данных шейпа</a></li>
+<li><a class="mod-articles-category-title active" href="25-shejp-dlya-otobrazheniya-sobytij.html">
+Шейп для отображения событий</a></li>
+<li><a class="mod-articles-category-title active" href="23-smart-shejp-printer.html">
+Смарт-шейп Принтер</a></li>
+<li><a class="mod-articles-category-title active" href="24-smart-shejp-aktivy.html">
+Смарт-шейп Активы</a></li>
+<li><a class="mod-articles-category-title active" href="20-peremeshchenie-dereva.html">
+Перемещение дерева</a></li>
+<li><a class="mod-articles-category-title active" href="21-dinamicheskoe-otslezhivanie-konnektov.html">
+Динамическое отслеживание коннектов</a></li>
+</ul>
+</div>
+</div>
+
+																							
+</div> <!-- row-fluid -->
+</div> <!-- Container -->
+</div> <!-- class-body -->
+																					
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			<p>© 2022 VisioPort blog</p>
+		</div>
+	</footer>
+	</body>
+</html>
