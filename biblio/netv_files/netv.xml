@@ -1,0 +1,377 @@
+<VisioDocument xmlns="urn:schemas-microsoft-com:office:visio">
+	<DocumentProperties>
+		<Title></Title>
+		<HyperlinkBase href=""></HyperlinkBase>
+	</DocumentProperties>
+	<Pages>
+		<Page ID="0" Name="Page-1" NameU="Page-1">
+			<Shapes>
+				<Shape ID="48" UniqueID="{78C96968-9B21-11D6-84BA-0040C720D8B4}" Name="Dynamic connector.48" NameU="Dynamic connector.48" Master="6">
+					<XForm>
+						<PinX Unit="MM">2.647637795275591</PinX>
+						<PinY Unit="MM">4.327755905511811</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="47" UniqueID="{78C96969-9B21-11D6-84BA-0040C720D8B4}" Name="Dynamic connector.47" NameU="Dynamic connector.47" Master="6">
+					<XForm>
+						<PinX Unit="MM">2.000000000000000</PinX>
+						<PinY Unit="MM">4.475393700787402</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="46" UniqueID="{78C9696A-9B21-11D6-84BA-0040C720D8B4}" Name="Dynamic connector.46" NameU="Dynamic connector.46" Master="6">
+					<XForm>
+						<PinX Unit="MM">2.647637795275591</PinX>
+						<PinY Unit="MM">5.623031496062993</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="45" UniqueID="{78C9696B-9B21-11D6-84BA-0040C720D8B4}" Name="Dynamic connector.45" NameU="Dynamic connector.45" Master="6">
+					<XForm>
+						<PinX Unit="MM">2.147637795275591</PinX>
+						<PinY Unit="MM">5.623031496062993</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="44" UniqueID="{78C9696C-9B21-11D6-84BA-0040C720D8B4}" Name="Dynamic connector.44" NameU="Dynamic connector.44" Master="6">
+					<XForm>
+						<PinX Unit="MM">1.647637795275591</PinX>
+						<PinY Unit="MM">5.623031496062993</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="43" UniqueID="{78C9696D-9B21-11D6-84BA-0040C720D8B4}" Name="Dynamic connector" NameU="Dynamic connector" Master="6">
+					<XForm>
+						<PinX Unit="MM">1.000000000000000</PinX>
+						<PinY Unit="MM">5.598425196850394</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="1" UniqueID="{78C9696E-9B21-11D6-84BA-0040C720D8B4}" Name="Hub" NameU="Hub" Master="0">
+					<Text>R401</Text>
+					<XForm>
+						<PinX Unit="MM">1.000000000000000</PinX>
+						<PinY Unit="MM">6.000000000000000</PinY>
+					</XForm>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value Unit="STR">Hub</Value>
+						<Label>Тип</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>IP</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>IPX</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value Unit="STR">Hub16</Value>
+						<Label>Примеч.</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>Asset Number</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>Serial Number</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>Location</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>Building</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>Room</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>Department</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="6" UniqueID="{78C9696F-9B21-11D6-84BA-0040C720D8B4}" Name="Server" NameU="Server" Master="2">
+					<Text>Main</Text>
+					<XForm>
+						<PinX Unit="MM">1.000000000000000</PinX>
+						<PinY Unit="MM">5.000000000000000</PinY>
+					</XForm>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value Unit="STR">Server</Value>
+						<Label>Тип</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value Unit="STR">172.18.21.1</Value>
+						<Label>IP</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value Unit="STR">main</Value>
+						<Label>IPX</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value Unit="STR">Celeron/512/40</Value>
+						<Label>Примеч.</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>Asset Number</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>Serial Number</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>Location</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>Building</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>Room</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>Department</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="17" UniqueID="{78C96970-9B21-11D6-84BA-0040C720D8B4}" Name="Workstation" NameU="Workstation" Master="3">
+					<Text>R401-1</Text>
+					<XForm>
+						<PinX Unit="MM">2.000000000000000</PinX>
+						<PinY Unit="MM">5.000000000000000</PinY>
+					</XForm>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value Unit="STR">Workstation</Value>
+						<Label>Тип</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value Unit="STR">172.18.21.2</Value>
+						<Label>IP</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value Unit="STR">mont-1</Value>
+						<Label>IPX</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value Unit="STR">Celeron/128/20</Value>
+						<Label>Примеч.</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>Asset Number</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>Serial Number</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>Location</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>Building</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>Room</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>Department</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="22" UniqueID="{78C96971-9B21-11D6-84BA-0040C720D8B4}" Name="Workstation.22" NameU="Workstation.22" Master="3">
+					<Text>R401-2</Text>
+					<XForm>
+						<PinX Unit="MM">3.000000000000000</PinX>
+						<PinY Unit="MM">5.000000000000000</PinY>
+					</XForm>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value Unit="STR">Workstation</Value>
+						<Label>Тип</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value Unit="STR">172.18.21.3</Value>
+						<Label>IP</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value Unit="STR">mont-2</Value>
+						<Label>IPX</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value Unit="STR">Celeron/128/20</Value>
+						<Label>Примеч.</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>Asset Number</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>Serial Number</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>Location</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>Building</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>Room</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>Department</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="27" UniqueID="{78C96972-9B21-11D6-84BA-0040C720D8B4}" Name="Workstation.27" NameU="Workstation.27" Master="3">
+					<Text>R401-3</Text>
+					<XForm>
+						<PinX Unit="MM">4.000000000000000</PinX>
+						<PinY Unit="MM">5.000000000000000</PinY>
+					</XForm>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value Unit="STR">Workstation</Value>
+						<Label>Тип</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value Unit="STR">172.18.21.100</Value>
+						<Label>IP</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value Unit="STR">boss</Value>
+						<Label>IPX</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value Unit="STR">P133/64/20</Value>
+						<Label>Примеч.</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>Asset Number</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>Serial Number</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>Location</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>Building</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>Room</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>Department</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="32" UniqueID="{78C96973-9B21-11D6-84BA-0040C720D8B4}" Name="Printer 3" NameU="Printer 3" Master="4">
+					<Text>Hewlett Packard</Text>
+					<XForm>
+						<PinX Unit="MM">1.000000000000000</PinX>
+						<PinY Unit="MM">4.000000000000000</PinY>
+					</XForm>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value Unit="STR">Laser Printer</Value>
+						<Label>Тип</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>IP</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>IPX</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value Unit="STR">LJ5P</Value>
+						<Label>Примеч.</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>Asset Number</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>Serial Number</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>Location</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>Building</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>Room</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>Department</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="38" UniqueID="{78C96974-9B21-11D6-84BA-0040C720D8B4}" Name="Scanner" NameU="Scanner" Master="5">
+					<Text>Mustek</Text>
+					<XForm>
+						<PinX Unit="MM">2.000000000000000</PinX>
+						<PinY Unit="MM">4.000000000000000</PinY>
+					</XForm>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value Unit="STR">Scanner</Value>
+						<Label>Тип</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>IP</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>IPX</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value Unit="STR">ScanExpress 600 SEP</Value>
+						<Label>Примеч.</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>Asset Number</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>Serial Number</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>Location</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>Building</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>Room</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>Department</Label>
+					</Prop>
+				</Shape>
+			</Shapes>
+		</Page>
+	</Pages>
+</VisioDocument>
