@@ -1,0 +1,212 @@
+﻿<html>
+<head>
+<title>Интерактивные методы. Часть 2. Фрагмент программы</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="vis.css">
+<link rel="icon" href="favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="20%" align="center"><a href="index.html"><img SRC="vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="10%" align="center">&nbsp;</td>
+<td class='menutd' width="70%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="bib.htm">Библиотека</a> |
+ <a class="menu" href="faq.htm">Частые вопросы</a> |
+ <a class="menu" href="bookpdf.htm">Литература</a> |
+ <a class="menu" href="loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="blog/">Blog</a> |
+ <a class="menu" href="inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="visicorp.htm">История Visio</a> |
+ <a class="menu" href="product.htm">Продукты Visio</a>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Интерактивные методы. Часть 2. Фрагмент программы</h1>
+
+<p align="Justify">Это приложение к предыдущей статье 
+<a href="https://visioport.ru/biblio/st104.htm">Интерактивные методы размещения данных</a>. Для интересующихся конкретной реализацией.</p>
+<p align="Justify">Полностью программа здесь не приводится. Дело в том, что сама по себе 
+задача формирования перечня элементов по ЕСКД достаточно сложна. Там 
+несколько уровней вложенной сортировки. Плюс разные особенности с 
+группировкой данных. Да еще и реализацию пришлось делать 
+двухступенчатой: один экзешник выбирает данные о составе из PDM-системы и
+ сбрасывает их в XML-файл; другой работает чисто на форматирование - 
+принимает данные из XML и выводит в Visio.</p>
+<p align="Justify">Ниже приводятся основные фрагменты из второй, форматирующей части.</p>
+<p align="Justify"><b><i>Функции Proc1 и Proc2</i></b> - обработчики меню для вывода "в 
+глубину" и "в ширину". Практически одинаковые и обращаются к одной и той
+ же процедуре DrawCollection, только с разными параметрами.</p>
+<p align="Justify"><b><i>DrawCollection</i></b> в зависимости от режима создает новую 
+страницу либо через процедуру&nbsp;SiblPage (когда страницы наращиваются
+ вбок), либо через&nbsp;AddPage (когда нужно создать физическую 
+страницу).</p>
+<p align="Justify">А реальное заполнение страницы идет через одну и ту же процедуру&nbsp;<b><i>WriteCurrRow_2.&nbsp;</i></b></p>
+
+<p class="t">'Форматирование вывода по умолчанию. Автомат.</p>
+<p class="t"><b>Function Proc1() As Integer</b></p>
+<p class="t">&nbsp; &nbsp; Proc1 = -1 &nbsp; 'Неопознанная ошибка</p>
+<p class="t">&nbsp; &nbsp; On Error GoTo Proc1Err</p>
+<p class="t">&nbsp; &nbsp; AddLog "Создаем Visio.Application - " &amp; Now</p>
+<p class="t">&nbsp; &nbsp; Set VSo = CreateObject("Visio.Application")</p>
+<p class="t">&nbsp; &nbsp; AddLog "Создаем документ по шаблону - " &amp; Now</p>
+<p class="t">&nbsp; &nbsp; Set VSdoc = VSo.Documents.Add(ApplicationPath &amp; "\PE3-v3.vst")</p>
+<p class="t">&nbsp; &nbsp; DrawCollection 1</p>
+<p class="t">&nbsp; &nbsp; AddPage "Lr" &nbsp;'Последняя страница - "лист регистрации изменений"</p>
+<p class="t">&nbsp; &nbsp; Proc1 = 0 &nbsp; 'Нормальное завершение</p>
+<p class="t">Proc1Err:</p>
+<p class="t">&nbsp; &nbsp; On Error Resume Next</p>
+<p class="t">&nbsp; &nbsp; Set VSdoc = Nothing</p>
+<p class="t">&nbsp; &nbsp; Set VSo = Nothing</p>
+<p class="t">End Function</p>
+<p class="t"></p>
+<p class="t">'Форматирование лентой. Интерактивная нарезка</p>
+<p class="t"><b>Function Proc2() As Integer</b></p>
+<p class="t">&nbsp; &nbsp; Proc2 = -1 &nbsp; 'Неопознанная ошибка</p>
+<p class="t">&nbsp; &nbsp; On Error GoTo Proc2Err</p>
+<p class="t">&nbsp; &nbsp; AddLog "Создаем Visio.Application - " &amp; Now</p>
+<p class="t">&nbsp; &nbsp; Set VSo = CreateObject("Visio.Application")</p>
+<p class="t">&nbsp; &nbsp; AddLog "Создаем документ по шаблону - " &amp; Now</p>
+<p class="t">&nbsp; &nbsp; Set VSdoc = VSo.Documents.Add(ApplicationPath &amp; "\PE3-v3.vst")</p>
+<p class="t">&nbsp; &nbsp; DrawCollection 2</p>
+<p class="t">&nbsp; &nbsp; Proc2 = 0 &nbsp; 'Нормальное завершение</p>
+<p class="t">&nbsp; &nbsp; Exit Function</p>
+<p class="t">Proc2Err:</p>
+<p class="t">&nbsp; &nbsp; On Error Resume Next</p>
+<p class="t">&nbsp; &nbsp; Set VSdoc = Nothing</p>
+<p class="t">&nbsp; &nbsp; Set VSo = Nothing</p>
+<p class="t">End Function</p>
+<p class="t"></p>
+<p class="t"><b>Sub DrawCollection(ByVal Md As Integer)</b></p>
+<p class="t">&nbsp; &nbsp; Set ListCollection = New Collection 'Создается коллекция листов перечня</p>
+<p class="t">&nbsp; &nbsp; Set tmpListItm = New ListIt</p>
+<p class="t">&nbsp; &nbsp; tmpListItm.XPos = (420 + 20) * (ListCollection.Count) / 50.8</p>
+<p class="t">&nbsp; &nbsp; tmpListItm.YPos = 292 / 50.8</p>
+<p class="t">&nbsp; &nbsp; ListCollection.Add tmpListItm</p>
+<p class="t">&nbsp; &nbsp; CurrList = ListCollection.Count</p>
+<p class="t">&nbsp; &nbsp; AddLog "Заполняем штамп первого листа - " &amp; Now</p>
+<p class="t">&nbsp; &nbsp; WriteFirstPageData &nbsp; &nbsp; 'Заполнение штампов первого листа</p>
+<p class="t">&nbsp; &nbsp; CriticalErorr = False</p>
+<p class="t">&nbsp; &nbsp; nList = 1</p>
+<p class="t">&nbsp; &nbsp; For i = 1 To peMain.OutColl.Count</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; WriteCurrRow_2 peMain.OutColl(i), i, 1</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; If PageFull Then &nbsp; &nbsp;'Получено сообщение о достижении конца текущей страницы</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'UndoRow &nbsp; &nbsp; 'Отмена не уместившейся строки</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; nList = nList + 1</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If Md = 1 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CreateNextPage &nbsp;'Второй лист на следующей странице</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Else</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SiblPage &nbsp;'Создание бланка "Второй лист" справа на том же листе</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'AddPage</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; WriteCurrRow_2 peMain.OutColl(i), i, 1</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; End If</p>
+<p class="t">' &nbsp; &nbsp; &nbsp; &nbsp;If CriticalErorr Then GoTo Proc2Err</p>
+<p class="t">&nbsp; &nbsp; Next</p>
+<p class="t">End Sub</p>
+<p class="t"></p>
+<p class="t">'Добавить страницу справа на том же листе</p>
+<p class="t"><b>Public Sub SiblPage()</b></p>
+<p class="t">&nbsp; &nbsp; Dim Bl As Visio.Master</p>
+<p class="t">&nbsp; &nbsp; Set Bl = VSdoc.Masters("Blank2")</p>
+<p class="t">&nbsp; &nbsp; Set ShBlank = VSo.ActivePage.Drop(Bl, 202 / 50.8 + (420 + 20) * (nList - 1) / 50.8, 292 / 50.8)</p>
+<p class="t">&nbsp; &nbsp; WriteNextPageData 2</p>
+<p class="t">End Sub</p>
+<p class="t"></p>
+<p class="t"><b>Private Sub AddPage(ByVal Mast As String)</b></p>
+<p class="t">&nbsp; &nbsp; Dim oPage As Visio.Page</p>
+<p class="t">&nbsp; &nbsp; Dim Bl As Visio.Master</p>
+<p class="t">&nbsp; &nbsp; Dim ShBlank As Visio.Shape</p>
+<p class="t">&nbsp; &nbsp; Set oPage = VSdoc.Pages.Add</p>
+<p class="t">&nbsp; &nbsp; Set Bl = VSdoc.Masters(Mast)</p>
+<p class="t">&nbsp; &nbsp; Set ShBlank = VSo.ActivePage.Drop(Bl, 202 / 50.8, 292 / 50.8)</p>
+<p class="t">End Sub</p>
+<p class="t"></p>
+<p class="t"><b>Private Sub WriteCurrRow_2(ByVal Nd As Object, ByVal id As Integer, LineMode As Integer)</b></p>
+<p class="t">&nbsp; &nbsp; Dim shpObj As Visio.Shape</p>
+<p class="t">&nbsp; &nbsp; 'На листе есть ограничивающая координата. Если шейп после заполнения текстом пересекает ее,</p>
+<p class="t">&nbsp; &nbsp; 'он выбрасывается и лист считается заполненным.</p>
+<p class="t">On Error GoTo StructError</p>
+<p class="t">&nbsp; &nbsp; Set pagObj = VSo.ActivePage</p>
+<p class="t">' &nbsp; &nbsp;x = 
+pagObj.Shapes("Title").Cells("PinX") 'Большого значения не имеет, так 
+как потом все равно подвинется при привязке</p>
+<p class="t">&nbsp; &nbsp; x = ListCollection(ListCollection.Count).XPos + 17 / 25.4</p>
+<p class="t">&nbsp; &nbsp; If Nd.rType = 1 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Set mastObj = VSdoc.Masters("Row")</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Set shpObj = pagObj.Drop(mastObj, x, CurrentPos)</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Cells("Prop.rowID") = id</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; If (Nd.Prim = "") Or (InStr(1, Nd.Prim, "Из состава") &gt; 0) Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(1).Text = Nd.PozOboz</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Else</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(1).Text = Nd.PozOboz &amp; "*"</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(2).Text = Nd.Naimen</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(3).Text = Nd.Kol</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(4).Text = Nd.Prim</p>
+<p class="t">&nbsp; &nbsp; Else</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Set mastObj = VSdoc.Masters("RowCentr")</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Set shpObj = pagObj.Drop(mastObj, x, CurrentPos)</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Cells("Prop.rowID") = id</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(1).Text = ""</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(2).Text = Nd.Zag</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(3).Text = ""</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; shpObj.Shapes(4).Text = ""</p>
+<p class="t">&nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; 'Проверка, не опустился ли новый шейп ниже ограничителя</p>
+<p class="t">&nbsp; &nbsp; DoEvents
+ &nbsp; &nbsp;'Замедляет процесс, но без этого многострочные элементы не
+ успевают развернуться до анализа переполнения</p>
+<p class="t">&nbsp; &nbsp; tmpPos = CurrentPos - shpObj.Cells("Height")</p>
+<p class="t">&nbsp; &nbsp; If LineMode = 1 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; If ListCollection.Count &gt; 1 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If tmpPos &lt; BottomNext / 25.4 Then &nbsp; &nbsp;'Проверка на переполнение</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; shpObj.Delete</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; PageFull = True</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Exit Sub</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Else</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If tmpPos &lt; BottomFirst / 25.4 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; shpObj.Delete</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; PageFull = True</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Exit Sub</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; Else</p>
+<p class="t">&nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; 'Присоединить новый шейп к предыдущему, нарастить коллекцию и сместить текущую позицию</p>
+<p class="t">&nbsp; &nbsp; If PageRows.Count &gt; 0 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Set PrecShp = PageRows.Item(PageRows.Count)</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; ConnShRow shpObj, PrecShp</p>
+<p class="t">&nbsp; &nbsp; End If</p>
+<p class="t">&nbsp; &nbsp; PageRows.Add shpObj</p>
+<p class="t">&nbsp; &nbsp; CurrentPos = shpObj.Cells("PinY") - shpObj.Cells("Height") &nbsp; &nbsp;'Низ последнего шейпа</p>
+<p class="t">&nbsp; &nbsp; 'Забрасывать шейп в коллекцию шейпов лучше здесь, когда уже точно ясно, что он останется.</p>
+<p class="t">&nbsp; &nbsp; ListCollection(CurrList).RowColl.Add shpObj 'Добавили вновь созданный шейп к коллекции шейпов листа</p>
+<p class="t">Exit Sub</p>
+<p class="t">StructError:</p>
+<p class="t">&nbsp; &nbsp; MsgBox "Ошибка в структуре входного файла"</p>
+<p class="t">&nbsp; &nbsp; CriticalErorr = True</p>
+<p class="t">End Sub</p>
+
+<!-- --------------------------- -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+
+</div>
+</body>
+</html>

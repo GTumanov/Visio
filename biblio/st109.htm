@@ -1,0 +1,97 @@
+﻿<html>
+<head>
+<title>Восстановление VSDX</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="vis.css">
+<link rel="icon" href="favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="20%" align="center"><a href="index.html"><img SRC="vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="10%" align="center">&nbsp;</td>
+<td class='menutd' width="70%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="bib.htm">Библиотека</a> |
+ <a class="menu" href="faq.htm">Частые вопросы</a> |
+ <a class="menu" href="bookpdf.htm">Литература</a> |
+ <a class="menu" href="loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="blog/">Blog</a> |
+ <a class="menu" href="inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="visicorp.htm">История Visio</a> |
+ <a class="menu" href="product.htm">Продукты Visio</a>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Восстановление VSDX</h1>
+<p align="Right">Геннадий Туманов. 15 ноября 2016 г.</p>
+
+<p align="Justify">Рассматривается один из случаев восстановления документа Visio в формате
+ VSDX. Предыстория. Файл неожиданно перестал открываться. При попытке 
+открытия Visio выдает ошибку.</p>
+<p align="Justify">Способ основан на том, что файл в 
+формате VSDX представляет собой архив ZIP, содержащий множество 
+вложенных файлов. И этими файлами можно манипулировать. Но не всегда. В 
+сломанном архиве часть операций блокируется. Ниже показан один из 
+вариантов действий в такой ситуации. </p>
+<p align="Justify">Попытка открыть архив с помощью ZIP выводится сообщение, что файл открыть не удается.</p>
+
+<IMG SRC="r109/RestVSDX_1.gif" WIDTH="320" HEIGHT="209" BORDER="0" ALT="">
+
+<p align="Justify">Смотрим, чем может помочь RAR.</p>
+
+<IMG SRC="r109/RestVSDX_2.gif" WIDTH="320" HEIGHT="209" BORDER="0" ALT="">
+
+<p align="Justify">При попытке протестировать архив получаем сообщение, что он поврежден или имеет неизвестный формат.</p>
+<p align="Justify">Пытаемся просто открыть его. При поиске файла указываем "Все файлы", потому что 
+по умолчанию RAR не считает VSDX архивным файлом.</p>
+
+<IMG SRC="r109/RestVSDX_3.gif" WIDTH="320" HEIGHT="209" BORDER="0" ALT="">
+
+<p align="Justify">Что-то открывается, но выводится сообщение о неожиданном конце архива. То есть ошибка в структуре.</p>
+<p align="Justify">Но RAR умеет восстанавливать архивы. Выполняем команду "Восстановить архив".</p>
+
+<IMG SRC="r109/RestVSDX_4.gif" WIDTH="320" HEIGHT="209" BORDER="0" ALT="">
+
+<p align="Justify">RAR выводит перечень файлов, которые ему удалось найти, и создает новый (восстановленный) файл.</p>
+
+<IMG SRC="r109/RestVSDX_5.gif" WIDTH="320" HEIGHT="209" BORDER="0" ALT="">
+
+<p align="Justify">Проводим операцию тестирования нового файла. Архиватор сообщает, что в 
+одном из файлов обнаружена ошибка контрольной суммы. То есть структура 
+архива восстановлена, но один из компонентов искажен.</p>
+<p align="Justify">Мы можем просмотреть структуру полученного файла, найти место, где расположен искаженный объект.</p>
+
+<IMG SRC="r109/RestVSDX_6.gif" WIDTH="320" HEIGHT="209" BORDER="0" ALT="">
+
+<p align="Justify">Судя по размещению (папка embeddings) и имени (oleObject.bin), сломан 
+внедренный OLE-объект. Можно предположить, что после его удаления и 
+удаления всех ссылок на него, оставшаяся часть архива будет воспринята 
+Visio как нормальный документ</p>
+<p align="Justify">Однако поиск и исправление ссылок – 
+довольно кропотливая работа. Поэтому реально при восстановлении данного 
+документа пошли другим путем. В Visio был создан пустой файл-приемник. 
+Этот файл также открыт как архив. И из восстановленного архива в новый 
+архив переброшены папки masters, pages и файл Content_Types.xml.</p>
+<p align="Justify">Полученный файл открывается в Visio без сообщения об ошибке и
+ содержимого оказалось достаточно для продолжения работы.</p>
+
+<!-- --------------------------- -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+
+</div>
+</body>
+</html>

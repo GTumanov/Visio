@@ -1,0 +1,156 @@
+﻿<html>
+<head>
+<title>Пример приложения для двустороннего обмена данными с базой данных</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="vis.css">
+<link rel="icon" href="favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="20%" align="center"><a href="index.html"><img SRC="vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="10%" align="center">&nbsp;</td>
+<td class='menutd' width="70%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="bib.htm">Библиотека</a> |
+ <a class="menu" href="faq.htm">Частые вопросы</a> |
+ <a class="menu" href="bookpdf.htm">Литература</a> |
+ <a class="menu" href="loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="blog/">Blog</a> |
+ <a class="menu" href="inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="visicorp.htm">История Visio</a> |
+ <a class="menu" href="product.htm">Продукты Visio</a>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Пример приложения для двустороннего обмена данными с базой данных</h1>
+<p align="Right">Геннадий Туманов. 3 августа 2014 г.</p>
+
+<h3 style="text-align: left;">Как это выглядит</h3>
+<p align="Justify">Для более предметного разговора о том, как может обеспечиваться 
+двустороняя синхронизация данных между Visio и базой данных, было 
+создано приложение-пример, выполняющее такую функцию.</p>
+<p align="Justify">В качестве базы использован файл Excel 2007. Само приложение выполнено в
+ виде набора макросов в Visio 2007. Для его функционирования достаточно 
+версии Standard (Стандартная).</p>
+<p align="Justify">Задача приложения - создать и поддерживать базу различных компоновок 
+мебели в помещении. То есть в таблице базы данных хранится множество 
+проектов, а Visio используется для их редактирования.</p>
+<p align="Justify">Данные простейшие: тип мебели, координаты и угол поворота.</p>
+<p align="Justify">Небольшое видео, демонстрирующее работу приложения - <a href="https://www.dropbox.com/s/5wq3ykwxhipqokh/p3.avi" target="_blank">файл AVI</a>.</p>
+<h3 style="text-align: left;">Основные технические решения</h3>
+<p align="Justify">Возможности приложения видно из дополнительного пользовательского меню.</p>
+
+<IMG SRC="r107/Static2.png" WIDTH="366" HEIGHT="183" BORDER="0" ALT="">
+
+<p align="Justify">Для реализации задачи понадобились две функции работы с проектами:<br>
+<b><i>Загрузить проект</i></b> - строит рисунок по данным, выбранным из базы.<br>
+<b><i>Сохранить новый проект</i></b> - сохраняет в базе данные одного рисунка.</p>
+<p align="Justify">И три сервисных функции:<br>
+<b><i>Проверить</i></b> - сравнить данные из базы с рисунком и показать различия.<br>
+<b><i>Обновить базу</i></b> - привести данные текущего проекта в базе в соответствие с текущим состоянием рисунка.<br>
+<b><i>Обновить документ</i></b> - обратная передача, скорректировать рисунок по данным базы.</p>
+
+<p align="Justify">Вся индикация различий при сравнении выполняется в графической форме 
+путем подкраски шейпов. В результате редактирования могут измениться (в 
+данном примере) координаты и угол поворота объекта. Кроме того могут 
+быть добавлены новые объекты или удалены имеющиеся. Соответственно, при 
+выполнении функции "Проверить" измененные шейпы красятся зеленым цветом,
+ новые красным, а вместо удаленных временно рисуются фантомы по данным 
+базы. После обновления рисунка или базы раскраска и фантомы исчезают.</p>
+<h3 style="text-align: left;">Структура данных</h3>
+<p align="Justify">Фрагмент базы данных (в данном случае листа Excel) показан на рисунке.</p>
+
+<IMG SRC="r107/Static3.png" WIDTH="462" HEIGHT="83" BORDER="0" ALT="">
+
+<p align="Justify">Это всего лишь одна таблица, в которой запись (строка) соответствует 
+одной единице мебели. Она содержит уникальный идентификатор, тип мебели 
+(соответствует имени используемого мастер-шейпа), координаты, угол и 
+ссылку на проект.</p>
+<p align="Justify">Механизм ADODB позволяет обращаться к такой таблице с использованием SQL запросов.</p>
+<h3 style="text-align: left;">Структура приложения</h3>
+<p align="Justify">Статическая структура приложения показана на рисунке</p>
+
+<IMG SRC="r107/Static.png" WIDTH="738" HEIGHT="457" BORDER="0" ALT="">
+
+<p align="Justify">Рисунок получен реинжинирингом созданного набора макросов с помощью штатного дополнения Visio для работы с UML диаграммами.</p>
+Весь набор макросов размещен в четырех модулях. <b>ThisDocument</b> содержит макросы для навески пользовательского меню и обработчики для меню. Модуль <b>Scheme</b>
+ хранит глобальные переменные и пару функций для работы с базой. 
+Основной функционал собран в двух классах: специализированной коллекции <b>Project </b>и члене этой коллекции <b>fItem</b>,
+ ответственном за одну запись в базе или одну единицу мебели на рисунке.
+ Класс fItem содержит не только передаваемые атрибуты (идентификатор, 
+координаты), но и ссылку <b>Shape </b>на шейп, размещаемый на странице Visio.</p>
+<p align="Justify">Аналогичный подход, кстати, используется в подобных приложениях довольно
+ часто. Над объектной моделью Visio надстраиваются прикладные объекты, 
+включающие при необходимости "штатные" объекты Visio. Они могут быть 
+очень простыми, как в данном примере, и сложными, в том числе со своей 
+иерархией, в более серьезных приложениях.</p>
+<p align="Justify">В итоге при работе приложения две коллекции (<b>BasCol </b>с данными, полученными из базы, и <b>DocCol </b>с данными, полученными из документа). Все операции сравнения и изменения данных выполняются методами входящих объектов.</p>
+</p>
+<h3 style="text-align: left;">Подробности выполнения операций с данными</h3>
+<p align="Justify">Для связи между документом и базой используется ADODB. Все 
+взаимодействие происходит через два основных объекта: ConnectionString и
+ RecordSet. Первый отвечает за подключение, второй - за передачу данных.</p>
+<p align="Justify">Фрагмент макроса (метода объекта fItem), выбирающий из базы данные одного проекта и складывающий их в коллекцию.</p>
+<p class="t">&nbsp; &nbsp; Set rs1 = New ADODB.Recordset</p>
+<p class="t">&nbsp; &nbsp; strSQL1 = "Select * from [Sheet1$] Where InstanceID &gt; 0 and ProjectName like '" &amp; ProjName &amp; "'"</p>
+<p class="t">&nbsp; &nbsp; rs1.Open strSQL1, cn1, adOpenStatic, adLockOptimistic</p>
+<p class="t">&nbsp; &nbsp; For i = 1 To rs1.RecordCount</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Dim tmpItem As fItem</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Set tmpItem = New fItem</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; tmpItem.InstanceID = rs1.Fields("InstanceID").Value</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; tmpItem.fType = rs1.Fields("fType").Value</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; tmpItem.x = rs1.Fields("x").Value</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; tmpItem.y = rs1.Fields("y").Value</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; tmpItem.ang = rs1.Fields("ang").Value</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; Item.Add tmpItem</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp; rs1.MoveNext</p>
+<p class="t">&nbsp; &nbsp; Next</p>
+<p class="t">&nbsp; &nbsp; rs1.Close</p>
+<p align="Justify">Фрагмент кода для выборки из базы максимального имеющегося значения уникального идентификатора.</p>
+<p class="t">&nbsp; &nbsp; strSQL1 = "Select Max(InstanceID) From [Sheet1$]"</p>
+<p class="t">&nbsp; &nbsp; Set rs1 = New ADODB.Recordset</p>
+<p class="t">&nbsp; &nbsp; rs1.Open strSQL1, cn1, adOpenStatic, adLockOptimistic</p>
+<p class="t">&nbsp; &nbsp; GetMaxInstanceID = rs1.Fields(0).Value</p>
+<p align="Justify">Метод прорисовки шейпа по данным объекта fItem.</p>
+<p class="t">Public Sub Draw()</p>
+<p class="t">&nbsp; &nbsp; Dim sh As Visio.Shape</p>
+<p class="t">&nbsp; &nbsp; Dim Mas As Visio.Master</p>
+<p class="t">&nbsp; &nbsp; Set Mas = ActiveDocument.Masters(fType)</p>
+<p class="t">&nbsp; &nbsp; Set sh = ActivePage.Drop(Mas, 1, 1)</p>
+<p class="t">&nbsp; &nbsp; sh.Cells("PinX") = x</p>
+<p class="t">&nbsp; &nbsp; sh.Cells("PinY") = y</p>
+<p class="t">&nbsp; &nbsp; sh.Cells("Prop.ID").Formula = Chr(34) &amp; InstanceID &amp; Chr(34)</p>
+<p class="t">&nbsp; &nbsp; sh.Cells("Angle") = ang</p>
+<p class="t">&nbsp; &nbsp; Set Shape = sh</p>
+<p class="t">End Sub</p>
+<p align="Justify">В целом основной объем функционального кода, содержащийся в модулях 
+Project и fItem, занимает порядка 450 строк кода. Это с учетом того, что
+ решение делалось для примера и не подвергалось серьезной оптимизации.</p>
+<h3 style="text-align: left;">Резюме</h3>
+<p align="Justify">Таким образом, в примере продемонстрирована реализация простейшей задачи
+ синхронизации рисунка Visio с базой данных через механизм ADODB.</p>
+<p align="Justify">В этом решении Visio используется для редактирования содержимого базы данных графическими методами.</p>
+Факт, что для реализации решения потребовалось порядка 450 строк кода 
+подтверждает эффективность метода для использования в сложных решениях, 
+связанных с внешними данными.</p>
+
+<!-- --------------------------- -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+
+</div>
+</body>
+</html>

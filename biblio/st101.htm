@@ -1,0 +1,97 @@
+﻿<html>
+<head>
+<title>Чупакабра</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="vis.css">
+<link rel="icon" href="favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="20%" align="center"><a href="index.html"><img SRC="vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="10%" align="center">&nbsp;</td>
+<td class='menutd' width="70%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="bib.htm">Библиотека</a> |
+ <a class="menu" href="faq.htm">Частые вопросы</a> |
+ <a class="menu" href="bookpdf.htm">Литература</a> |
+ <a class="menu" href="loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="blog/">Blog</a> |
+ <a class="menu" href="inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="visicorp.htm">История Visio</a> |
+ <a class="menu" href="product.htm">Продукты Visio</a>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Чупакабра</h1>
+<p align="Right">Геннадий Туманов. Среда, 3 сентября 2014 г.</p>
+<p align="Justify">Как-то решая веселую задачку, проиллюстрировал решение в Visio. По-моему, стоит опубликовать. Как рекламу Visio :)</p>
+<p align="Justify"><b>Задачка была такой:</b></p>
+<p align="Justify">Круглое озеро, Вы в центре 
+озера на лодке. На берегу, не останавливаясь, бегает Чупакабра, очень 
+хитрая. Когда Вы на лодке плывёте в какую-нибудь сторону, она по самому 
+кратчайшему пути начинает вдоль берега бежать к Вам (в озере не 
+плавает). Понятно дело если она на берегу встретит Вас – Вам конец. А на
+ берег вам очень надо! Печаль Ваша была бы меньше, если бы не то 
+обстоятельство, которое Вы знаете: максимальная скорость лодки в 4 раза 
+меньше скорости бега Чупакабры!!! (плавать без лодки Вы не умеете)</p>
+<p align="Justify">По какой траектории Вам надо плыть, чтоб достичь какой-нибудь
+ точки на берегу раньше, чем там окажется Чупакабра?</p>
+<p align="Justify"><b>Одно из решений </b>(не самое оптимальное, но это неважно):</p>
+<p align="Justify">Лодочка убегает зигзагами под 45 градусов от направления на Чупакабру.</p>
+<p align="Justify">Выбор направления определяется тем, где зверюга - справа или слева от центральной линии.</p>
+<p align="Justify">Чупакабра идет по кратчайшему расстоянию в своей системе координат (в реализации - крутит озеро).</p>
+<p align="Justify">Иллюстрация решения заняла в Visio 16 строк кода! (Комментарии не считаем).</p>
+<p class="t">Sub&nbsp;NextStep()</p>
+<p class="t">&nbsp; &nbsp;'Чупакабра оценивает направление и "крутит озеро"</p>
+<p class="t">&nbsp; &nbsp;If al &gt; 0 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp;sh1.Cells("Angle") = sh1.Cells("Angle") + 0.05</p>
+<p class="t">&nbsp; &nbsp;Else</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp;sh1.Cells("Angle") = sh1.Cells("Angle") - 0.05</p>
+<p class="t">&nbsp; &nbsp;End If</p>
+<p class="t">&nbsp; &nbsp;'Лодочник тоже оценивает направление и прогнозирует точку следующего шага</p>
+<p class="t">&nbsp; &nbsp;posX1 = sh.Cells("PinX"): posY1 = sh.Cells("PinY")</p>
+<p class="t">&nbsp; &nbsp;If al &gt; 0 Then</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp;posX = posX1 + 0.005</p>
+<p class="t">&nbsp; &nbsp;Else</p>
+<p class="t">&nbsp; &nbsp; &nbsp; &nbsp;posX = posX1 - 0.005</p>
+<p class="t">&nbsp; &nbsp;End If</p>
+<p class="t">&nbsp; &nbsp;posY = posY1 + 0.005</p>
+<p class="t">&nbsp; &nbsp;'Прорисовка пути лодочки от текущего положения до следующего</p>
+<p class="t">&nbsp; &nbsp;Set shtemp = sh1.DrawLine(posX1, posY1, posX, posY)</p>
+<p class="t">&nbsp; &nbsp;'И лодочка попадает в новое положение</p>
+<p class="t">&nbsp; &nbsp;sh.Cells("PinX") = posX: sh.Cells("PinY") = posY</p>
+<p class="t">&nbsp; &nbsp;'Пересчет в систему координат листа для вычисления направления на следующем шаге</p>
+<p class="t">&nbsp; &nbsp;sh.XYToPage posX - 0.5, posY - 0.5, xprime, yprime</p>
+<p class="t">&nbsp; &nbsp;'Вычисление направления</p>
+<p class="t">&nbsp; &nbsp;If xprime &gt; 0 Then al = 0 Else al = 1</p>
+<p class="t">End Sub</p>
+<p align="Justify">Там есть, конечно, еще запускающий макрос и таймер... Но это ведь к решению отношения не имеет.</p>
+<p align="Justify">Вообще, как мне кажется, пример будет полезен для начинающих. Здесь и 
+просто рисование, и пересчет координат, и пример использования 
+таймера... Рисунок-то ведь динамический.</p>
+<p align="Justify"><a href="https://visioport.ru/store/Choopacabra.vsd" target="_blank">Файл прилагается</a>.</p>
+<p align="Justify">Скачать. Открыть.</p>
+<p align="Justify">Выполнить макрос ThisDocument.StartTest.</p>
+<p align="Justify">Наблюдать построение траектории, пока лодочка не доплывет до берега.</p>
+<p align="Justify">Если нужно прервать, выполнить макрос ThisDocument.StopTest.</p>
+
+<!-- --------------------------- -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+
+</div>
+</body>
+</html>

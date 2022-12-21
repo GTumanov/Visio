@@ -1,0 +1,125 @@
+﻿<html>
+<head>
+<title>Где мои терабайты?</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="vis.css">
+<link rel="icon" href="favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="20%" align="center"><a href="index.html"><img SRC="vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="10%" align="center">&nbsp;</td>
+<td class='menutd' width="70%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="bib.htm">Библиотека</a> |
+ <a class="menu" href="faq.htm">Частые вопросы</a> |
+ <a class="menu" href="bookpdf.htm">Литература</a> |
+ <a class="menu" href="loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="blog/">Blog</a> |
+ <a class="menu" href="inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="visicorp.htm">История Visio</a> |
+ <a class="menu" href="product.htm">Продукты Visio</a>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Где мои терабайты?</h1>
+<p align="Right">Геннадий Туманов. 24 ноября 2015 г.</p>
+
+<p align="Justify"><b>Где мои терабайты?</b></p>Распространенный вопрос? Для меня - да.</p>
+<p align="Justify">Вроде,  поставишь новый диск, места полно... А через некоторое время раз - и 
+кончилось. И начинаешь долго и нудно просматривать, чем же оно забито.</p>
+<p align="Justify">Так вот, способ есть! Берем <b>TreeMap</b>, говорим: 
+"Раскрыть диск (папку)" -  и видим самые толстые объекты, первые клиенты на удаление.</p>
+<p align="Justify">Сделано это в виде шаблона Visio. Нужные макросы внутри.</p>
+<p align="Justify">Раньше это был шаблон <b>VisioTreeView</b>. Про него я уже писал.
+А теперь в тот же шаблон добавлен еще один режим раскрытия папок.</p>
+<p align="Justify">Вид получается примерно такой</p>
+
+<IMG SRC="r112/r_008.gif" WIDTH="320" HEIGHT="255" BORDER="0" ALT="">
+
+<p align="Justify">Все управление на контекстных меню. Самое
+первое - показать диски (это меню страницы).</p>
+<p align="Justify">Так как тысячи файлов Visio рисовал бы
+медленно, при сканировании диска введены некоторые ограничения. За одну
+операцию раскрываются только два уровня. Если нужно смотреть дальше, выбираем
+нужный прямоугольник и углубляемся в него, повторяя операцию.</p>
+<p align="Justify">Если в папке обнаруживаются более 100 дочерних
+объектов, мелочь тоже начинает отбрасываться. Все равно сольется в линию.</p>
+<p align="Justify">Прямоугольники подкрашиваются в зависимости от
+расширений файлов.</p>
+<p align="Justify">В виде надписи выводится имя папки или файла.
+Если прямоугольник узкий, имя не умещается и не выводится. Тогда нужно
+открывать окно "Данные шейпа" и смотреть в нем. Там же приведен объем
+файла, путь к нему и состояние. В данном
+случае состояние - это свертка из расширений имен файлов, используемая для
+передачи цвета.</p>
+<p align="Justify"><b>С точки зрения программирования</b>
+<p align="Justify">Поле названо состоянием для универсальности.
+Дело в том, что подобная задача разбивается на две части: сбор дерева структуры
+и его отображение. Отображение одинаковое, а на входе данные могут быть ну
+очень разные. У меня это приспособлено для взвешивания файлов. Но такой же тип
+отображения можно использовать для сравнения доходов, площади территорий,
+населения и т.д. Поэтому сечение содержит довольно универсальные атрибуты:
+текст, вес, состояние.</p>
+<p align="Justify">Собственно модуль отображения представляет
+собой класс, который умеет рисовать себя и своих потомков (иерархически).
+Данные передаются через указанные выше атрибуты. Так что по аналогии можно
+будет делать сменные входные приставки для других областей применения.</p>
+<p align="Justify">Универсальный, не привязанный к прокладной
+области тест выглядит вот так:</p>
+<p class="t">Sub aTest()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'Tree for test</span></p>
+<p class="t">&nbsp;&nbsp;&nbsp; Set c0 = New c</p>
+<p class="t">&nbsp;&nbsp; &nbsp;Set
+c0.shp0 = ActivePage.Shapes(1)</p>
+<p class="t">&nbsp;&nbsp;&nbsp; </p>
+<p class="t">&nbsp;&nbsp;&nbsp; 'CurrNode.AddItem Weight, State, Text, Path</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c0.AddItem 32, 0, "Text1", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c0.AddItem 5, 1, "Text2", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c0.AddItem 12, 2, "Text3", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; Set c2 = c0.AddItem(25, 3, "Text4", "")</p>
+<p class="t">&nbsp;&nbsp;&nbsp; Set c1 = c0.AddItem(7, 4, "Text5", "")</p>
+<p class="t">&nbsp;&nbsp;&nbsp; </p>
+<p class="t">&nbsp;&nbsp;&nbsp; c1.AddItem 30, 0, "Text21", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c1.AddItem 20, 1, "Text22", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c1.AddItem 40, 2, "Text23", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c1.AddItem 5, 3, "Text24", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; </p>
+<p class="t">&nbsp;&nbsp;&nbsp; c2.AddItem 5, 5, "Text31", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c2.AddItem 16, 6, "Text32", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c2.AddItem 30, 7, "Text33", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; c2.AddItem 10, 8, "Text34", ""</p>
+<p class="t">&nbsp;&nbsp;&nbsp; </p>
+<p class="t">&nbsp;&nbsp;&nbsp; c0.DrawLevel c0, 1</p>
+<p class="t">End Sub</p>
+<p align="Justify">и рисует вот такую картину.</p>
+
+<IMG SRC="r112/test.gif" WIDTH="320" HEIGHT="271" BORDER="0" ALT="">
+
+<p align="Justify"><b>Скачать</b></p>
+<p align="Justify">Шаблон условно платный:</p>
+<p align="Justify">Для "богатых" стоит $5 - 
+<a href="https://gum.co/dTHz">https://gum.co/dTHz</a></p>
+<p align="Justify">Для бедных бесплатно -
+<a href="https://www.dropbox.com/s/w7299qq37wlir9b/TreeMap.vst?dl=0">https://www.dropbox.com/s/w7299qq37wlir9b/TreeMap.vst?dl=0</a></p>
+<p align="Justify">Остальные варианты по договоренности.</p>
+
+<!-- --------------------------- -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+
+</div>
+</body>
+</html>
