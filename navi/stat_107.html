@@ -1,0 +1,77 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Настройка</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Настройка</h1>
+<h2> Перечень литературы </h2>
+<p>09.10.2016&nbsp;<b><noindex><a target = new href=https://ascii63software.com/2016/10/visio-2013-snap-and-glue-reset-settings/
+ rel="nofollow">&nbspVisio 2013 doesn’t have a Reset Settings option</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspJose&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.06.2014&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/en-us/previous-versions/office/developer/office-xp/aa140330(v=office.10)
+ rel="nofollow">&nbspEvent Filters Sample for Microsoft Visio 2002</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>23.11.2005&nbsp;<b><noindex><a target = new href=https://surrogate-tm.github.io/wmorein/2005/11/02/save-as-web-and-ie-security.htm
+ rel="nofollow">&nbspSave as Web and IE security</a></noindex></b>&nbsp;&nbsp;<noindex>
+Bill Morein
+&nbsp;&nbsp;</noindex>(англ.) Команда Save as Web и безопасность IE&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Можно ли в одном документе иметь листы с разной ориентацией?</p>
+<p class="v">Можно ли в одном документе иметь листы с разной ориентацией (портрет и ланшафт), или как быстро сменить ориентацию листа? &nbsp;</p>
+<p class="o">Можно. Когда Вы вставляете новую страницу, доступна вкладка Page Setup. Ставьте там любые размеры и ориентацию. Страницы будут разными.Кроме того, страница, как и шейп имеет свой ShapeSheet, где в секции PageProperties можно задавать размеры листа. То есть, написав простенький макрос, можно в любое время быстро изменить размеры.&nbsp;</p>
+<p class="n">Как в Visio 2013 увеличить контраст сетки?</p>
+<p class="v">В прошлых версиях Visio сетка отображалась вполне ясно, а в 2013 едва видна. Приходится напрягать зрение. Можно ли как-то увеличить её контраст?Странно, что в типовых настройках нет такой опции.&nbsp;</p>
+<p class="o">Цвет сетки можно изменить через реестр. HKEY_CURRENT_USER\Software\Microsoft\Office\15.0\Visio\Colors\ColorGridForegroundИзменения нужно вносить при не запущенном Visio, иначе при закрытии программы будут установлены текущие значения. Перезагрузка машины не требуется.Можно внести изменения с помощью reg-файла. Например, вот такого&nbsp;</p>
+<p class="t">Windows Registry Editor Version 5.00;Увеличить контрастность сетки;Если значение цифр в последней строке увеличивать, то увеличивается и прозрачность и сетка становится менее контрастной.;Если наоборот - уменьшать, то уменьшается и прозрачность и сетка становится более контрастной.[HKEY_CURRENT_USER\Software\Microsoft\Office\15.0\Visio\Colors]"ColorGridForeground"="100 100 100"&nbsp;</p>
+<p class="o">Текст сохранить в текстовом файле с расширением .reg. Можно подредактировать значение. Потом запустить файл на выполнение.&nbsp;</p>
+<p class="n">Как установить Visio только для 1-го пользователя?</p>
+<p class="v">Решил установить VISIO для отдельного пользователя.Завел пользователя, вошел в него. Установил. Но. Visio оказался и у другого пользователя. В меню пуск есть соответствующие ярлыки.Как установить только для одного пользователя?&nbsp;</p>
+<p class="o">К сожалению, официально Visio (как и другие приложения Microsoft Office) нельзя установить "только для текущего пользователя". Они ставятся "на компьютер", т.е. в "Program Files".Можно настроить видимость/доступность для других пользователей. Если ты в организации (есть домен) - то доступность можно настроить через групповые политики.&nbsp;</p>
+<p class="n">Как в Visio Pro 2013 отключить автопривязку?</p>
+<p class="v">Возникла необходимость срочно немного подправить проект в Visio 2013, но никак не могу найти, где отключить автопривязку к объектам? В "Параметрах", "Дополнительно" отключил "Разрешить автосоединение", но не помогло.&nbsp;</p>
+<p class="o">Переключение доступно через Вид / Автосоединение (чекбокс на панельке "Визуальные подсказки").&nbsp;</p>
+<p class="n">Проблемы с числами и единицами измерения в Visio 2013</p>
+<p class="v">Обнаружена следующая проблема:Visio отображает: 12.34INCHESТребуется: 12.3400 In.Я нашел в реестре вот такие ключи:HKEY_CURRENT_USER\Software\Microsoft\Office\15.0\Visio\Application\MeasurementDigits_Dlgs = 4MeasurementDigits_SheetForm = 4MeasurementDigits_SheetVal = 4MeasurementDigits_StatBar = 4Но больше нет никакой информации.&nbsp;</p>
+<p class="o">Найдена статья Visio2000: Where Settings Are Stored in the Registry: Part 1.В ней показано, как вычисляется MeasurementFlag:1 - Use the localized abbreviated name (IN. vs INCH)16 - Convert label to lowercase (6in vs 6IN)512 - Separate value and units with a space2048 - Fill decimal with zeros (.2500 vs 0.25)То есть значение должно быть 1 + 16 + 512 + 2048 = 2577Таким образом посатвленная задача решается установкой следующих ключей реестра:MeasurementDigits_Dlgs = 4MeasurementDigits_SheetForm = 4MeasurementDigits_SheetVal = 4MeasurementDigits_StatBar = 4MeasurementFlags_Dlgs = 2577MeasurementFlags_SheetForm = 2577MeasurementFlags_SheetVal = 2577MeasurementFlags_StatBar = 2577Также могут быть полезны статьи:http://blog.bvisual.net/2011/10/13/formatting-custom-units-in-visio/http://www.visguy.com/2006/10/03/casting-units-in-visios-shapesheet/Другие ключи реестра для Visio доступны здесь:https://www.betaarchive.com/wiki/index.php/Microsoft_KB_Archive/298435https://www.betaarchive.com/wiki/index.php/Microsoft_KB_Archive/298426https://www.betaarchive.com/wiki/index.php/Microsoft_KB_Archive/298434Также полезен поиск в архиве https://www.betaarchive.com/wiki/index.php?title=Microsoft_KB_Archiveпо имена, похожему на Visio2000: Where Settings Are Stored in the Registry: Part 1. При этом могут найтись ключи для других версий Visio.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

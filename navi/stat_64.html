@@ -1,0 +1,79 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Отчеты</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Отчеты</h1>
+<p>Отчеты - важный инструмент Visio, позволяющий быстро выбрать и оформить данные, находящиеся в документе Visio, в виде таблицы на поле документа или отдельного файла.</p>
+<p>Ручные операции с отчетами довольно хорошо раскрыты в справке Visio и множестве обучающих статей. Но помимо этого существует и возможность программного запуска отчетов. А вот эта возможность описана гораздо хуже. Я бы сказал, что она вообще толком не документирована. Частично эта тема раскрывается в статье <a href="https://visioport.ru/blog/index.php/2-otchety-visio">Отчеты Visio</a> Геннадия Туманова</p>.
+<h2> Перечень литературы </h2>
+<p>20.03.2019&nbsp;<b><noindex><a target = new href=blog/8-iz-visio-v-excel-cherez-power-query.html
+ rel="nofollow">&nbspИз Visio в Excel через Power Query</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>28.12.2018&nbsp;<b><noindex><a target = new href=blog/2-otchety-visio.html
+ rel="nofollow">&nbspОтчеты Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>Структура описания отчета, программный вызов, ключи.&nbsp</p>
+<p>03.08.2009&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2009/08/03/displaying-the-master-and-stencil-name-of-shape/
+ rel="nofollow">&nbspDisplaying the Master and Stencil Name of Shape</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>15.10.2006&nbsp;<b><noindex><a target = new href=https://blogs.msmvps.com/visio/2006/10/15/visios-other-file-format-report-definition-files-vrd/
+ rel="nofollow">&nbspVisio's other file format – Report Definition files</a></noindex></b>&nbsp;&nbsp;<noindex>
+John Marshall
+&nbsp;&nbsp;</noindex>Краткое описание формата .vrd&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Подсчет количества элементов</p>
+<p class="v">Имеется рисунок с большим количеством элементов порожденных 10-20 мастерами.Требуется посчитать количество элементов порожденных конкретным мастером.При добавлении поля в произвольный sheet функция ID считает общее количество всех sheet на странице включая саму себя. Может есть способ указать в ID имя конкретного мастера. &nbsp;</p>
+<p class="o">Буду рад, если кто-то меня опровергнет, но кажется на уровне ShapeSheet эта задача не имеет решения, так как в ячейке можно дать любую ссылку, но нельзя последовательно опросить множество Shape. И функция ID дает не количество, а номер последнего Shape, который только иногда совпадает с количеством.Зато на программном уровне задача решается очень легко. Например:- рисуем на листе единственный квадрат (для вывода результатов);- вводим в документ макрос вот такого вида:&nbsp;</p>
+<p class="t">Sub ttt()s1 = ""For i = 1 To ActivePage.Shapes.Counts1 = s1 + "Name= " + ActivePage.Shapes(i).Names1 = s1 + " Id= " + Str(ActivePage.Shapes(i).ID) + vbCrLfNextActivePage.Shapes(1).Text = s1End Sub&nbsp;</p>
+<p class="o">- и подцепляем его к нашему квадрату через Format/Behavior/Double-Click/RunMacro/TchisDocument.tttТеперь при двойном щелчке по этому квадрату наша функция будет последовательно опрашивать все имеющиеся на листе Shapes и писать в качестве текста их имена и ID. На этот лист можно набросать много мастеров или нарисовать Shape и двойным щелчком по первому квадрату обновить их список.Ну, а если мы можем собрать список имеющихся шейпов, то после небольшой модификации можем его рассортировать или подсчитать экземпляры нужных мастеров.Одна беда - как только появляются макросы, Visio будет приставать со своими предупреждениями (хотя это можно и отключить).&nbsp;</p>
+<p class="n">Выполнение предопределенного отчета в Visio</p>
+<p class="v">Как это сделать вручную, есть информация. А можно ли его вызвать из VBA?&nbsp;</p>
+<p class="o">Можно. На эту тему есть статья "Отчеты Visio" - https://visioport.ru/blog/index.php/2-otchety-visio&nbsp;</p>
+<p class="n">Запуск отчета из VBA</p>
+<p class="v">Столкнулся с такой проблемой - не получается запустить отчет о фигурах, если файл с отчетом лежит в папке, где в названии есть пробел. Если в названиях папок нет пробелов, то все запускается. Это какой то баг или фича?А можно сначала сохранить файл отчета в документ и потом уже оттуда запускать? Макрекордером не получилось записать сохранение отчета в документ.&nbsp;</p>
+<p class="o">1. Описание отчета сохраняется в файле документа в ячейке User.visPropRpt1 шейп-листа документа. В принципе, через эту ячейку его можно как читать, так и писать макросом. Если отчетов несколько, то имя будет немного изменяться.2. Если в имени папки или файла с определением отчета есть пробел, то путь к файлу должен заключаться в двойные кавычки. Например, так:&nbsp;</p>
+<p class="t">Application.Addons("VisRpt").Run ("/rptDefName=""C:\temp\INV INV.VRD"" /rptOutput=Excel_Shape")&nbsp;</p>
+<p class="o">3. Но это еще не все. Если запускать отчет из Program Files, то и кавычки не помогут.C:\Program Files\Microsoft Office\root\Office16\1049\INVENTRY.VRDПомимо пробела здесь сказывается система защиты Windows, не разрешающая простому пользователю такое действие. Но если запустить Visio от имени администратора, а потом открыть нужный документ и выполнить макрос запуска отчета, то все будет нормально. Администратору можно.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

@@ -1,0 +1,72 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>VBA</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>VBA</h1>
+<h2> Перечень литературы </h2>
+<p>06.11.2015&nbsp;<b><noindex><a target = new href=https://www.orbussoftware.com/blog/simple-macros-in-microsoft-visio/
+ rel="nofollow">&nbspSimple Macros in Microsoft Visio with the Macro Recorder</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Как вызвать макрос из трафарета макросом из документа?</p>
+<p class="v">Сначала код был в документе (в шаблоне) и был связан с клавишами быстрого доступа. Потом я перенес его в трафарет, но не смог использовать клавиши. Постоянно вызывать макросы через меню слишком долго и раздражает.Я пытался использовать CallThis, но не получилось.&nbsp;</p>
+<p class="o">Если в трафарете будет такой макрос:&nbsp;</p>
+<p class="t">Public Sub RunMe()    MsgBox ("test")End Sub&nbsp;</p>
+<p class="o">то вы можете вызвать его из документа так:&nbsp;</p>
+<p class="t">Sub Run()    Dim nSencil As Integer    Dim i As Integer    For i = 1 To Application.Documents.Count        If Application.Documents(i).Name = "Stencil1" Then        nStencil = i        End If    Next i    Call Application.Documents(nStencil).RunMeEnd Sub&nbsp;</p>
+<p class="v">Первоначально нужная программа находилась в модуле NewMacros и такой вызов давал ошибку 438. Я перенес код в ThisDocument трафарета и все заработало.Можно ли вызвать макрос, находящийся в модуле трафарета?&nbsp;</p>
+<p class="o">Можно через ExcuteLine.&nbsp;</p>
+<p class="t">Call Application.Documents(nStencil).ExecuteLine("Module1.RunMe")&nbsp;</p>
+<p class="n">Клавиши быстрого вызова для макроса в трафарете</p>
+<p class="v">У меня есть макрос в трафарете. Он отлично запускается из редактора. Я назначил сочетание клавиш (Ctl + m). Но когда я нажимаю клавишу быстрого вызова, макрос не вызывается.Любые идеи по поводу альтернатив приветствуются.&nbsp;</p>
+<p class="o">Скорее всего клавишами можно вызвать макрос только из активного документа. Но внешний трафарет не является активным документом.Я использую такую комбинацию:"Рабочий" код находится в трафарете с именем code.vss, который не содержит шейпов, только код и распространяется среди всех пользователей.В шаблоне есть ссылка на этот трафарет в проекте VBA, поэтому код трафарета "известен" в шаблоне / чертеже. Этот трафарет не отображается в шаблоне. Он открыт только из-за ссылки в проекте VBA.Код в шаблоне может быть запущен с помощью клавиш и ничего не делает кроме запуска "рабочего" кода в трафарете.Таким образом, я могу вносить изменения в код в трафарете, и остается только распространять этот трафарет, чтобы сделать изменения доступными для всех пользователей.Проблемы:Если я хочу создать полностью новый макрос, я могу распространить его с помощью трафарета, чтобы он был доступен для всех, но не могу вызвать этот макрос из более старых чертежей, потому что пока нет доступных клавиш быстрого доступа. Клавиши имеются только в новом шаблоне / чертеже.Так что способ помогает при изменении кода, но недостаточно хорош для нового кода.(Источник - http://visguy.com/vgforum/index.php?topic=5424.0)&nbsp;</p>
+<p class="n">Внедрение VBA в существующий файл Visio</p>
+<p class="o">Injecting VBA into an existing Visio filehttp://visguy.com/vgforum/index.php?topic=2349.msg10436#msg10436&nbsp;</p>
+<p class="v">Есть ли у вас примеры, которые могут вставлять или редактировать VBA в существующем файле Visio?Допустим, у меня есть функция VBA, которую я хочу добавить в существующий файл Visio. Как это сделать? Неясно, как использовать объект VBProject, зависящий от объекта ActiveDocument.&nbsp;</p>
+<p class="o">Я только дошел до того, что экспортировал и импортировал модули / классы / формы VBA программно, но не создавал функции или вспомогательные модули на лету.На мой взгляд, проблема состоит из двух частей:1. Проект VBA нуждается в ссылке на MSVBA Extensibility, "Microsoft Visual Basic 6.0 Extensibility".2. В Visio необходимо проверить: Tools > Macros > Security > Trusted Publishers Tab > Trust access to Visual Basic Project.Эти две вещи могут облегчить некоторые проблемы безопасности, поскольку доступ к проектам Visio обычно отключен.Вот код для программного экспорта модулей VBA:&nbsp;</p>
+<p class="t">' Need reference to MSVBA Extensibility' Microsoft Visual Basic 6.0 Extensibility' For Visio, need to check:' Tools > Macros > Security > Trusted Publishers Tab'   "Trust access to Visual Basic Project"Sub ExportComponents()    Dim v As VBIDE.VBProject    Dim c As VBIDE.VBComponent       Set v = ThisDocument.VBProject       v.VBComponents.Item(1).Export (ThisDocument.Path & "ThisDocument.cls")    Exit Sub    For Each c In v.VBComponents        ' Classes:        ' This is an ad-hoc filter for only exporting certain class modules        ' that start with "CVis". You could just export all of them.        If left(c.Name, 4) = "CVis" Then            Call exportComponent(c)        End If               ' Modules:        ' Specifically export only these two modules. Again, we could        ' have just called exportComponent(c) for everything.        If c.Name = "ShapeSheet" Then Call exportComponent(c)        If c.Name = "LocaleInfo" Then Call exportComponent(c)    NextEnd SubPrivate Sub exportComponent(vbcomp As VBIDE.VBComponent)    Dim sName As String, sExt As String    ' Set the extension based on component type. Exit sub    ' if type not supported.    Select Case vbcomp.Type    Case vbext_ct_ClassModule        sExt = ".cls"    Case vbext_ct_StdModule        sExt = ".bas"    Case Else        Exit Sub    End Select       ' Build the name:    sName = ThisDocument.Path & vbcomp.Name & sExt       ' Save the file:    Call vbcomp.Export(sName)End Sub&nbsp;</p>
+<p class="o">Внедрение строк кода выглядит примерно так (я не пробовал)&nbsp;</p>
+<p class="t">    Dim doc As Visio.Document    Set doc = Visio.ActiveDocument       Dim v As VBIDE.VBProject    Dim c As VBIDE.VBComponent    ' Get the project:       Set v = doc.VBProject    ' Add a class:    Set c = v.VBComponents.Add(vbext_ct_ClassModule)    c.Name = "CBilly"    ' Blast some lines of code into the class:    Call c.CodeModule.InsertLines( lngNumLines, sCode )&nbsp;</p>
+<p class="o">Однако, контрольная сумма вашего кода VBA исказится. (при условии, что вы подписали свой код, в противном случае вы должны отключить защиту макросов).При следующем открытии файла код VBA будет отключен из-за неверной контрольной суммы или отсутствующего сертификата.Очевидно, что если вы сможете снова подписать его на этом компьютере, это не проблема.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

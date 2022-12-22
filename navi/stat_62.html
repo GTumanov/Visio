@@ -1,0 +1,119 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Диалоговые окна</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Диалоговые окна</h1>
+<p>При построении дополнений, взаимодействующих с файлами данных или документами, часто возникает вопрос -
+как из Visio открыть нужный файл. Вопрос не простой, особенно если нужно открыть не файл Visio,
+а какой-то другой. Поэтому рекомендую обратить внимание на вопрос <b>Подскажите пожалуйста, есть ли в Visio FileDialog как в Excel?</b> ниже.</p>
+<p>К сожалению, нужно отметить, что это один из случаев, когда сказывается разрядность Visio.
+Приведенный вариант с использованием Win32 API будет работать только в 32-разрядных приложениях.
+Для 64-разрядных код должен отличаться. Это можно посмотреть в источнике
+(http://visguy.com/vgforum/index.php?topic=738.0). То есть либо нужно заранее знать, где будет работать макрос,
+либо усложнять его, чтобы на лету узнать разрядность и использовать соответствующий фрагмент кода.</p>
+<p>Еще один вариант связан с тем, что чаще всего приходится открывать как раз файлы Excel.
+А так как в Excel хороший диалог существует, то можно использовать следующую последовательность:
+создать приложение Excel (без документа), запустить в этом приложении диалог открытия файла и,
+получив имя файла, открывать в том же приложении книгу Excel. Довольно удобно и не нужно думать о разрядности.</p>
+<h2> Перечень литературы </h2>
+<p>07.10.2019&nbsp;<b><noindex><a target = new href=https://youtu.be/qegyl4prjZA
+ rel="nofollow">&nbspVISIO + VBA - 15 msgbox - сообщения</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspVigil&nbsp;</a>
+&nbsp;&nbsp;</noindex>Видео&nbsp</p>
+<p>06.08.2017&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/ru-ru/office/vba/visio/Concepts/docmd-docmd-commands
+ rel="nofollow">&nbspКоманды DoCmd/DOCMD</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.06.2014&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/en-us/previous-versions/office/developer/office-xp/aa140349(v=office.10)
+ rel="nofollow">&nbspUsing the Same Font as Visio in Your Solution Dialog Boxes</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.06.2014&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/en-us/previous-versions/office/developer/office-xp/aa140363(v=office.10)
+ rel="nofollow">&nbspPreventing Alerts and Dialog Boxes in Visio 2002</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Как открыть линк в новом окне?</p>
+<p class="v">Подскажите как сделать так, чтобы линк открывался в отдельном окне.Страница сохранена как htm файл. Одна из форм содержит гиперлинк на xml файл. Нужно, чтоб он не открывался в текущем окне браузера, а открывал новое окно. Если это невозможно сделать при помощи гиперлинка, то любые другие опции тоже подойдут.&nbsp;</p>
+<p class="o">В html файле за новое окно отвечает тег target.То есть ссылка вида&nbsp;</p>
+<p class="t"><a href="MyPage.htm">MyPage</a>&nbsp;</p>
+<p class="o">откроется в том же окне, а ссылка&nbsp;</p>
+<p class="t"><a href="MyPage.htm" target="new">MyPage</a>&nbsp;</p>
+<p class="o">откроется в новом окне.Вы имеете возможность подредактировать htm файл?&nbsp;</p>
+<p class="v">Спасибо! Я знаю, как это делается в html, но дело в том, что этот линк должен находиться внутри шейпа. Либо открываться при клике на сам шейп.&nbsp;</p>
+<p class="o">Ну так, в HTML это и делается. Когда Visio сохраняет страницу в HTML, он прописывает там и ссылки href=... Причем в текст вставляется даже почти нужный атрибут target="_top". Мешает только то, что перед top стоит знак подчеркивания. Если его убрать, то ссылка будет открываться в новом окне.Можно это сделать вручную, можно программно.Чтобы убрать вручную, придется открыть нужный файл .htm из папки files в любом текстовом редакторе, выполнить замену _top на top во всем файле и сохранить его. После этого ссылки будут открываться в новом окне.&nbsp;</p>
+<p class="n">Удаление окна поиска в окне Stencil</p>
+<p class="v">Если кто знает подскажите. Открываю набор шейпов в Delphi используя DrawingControl.MyVisioApp.Documents.Open(Dir+'SHAPES\Shtamps.vss');Открывается окно с набором шейпов с окном поиска, этих же самых шейпов. Приходится вытаскивать окно шепов из окна поиска, после закрывать последнее чтобы не мешалось.&nbsp;</p>
+<p class="o">Нужно сделать его невидимым. Смотри цитату: &nbsp;</p>
+<p class="t">Windows(1).ItemFromID(Visio.visWinIDShapeSearch).Visible = FalseTo expose the Shape Search window in the stencil pane, set the same value to True.Note: You can only manage the visibility of the Shape Search window on a per window basis. &nbsp;</p>
+<p class="n">Как отобразить окно Pan&Zoom?</p>
+<p class="v">Подскажите пожалуйста, как мне программно отобразить окно Pan&Zoom?&nbsp;</p>
+<p class="o">Через DoCmd&nbsp;</p>
+<p class="t">Application.DoCmd(visWinIDPanZoom);&nbsp;</p>
+<p class="n">Окно специальных настроек</p>
+<p class="v">Помогите с маленькой проблемой. Создал смарт-шейп, к котором определил необходимые поля. Хочу по двойному клику на шейпе вызывать окно специальных настроек, которое можно вызвать следующим способом: правой кнопкой по шейпу, форма, специальные настройки. Так в настройке "Режимы" я такой не нашел. Попробовал записать макрос, но тоже не получилось. Как быть?&nbsp;</p>
+<p class="o">Достаточно в ячейку EvntDblClick секции Events шейпа записать =DOCMD(1312) и все.&nbsp;</p>
+<p class="n">Control в отдельном окне</p>
+<p class="v">Рассказываю по порядку. В Visio можно вставить Control (Нпример ListBox). Но в моем документе он мне не нужен, нужен только в процессе редактирования документа. Возникла идея вставить Control в отдельное окно (тем более таких окон нужно несколько). Получается что-то похожее на stencil (но stencil в данном случае не подходит).Window fWindow = mVisioApp.Windows.Add("Wnd",0,0,0,0,100,100,0,null,null);Непонятно как вставить Control в окно. Нужно ли создавать документ для этого окна или еще каким-либо способом?&nbsp;</p>
+<p class="o">А почему обязательно в документ...Control можно вставить в отдельную форму и в нужный момент эту форму вызывать. Будет окошко, высвечаваемое по событиям или по запуску макроса.Ну а более сложный вариант - сделать так называемое Anchored Window. Оно создается как дочернее и может болтаться в любом месте либо прикрепляться к какой-то из сторон родительского окна. (Как я понимаю, это и есть что-то типа UML Model Explorer)Если поискать в MSDN слова Anchored Window, то обязательно наткнетесь на пример создания такого окна.Вот примерчик. Может поможет...&nbsp;</p>
+<p class="t">Public Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As LongPublic Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As LongPublic Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As LongPublic Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As LongPublic Const GWL_STYLE = (-16)Public Const WS_CHILD = &H40000000Public Const WS_VISIBLE = &H10000000Public m_Base As BasePublic Sub ShowBase()Dim wAddon As Visio.WindowSet wAddon = ActiveWindow.Windows.Add("Base", visWSVisible, visAnchorBarAddon, , , 300, 210)Set m_Base = New Basem_Base.Caption = "Base"Dim FormHandle As LongFormHandle = FindWindow(vbNullString, "Base")SetWindowLong FormHandle, GWL_STYLE, WS_CHILD Or WS_VISIBLESetParent FormHandle, wAddon.WindowHandle32Dim pnLeft As Long, pnTop As Long, pnWidth As Long, pnHeight As LongwAddon.GetWindowRect pnLeft, pnTop, pnWidth, pnHeightwAddon.SetWindowRect pnLeft, pnTop, pnWidth + 1, pnHeightFor Each sh In ActivePage.Shapesm_Base.ListBox1.AddItem sh.NameNextEnd Sub&nbsp;</p>
+<p class="v">Спасибо. Заработало.&nbsp;</p>
+<p class="n">Как убрать окно объектов</p>
+<p class="v">Имеется многостраничный документ .vsd в котором по двойному щелчку на шейпах организованы переходы между страницами. Документ используется в режиме просмотра, но при этом постоянно присутствует окно объектов(трафаретов) уменьшая тем самым область просмотра. Как его убрать, и сделать область просмотра максимальной. В полноэкранном режиме не работают переходы по двойному щелчку&nbsp;</p>
+<p class="o">Закройте трафареты (командой Close в контекстном меню на окне каждого трафарета).Затем закройте все окно Shapes, просто щелкнув по его крестику.Сохраните документ.В следующий раз он должен открыться без окна трафаретов.&nbsp;</p>
+<p class="n">Центрирование видимого окна по шейпу</p>
+<p class="v">Есть схема. Программно выделяю объект.Как программно центрировать область видимости по объекту? Т.е. сдвинуть видимый прямоугольник окна так, чтобы выделенный объект был по центру экрана. Объект двигать нельзя.&nbsp;</p>
+<p class="o">Пока приходит в голову только узнавать координаты шейпа и программно устанавливать размеры видимого прямоугольника.. но может есть способ более изящный?Не изящный способ работает :)&nbsp;</p>
+<p class="t">double xPos;double yPos;// Узнаем координаты шейпаxPos = shape.get_Cells("PinX").ResultIU;yPos = shape.get_Cells("PinY").ResultIU;// Центрируем видимый прямоугольник окна по выделенному объекту// Цифры прибавляемые к xPos и yPos - это размеры окна в дюймах,// меняя их мы можем менять масштаб видимости шейпа.axDrawingControl.Window.SetViewRect(xPos-4, yPos+2, 8, 4);&nbsp;</p>
+<p class="o">Начиная с Visio 2010 у окна появился метод CenterViewOnShape &nbsp;</p>
+<p class="t">Window.CenterViewOnShape&nbsp;</p>
+<p class="o"> &nbsp;</p>
+<p class="n">Подскажите пожалуйста, есть ли в Visio FileDialog как в Excel?</p>
+<p class="v">Подскажите пожалуйста, есть ли в Visio аналог Excel-евского FileDialog? Вернее, почти готов поспорить, что есть, только не могу сообразить как его запустить. Мне даже кажется, должна быть возможность использовать сам FileDialog, только как?&nbsp;</p>
+<p class="o">Возможно три варианта:С использованием DOCMD (http://visguy.com/vgforum/index.php?topic=738.0), работает когда нужно открыть документы Visio. &nbsp;</p>
+<p class="t">Public Sub openDoc()    Dim visApp As Visio.Application    Set visApp = Application    Dim visDoc As Visio.Document    visApp.Application.DoCmd (VisUICmds.visCmdFileOpen)    Set docObj = visApp.ActiveDocumentEnd Sub&nbsp;</p>
+<p class="o">C использованием диалогового окна приложений MS Office (http://www.cyberforum.ru/vba/thread325133.html).&nbsp;</p>
+<p class="t">Sub P1()'Чтобы было проще код писать (чтобы выскакивали подсказки после того'как точку ставите) - подключите библиотеку Word:'Tools - References... - Microsoft Word Object Library.'Обращаться к программе Word будем через переменную Ворд.Dim wd As New Word.Applicationwd.Visible = True'Собственно работа с диалоговым окномWith wd.FileDialog(msoFileDialogFilePicker)    .Show    Debug.Print .SelectedItems(1)End With'Закрываем программу Word.wd.QuitSet wd = Nothing'Здесь дальше код.End Sub&nbsp;</p>
+<p class="o">С использованием API (https://artberg-visio-forum.github.io/topic.asp@TOPIC_ID=132.html)&nbsp;</p>
+<p class="t">Private Declare Function GetOpenFileName _ Lib "COMDLG32.DLL" Alias "GetOpenFileNameA" _ (pOpenfilename As OPENFILENAME) As LongPrivate Declare Function GetSaveFileName _ Lib "COMDLG32.DLL" Alias "GetSaveFileNameA" _ (pOpenfilename As OPENFILENAME) As Long' Объявление структурPrivate Type OPENFILENAME lStructSize As Long hwndOwner As Long hInstance As Long lpstrFilter As String lpstrCustomFilter As String nMaxCustFilter As Long nFilterIndex As Long lpstrFile As String nMaxFile As Long lpstrFileTitle As String nMaxFileTitle As Long lpstrInitialDir As String lpstrTitle As String Flags As Long nFileOffset As Integer nFileExtension As Integer lpstrDefExt As String lCustData As Long lpfnHook As Long lpTemplateName As StringEnd Type' И собственно использованиеSub GetFileFromAPI () Dim OFN As OPENFILENAME With OFN .lStructSize = Len(OFN) ' Size of structure.  .nMaxFile = 260 ' Size of buffer.  ' Create buffer. .lpstrFile = String(.nMaxFile - 1, 0)  Ret = GetOpenFileName(OFN) ' Call function.  If Ret <> 0 Then ' Non-zero is success.  ' Find first null char.  n = InStr(.lpstrFile, VbNullChar)  ' Return what's before it.  MsgBox Left(.lpstrFile, n - 1)  End If End WithEnd Sub&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

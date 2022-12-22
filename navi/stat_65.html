@@ -1,0 +1,106 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Свойства</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Свойства</h1>
+<h2> Перечень литературы </h2>
+<p>20.06.2020&nbsp;<b><noindex><a target = new href=blog/30-shape-data.html
+ rel="nofollow">&nbspShape Data Window и отложенные события</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>28.09.2009&nbsp;<b><noindex><a target = new href=https://jaqoup.wordpress.com/2009/08/28/manipulating-visio-shape-data-using-vba/
+ rel="nofollow">&nbspManipulating Visio Shape Data using VBA</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAbdalla Hassan&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>02.02.2009&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2009/02/02/copying-data-from-one-shape-to-another/
+ rel="nofollow">&nbspCopying Data from one Shape to Another</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Почему в коде нельзя присвоить CustomProp тип Row = 1?</p>
+<p class="v">Может, кто подскажет, почему в коде нельзя присвоить CustomProp тип Row = 1?p3 = Shape.AddNamedRow(visSectionProp, "tttt", 1)&nbsp;</p>
+<p class="o">Почему нельзя - не могу подсказать, а вот выкрутиться вроде можно. Можно создать тип по умолчанию, а потом переопределить его&nbsp;</p>
+<p class="t">p3 = ActivePage.Shapes(1).AddNamedRow(visSectionProp, "tttt", 0)Set cellObj = ActivePage.Shapes(1).Cells("Prop.tttt.Type")cellObj.Formula = 1&nbsp;</p>
+<p class="n">Как задать требуемый номер и свойства элемента?</p>
+<p class="v">Подскажите пожалуйста, как задать требуемый (а не присваиваемый) номер и свойства элемента (узел и ветви графа), и как затем организовать ссылку в проекте VBA на эти данные. (где это все хранится?)&nbsp;</p>
+<p class="o">Номер (а точнее имя, которое может включать и номер) задать нельзя. Это делается только автоматикой. А для своей идентификации можно использовать поля данных, пользовательские свойства, текстовое поле, вводить дополнительные поля и т.д.Каждому элементу (шейпу) уже сопоставлен большой массив данных (типа электронной таблицы). Там в ячейках определены геометрия, шрифты, цвета и т.д. Туда же можно добавлять и ячейки пользовательских свойств.Некоторые мастер-шейпы на трафаретах уже имеют поля для пользовательских свойств, открываемые по Shape / Custop Properties. Если при этом пишут No custom properties exist, то можно нажать OK и здесь же определить эти свойства, а затем и ввести в них значения."как затем организовать ссылку в проекте VBA"?Все шейпы на рисунке собраны в коллекцию. Просматривая эту коллекцию, можно найти нужный шейп (по имени или каким-то свойствам). Свойства доступны через ячейки шейп-листа (уже упомянутая таблица). Для выхода на эти ячейки существуют либо константы для указания секции, строки, ячейки в строке, либо некоторые ячейки имеют уникальные имена.&nbsp;</p>
+<p class="n">Как программно извлечь все свойства шейпа?</p>
+<p class="v">Как программно извлечь все свойства шейпа (имеется в виду Properties которые можно вызвать через контекстное меню на правый клик). Конкретно нужно извлечь свойства UML шейпов&nbsp;</p>
+<p class="o">Вот программка, выбирающая значения свойств Part_Number, Manufacturer и Cost. У Вас свойства будут называться немного по-другому, но принцип тот же.&nbsp;</p>
+<p class="t">Private Sub Document_DocumentSaved(ByVal doc As IVDocument)Dim pagObj As Visio.Page 'Visio Page ObjectDim shpsObj As Visio.Shapes 'Visio Shapes collectionDim shpObj As Visio.Shape 'Visio Shape objectDim celObj As Visio.Cell 'Visio Cell objectDim OrderInfo() As String 'Array to hold Purchase Order InfoDim iShapeCount As Integer 'CounterDim i As Integer'CounterSet pagObj = ActivePage 'Get the active pageSet shpsObj = pagObj.Shapes 'Get the Shapes collection of the pageIshapeCount = shpsObj.Count 'Total number of shapes'Set the array size to hold all of the shape information'0 based array, 4 by total # of shapesReDim OrderInfo(3, iShapeCount - 1)'For each shape on the page, collect the Name, Part Number'Manufacturer, and CostFor i = 1 To iShapeCount'Get the i'th shapeSet shpObj = shpsObj(i)'Get the shape nameOrderInfo(0, i - 1) = shpObj.Name'Get the Part Number Property, then get the value as a stringIf shpObj.CellExists("Prop.Part_Number", visExistsLocally) ThenSet celObj = shpObj.Cells("Prop.Part_Number")OrderInfo(1, i - 1) = celObj.ResultStr("")End If'Get the Manufacturer Property, then get the value as a stringIf shpObj.CellExists("Prop.Manufacturer", visExistsLocally) ThenSet celObj = shpObj.Cells("Prop.Manufacturer")OrderInfo(2, i - 1) = celObj.ResultStr("")End If'Get the Cost Property, then get the valueIf shpObj.CellExists("Prop.Cost", visExistsLocally) ThenSet celObj = shpObj.Cells("Prop.Cost")OrderInfo(3, i - 1) = celObj.ResultIUEnd If'Release Shape objectSet shpObj = NothingNext'Print to Immediate window to verify data collectionFor i = 0 To pagObj.Shapes.Count - 1Debug.Print OrderInfo(0, i) & "," _& OrderInfo(1, i) & "," _& OrderInfo(2, i) & "," _& OrderInfo(3, i)Next'Call a function to write data out to any external'data storage, pass the array of collected data'ExportData OrderInfoEnd Sub&nbsp;</p>
+<p class="n">Как программно добраться до свойств шейпа (Properties)?</p>
+<p class="v">Как программно добраться до свойств шейпа (Properties)? В Cells их не видно. Например, у шейпа Class есть много свойств (Attributes, Operations) - там довольно большой уровень вложенности и их нигде не видно&nbsp;</p>
+<p class="o">Начинаем исследования.Создаем рисунок UML и бросаем всего один шейп Class (о нем шла речь в примере).Нажимаем View / Drawing Explorer Window и раскрываем в дереве Foregorund Pages. Видим последовательно вложенные Static Structure-1, Shapes, Class. Это наш первый шейп Class на рисунке. Пытаемся раскрыть дальше и видим, что в нем появляются еще Shapes и целая линейка из 8 шейпов. Вот они наши Attributes, Parameters и т.д.Вывод - Class представляется вроде как группой из восьми шейпов, каждый из которых несет свою информацию. Как несет - пока не видно.Чтобы было, что искать, задаем пару атрибутов. Например attribute1 : Short и attribute2 : bool.Сохраняем рисунок в виде XML, открываем в текстовом редакторе и даем поиск "attribute1". Ну, вот оно и проявилось - -attribute1 : Short -attribute2 : bool.То есть искомые атрибуты хранятся внутри группы в шейпе Attributes в виде обычного текста.Проверяем из VBA:&nbsp;</p>
+<p class="t">Sub ttt()MsgBox ActivePage.Shapes(1).Shapes.CountMsgBox ActivePage.Shapes(1).Shapes(6).NameMsgBox ActivePage.Shapes(1).Shapes(6).TextEnd Sub&nbsp;</p>
+<p class="o">Видим последовательно:8 - (число шейпов в группе)Attributes - (шестой шейп - этот как раз шейп Attributes)attribute1 : Shortattribute2 : boolА это значения атрибутов, которые мы и ожидали увидеть.Все (вкратце)&nbsp;</p>
+<p class="n">Как формировать список выбора в пользовательском поле?</p>
+<p class="v">Необходимо формировать список выбора в пользовательском поле Shape из поля базы данных. Скажите, пожалуйста, как это сделать?&nbsp;</p>
+<p class="o">Тип поля должен быть установлен, например, в Fixed List, а в ячейку Format нужно подсунуть данные, выбранные из базы. Например, ="12;13;14" будет давать для выбора список из трех величин.&nbsp;</p>
+<p class="n">Как задать программно формату ячейки форматную строку?</p>
+<p class="v">Предположим, есть процедураPrivate Sub Document_ShapeAdded(ByVal Shape As IVShape)nam = Shape.NameIf InStr(1, nam, "Вентилятор") > 0 Thenformatstroka = "ВОМД-24;ВОМ-18"' здесь надо задать формат в соответствии с форматной строкойEnd IfEnd SubКак задать программно формату ячейки форматную строку?&nbsp;</p>
+<p class="o">Пусть в трафарете имеется мастер-шейп, в котором определено пользовательское свойство: Label = Typ; Type = Fixed List (другие аргументы, в том числе и формат, не заполнены).Тогда при премещении этого мастер-шейпа на лист (срабатывает данный обработчик) нужно будет в ячейку Format записать "ВОМД-24;ВОМ-18".Если бы данные брались не из базы, а просто как текстовая константа, это делалось бы так:Shape.Сells("prop.row_1.Format").Formula = """ВОМД-24;ВОМ-18"""В Вашем же случае вместо константы в тройных кавычках нужно будет подсунуть строку, сформированную из всех возможных значений, полученных из базы.Ну и, понятно, если пользовательских свойств несколько, то вместо prop.row_1 должна быть указана нужная строка.&nbsp;</p>
+<p class="n">Как извлечь свойства нестандартных шейпов?</p>
+<p class="v">На странице много нестандартных шейпов с кучей Custom Properties.Возможно ли программно извлечь их названия и значения? Они неизвестны на этапе проектирования.&nbsp;</p>
+<p class="o">Возможно.Нужно использовать адресацию по индексам и проверку на CellsSRCExistsПримерно так:&nbsp;</p>
+<p class="t">Sub ttt()iShapeCount = ActivePage.Shapes.Counts = ""For i = 1 To iShapeCountSet shpObj = ActivePage.Shapes(i)s = s & shpObj.Name & " --> "'visCustPropsLabel  visCustPropsPrompt'visCustPropsSortKey	visCustPropsType'visCustPropsFormat visCustPropsValue'visCustPropsInvis  visCustPropsAskFor j = 0 To 7 If shpObj.CellsSRCExists(visSectionProp, visRowProp + j, visCustPropsLabel, True) Then  Set CellObj = shpObj.CellsSRC(visSectionProp, visRowProp + j, visCustPropsLabel)  s = s & CellObj.ResultStr(0)  Set CellObj = Nothing End IfNextSet shpObj = NothingNextMsgBox sEnd Sub&nbsp;</p>
+<p class="n">Возможна ли передача значений из Custom... одного объекта в Custom... другого?</p>
+<p class="v">Возможна ли передача значений из Custom... одного объекта в Custom... другого? Через ShapeSheet или помощью VBA? И еще, как сформировать ссылку на ячейку другого объекта в таблице ShapeSheet?&nbsp;</p>
+<p class="o">Возможна.В VBA устанавливается нужная ячейка шейп-листа нужного объекта, затем в нее пишутся или читаются данные. Например,&nbsp;</p>
+<p class="t">  Set CellObj = shpObj.CellsSRC(visSectionProp, visRowProp + j, visCustPropsValue)  s = CellObj.ResultStr(0)&nbsp;</p>
+<p class="o">читает значение пользовательского свойства.В случае ссылки через Шейп-лист нужно знать имя шейпа, на который ссылаемся. Например,формула =Sheet.1!Prop.Row_1 , записанная в ячейку Value, обеспечит перенос значения пользовательского свойства из первой строки шейпа Sheet.1 в шейп-приемник.&nbsp;</p>
+<p class="n">Как в Visio сделать ссылку на число?</p>
+<p class="v">Как в Visio сделать ссылку на число. Т.е. есть одинаковое число в нескольких местах документа (адресация на монтажной схеме панели, формата А1) необходимо, чтобы при изменении в одном месте данного числа, все такие же заменились на вновь введенное.&nbsp;</p>
+<p class="o">Можно сделать ссылку на текст другого шейпа (один раз это число где-то придется ввести).Например, если вставить поле Insert / Field / Custom Formula вот с таким текстом&nbsp;</p>
+<p class="t">ShapeText(Sheet.1!TheText)&nbsp;</p>
+<p class="o">то в данном шейпе всегда будет повторяться текст шейпа Sheet.1.&nbsp;</p>
+<p class="n">Есть функция в VB, возвращающая NAME шейпа без цифр?</p>
+<p class="v">Думаю вопрос несложный для опытных пользователей. Пытаясь написать программку в VB под Visio, обнаружил что у расположеных на листе нескольких копий одного шейпа различаются имена. Например, на трафарете "реле", на листе одно имя "реле.4" другое "реле.7" и т.д. цифры меняются, в зависимости от элементов из которого состоит шейп. Программа воспринимает шейпы как разные, что мешает нормальной работе. Подскажите, можно ли поменяв настройки, убрать цифры в именах последующих, копируемых, шейпов, или может быть есть функция в VB возвращающая NAME шейпа без цифр. Спасибо за все ответы.&nbsp;</p>
+<p class="o">Поменяв настройки - нельзя.Можно пользоваться ссылкой на Мастер-шейп, от которого они образованы. Его имя для всех таких шейпов будет одинаковым.&nbsp;</p>
+<p class="t">ActivePage.Shapes(i).Master.Name&nbsp;</p>
+<p class="n">Можно ли значение кастом_пропертис использовать как номер скратч-ячейки?</p>
+<p class="v">Необходимо сделать в одном стенсиле несколько заготовок (автопозиционируемая рамка) которые различаются одним-двумя параметрами (допустим заливка, толщина линий). Можно ли в невидимый слой поместить несколько образцов, пронумеровав их 1-n, а затем в соответствии со значением кастом_пропертис выбрать соответствующий порядковый номер из другого списка?Более конкретно: есть 7 вариантов заливок, но номерация их паттернов идет не подряд 28-30, 36-39. Можно ли значение кастом_пропертис использовать как номер скратч-ячейки? Или, если нельзя, как сделать по-другому (желательно без VBA)?&nbsp;</p>
+<p class="o">Пример:Берем прямоугольник и делаем ему одно Custom Properties со значениями:- Label - MyPattern- Type - Fixed List- Format - 1;2;12;22- Value - 2А в ячейку Fill Pattern загоняем вложенный If типа =IF(Prop.Row_1=1;2;IF(Prop.Row_1=2;3;IF(Prop.Row_1=12;4;8)))Расшифровка:Если пользовательское свойство = 1, назначить Pattern = 2, Иначе следующий IfЕсли пользовательское свойство = 2, назначить Pattern = 3, Иначе следующий IfЕсли пользовательское свойство = 12, назначить Pattern = 4, Иначе назанчить Pattern = 8То есть значения одного списка перекодируются в значения другого списка. В Custom Properties выбираются значения из 1, 2, 12, 22, а Pattern получается соответственно 2, 3, 4, 8.&nbsp;</p>
+<p class="n">Можно ли значение кастом_пропертис использовать как номер скратч-ячейки 2?</p>
+<p class="v">Меня интересует более общий подход, можно ли элемент списка 1,2,3,...,n (fixed type в custom properties) использовать как параметр ссылки, например на строку user.row_n.&nbsp;</p>
+<p class="o">:) Элементарно!Делаем Format попроще - 1;2;3;4Именуем 4 ячейки в User тоже 1, 2, 3, 4 - Это не обязательно, просто ссылаться на User.1 проще, чем на User.row_1.В User прописываем, например, str1, str2, str3, str4.А в Scratch всовываем вообще страшную штуку - =GUARD(SETF(GetRef(Fields.Value);"=User."&Prop.Row_1))Теперь, выбирая значения Custom Properties, мы видим, как в текстовом поле шейпа появляется текст str1, str2 и т.д., который записан в разных ячейках User.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

@@ -1,0 +1,132 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Трафарет</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Трафарет</h1>
+<p>Трафарет - это тоже документ Visio и его структура в какой-то степени напоминает структуру документа с рисунком. Но в то же время имеет существенные отличия.</p>
+<p>Основное отличие в том, что такой документ не содержит собственно рисунка. То есть отсутствуют входящие страницы, входящие в них шейпы и т.д.</p>
+<p>Зато имеется аналог трафарета документа - коллекция Masters. Собственно, это и есть основное содержание трафарета.</p>
+<p>Masters - коллекция мастеров.</p>
+<p>Каждый Master содержит данные о странице, коллекцию шейпов и иконку (PageSheet, Shapes, Icon).</p>
+<p>Shapes - коллекция, которая состоит из одного или нескольких шейпов.</p>
+<p>Если проводить параллели между трафаретом и рисунком, то мы видим схожие структуры, но несколько отличающиеся порядком упаковки.</p>
+<IMG SRC="stat_75_f/st_ws1.png" WIDTH="691" HEIGHT="153" BORDER="0" ALT="">    
+<p>В рисунке страницы и шейпы последовательно упакованы друг в друга.</p>
+<p>В трафарете на уровне страницы выступает мастер. А в мастере страница и коллекция шейпов лежат на одном уровне. В общем-то это понятно - если страница может быть только одна, то и лишнего уровня иерархии вводить не требуется.</p>
+<p>Нужно отметить, что трафарет, так же как и документ-рисунок, может включать в себя и VBA проект. То есть файл трафарета может содержать макросы и иметь расширение .vssm. И тогда, открыв редактор VBA мы увидим и VBA проект основного документа, и все VBA проекты, размещенные во внешних трафаретах.</p>
+<p>Наверное стоит также перечислить остальные разделы (помимо Masters), хранящиеся в файле трафарета.</p>
+<ul>
+<li>DocumentProperties</li>
+<li>DocumentSettings</li>
+<li>Colors</li>
+<li>FaceNames</li>
+<li>StyleSheets</li>
+<li>DocumentSheet</li>
+<li>Pages</li>
+<li>Windows</li>
+</ul>
+<p>Содержимое этих разделов при желании легко посмотреть, если открыть в текстовом редакторе трафарет, сохраненный в XML формате.</p>
+<h2>Мастер переносится на страницу</h2>
+<p>Как отмечено выше, мастер может содержать один или несколько шейпов. Что же происходит, когда пользователь переносит мастер на страницу рисунка?</p>
+<IMG SRC="stat_75_f/st_ws2.png" WIDTH="397" HEIGHT="204" BORDER="0" ALT="">
+<p>Если мастер содержал один шейп, то на странице рисунка тоже появится один шейп.</p>
+<p>Если мастер содержал несколько шейпов, то на странице рисунка появится новое образование - группа, которой в мастере не было. И уже группа будет содержать те шейпы, которые были в исходном мастере.</p>
+<h2> Перечень литературы </h2>
+<p>05.10.2022&nbsp;<b><noindex><a target = new href=https://github.com/Visio-Resources/Shapes-n-stencils#visio-stencils
+ rel="nofollow">&nbspПеречень трафаретов Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspKuzin Alexander&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.05.2022&nbsp;<b><noindex><a target = new href=https://github.com/rrobinet/Visio-Stencils
+ rel="nofollow">&nbspVarious Domotic Stencils</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspRobert rrobinet&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>05.06.2021&nbsp;<b><noindex><a target = new href=https://github.com/bhdicaire/visioStencils
+ rel="nofollow">&nbspvisioStencils from bhdicaire</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspbhdicaire&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>12.11.2020&nbsp;<b><noindex><a target = new href=https://support.microsoft.com/ru-ru/office/%D0%BF%D0%BE%D0%BF%D1%83%D0%BB%D1%8F%D1%80%D0%BD%D1%8B%D0%B5-%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-%D0%B8-%D1%81%D1%85%D0%B5%D0%BC%D1%8B-visio-27d4274b-5fc2-4f5c-8190-35ff1db34aa5
+ rel="nofollow">&nbspПопулярные шаблоны и схемы Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>17.09.2020&nbsp;<b><noindex><a target = new href=blog/33-matchondrop.html
+ rel="nofollow">&nbspРазбираемся с галочкой Match master by name on drop</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>21.08.2020&nbsp;<b><noindex><a target = new href=https://johnvisiomvp.ca/2020/08/21/visio-stencil-sort/
+ rel="nofollow">&nbspVisio Stencil Sort</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspjohnvisiomvp&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>21.01.2019&nbsp;<b><noindex><a target = new href=https://visualsignals.typepad.co.uk/vislog/2019/01/stencils-under-more-shapes-in-visio.html
+ rel="nofollow">&nbspStencils under 'More Shapes' in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspJohn Goldsmith&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>04.01.2019&nbsp;<b><noindex><a target = new href=https://github.com/lm0ser/Visio-Stencils
+ rel="nofollow">&nbspVisio-Stencils from lm0ser</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbsplm0ser&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>17.04.2013&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2013/04/17/599/
+ rel="nofollow">&nbspСоздание, сохранение и совместное использование настраиваемых наборов элементов</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.09.2011&nbsp;<b><noindex><a target = new href=https://surrogate-tm.github.io/helpful/visio_shapes_catalog.pdf
+ rel="nofollow">&nbspКаталог стандартных фигур Visio в виде списка в одном файле pdf</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>13.10.2006&nbsp;<b><noindex><a target = new href=https://blogs.msdn.microsoft.com/visio/2006/10/13/more-on-inheritance-and-performance/
+ rel="nofollow">&nbspMore on Inheritance and Performance</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>10.10.2006&nbsp;<b><noindex><a target = new href=https://blogs.msdn.microsoft.com/visio/2006/10/10/master-benefits/
+ rel="nofollow">&nbspMaster Benefits</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>26.03.2006&nbsp;<b><noindex><a target = new href=https://blogs.msdn.microsoft.com/visio/2006/05/26/drag-drop-done/
+ rel="nofollow">&nbspDrag, Drop, Done</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>&nbsp;<b><noindex><a target = new href=https://surrogate-tm.github.io/own/VisioProfessionalMastersList.pdf
+ rel="nofollow">&nbspVisio Professional Masters List.pdf</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

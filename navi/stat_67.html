@@ -1,0 +1,189 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Слои</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Слои</h1>
+<p>Слои (Layers) в Visio несколько отличаются от слоев в других приложениях. Они совершенно не
+ связаны с пространственным положением и взаимным перекрытием шейпов, а выступают в роли неких
+ именованных категорий, повышающих удобство управления шейпами. Все содержимое слоя можно скрыть
+ или вновь показать, можно удалить слой со всеми входящими шейпами, запретить печать или вообще
+ заблокировать любые операции с шейпами на слое.</p>
+<p><b>Для ручного управления свойствами слоев</b> используется специальное диалоговое окно. Даже два окна - второе
+ используется для привязки шейпов к слоям.</p>
+<p><b>Для программного управления слоями</b> используется шейп-лист и методы и свойства некоторых объектов.
+ Таких объектов всего три: страница, мастер и шейп. Причем мастер во многом подобен странице.</p>
+<p><b>Страница</b> содержит перечень и описание всех используемых на ней слоев. Присоединенные шейпы только
+ссылаются на эти данные. Объект Layer достается из коллекции Layers по имени или индексу. Индекс, как обычно, начинается с 1.</p>
+<p class='t'>Set layerObj = ActivePage.Item("Plumbing")</p>
+<p>Вот так можно просмотреть имена слоев активной страницы</p>
+<p class='t'>Sub GetLayers ()</p>
+<p class='t'>&nbsp;&nbsp;For Each layerObj In ActivePage.Layers</p>
+<p class='t'>&nbsp;&nbsp;&nbsp;&nbsp;Debug.Print layerObj.Name</p>
+<p class='t'>&nbsp;&nbsp;Next<</p>
+<p class='t'>End Sub</p>
+<p>Каждый слой представлен в шейп-листе страницы отдельной строкой в секции Layers. Свойство Row
+объекта Layer указывает на номер строки в секции Layers. Индекс в коллекции Layers как правило не совпадает с номером строки.</p>
+<p><b>В шейпе</b> коллекции Layers нет. Количество слоев, ассоциированных с шейпом находится в свойстве
+LayerCount. Объект Layer доступен через свойство Layer, например,</p>
+<p class='t'>Set layerObj = shpObj.Layer(2)</p>
+<p>Попытка обратиться к свойству Layer при нулевом LayerCount приводит к ошибке.</p>
+<p><b>Чтобы привязать шейп к слою</b> используется метод Add слоя</p>
+<p class='t'>layerObj.Add shpObj, preserveMembersFlag</p>
+<p>Флаг нужен для шейпа группы и касается ее членов. Если флаг имеет значение True, к слою
+присоединяется только группа без дочерних шейпов. Если флаг нулевой (False), то входящие шейпы тоже попадают на слой.</p>
+<p>Удаление происходит аналогично</p>
+<p class='t'>layerObj.Remove shpObj, preserveMembersFlag</p>
+<p><b>Свойства слоя</b> устанавливаются через свойство CellsC</p>
+<p class='t'>LayerObj.CellsC(Column)</p>
+<p>где Column - индекс колонки, который можно уточнить в справке в списке VisCellIndices.</p>
+<p>Например, скрыть слой можно одной из следующих команд</p>
+<p class='t'>layerObj.CellsC(visLayerVisible).Formula = False</p>
+<p class='t'>layerObj.CellsC(visLayerVisible).Formula = 0</p>
+<p>Кстати, доступ через CellsSrc тоже возможен.</p>
+<h2> Перечень литературы </h2>
+<p>05.06.2020&nbsp;<b><noindex><a target = new href=https://bvisual.net/2020/06/05/assigning-visio-shapes-to-layers-from-excel-table/
+ rel="nofollow">&nbspAssigning Visio Shapes to Layers from Excel Table</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>13.12.2018&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2018/12/13/controlling-visio-layers-with-linked-data/
+ rel="nofollow">&nbspControlling Visio layers with linked data</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.10.2018&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2018/10/24/fixing-the-layers-problem-with-callouts-in-visio/
+ rel="nofollow">&nbspFixing the layers problem with callouts in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>01.01.2017&nbsp;<b><noindex><a target = new href=http://networkdiagram101.com/?page_id=113
+ rel="nofollow">&nbspUse layers</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspColby West&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>04.09.2012&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2012/09/04/assigning-shape-layers-from-a-list-in-visio/
+ rel="nofollow">&nbspAssigning Shape Layers from a List in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>08.10.2007&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2007/10/08/toggling-layers-on-and-off/
+ rel="nofollow">&nbspToggling Layers On and Off</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>26.03.2004&nbsp;<b><noindex><a target = new href=http://www.informit.com/articles/article.aspx?p=170392&seqNum=158
+ rel="nofollow">&nbspMicrosoft Office Reference Guide</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspTom Bunzel&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>&nbsp;<b><noindex><a target = new href=http://jheyman.github.io/blog/pages/VisioLayerHighlighter/
+ rel="nofollow">&nbspVisio layer automatic highlighter</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspJulien&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Как расслоить большую схему?</p>
+<p class="v">Есть большая схема сети (ЛВС). Хочу расслоить её, так, чтобы по желанию можно было смотреть или только серверы, или только коммутаторы, или только маршрутизаторы и т.д. по моему усмотрению.В Help-е предлагается править шейпы в Stencil. А уж из исправленного Stencil-а делать схему. Этот вариант работает, но мне не подходит, т.к. готовая схема большая и объекты нафаршированы свойствами. Есть ли возможность слоить готовый рисунок?&nbsp;</p>
+<p class="o">Назначить слои мастерам в локальном трафарете и все. Мастеру Server, к примеру, назначить слой Servers.&nbsp;</p>
+<p class="v">1) Сделал слой Servers (как help-е)2) Зашёл в режим редактирования Stencil-а (я правильно понимаю, что это и есть "локальный трафарет", о котором Вы писали?) Название - Stencil Basic Network Shapes 3D3) Говорю Edit Master4) Правой клавишей мыши по мастеру -> Format -> Имя Layer-a5) всё сохраняю.Что неправильно?&nbsp;</p>
+<p class="o">Не тот трафарет. Локальный трафарет формируется из всех мастеров, когда-либо помещавшихся на лист.Его можно вызвать из File>Stencils>Document Stencil. В него и надо вносить изменения.&nbsp;</p>
+<p class="n">Макрос для управления слоем</p>
+<p class="v">Хотелось бы привязать к кнопке свойства вызова окна выбора слоя или закрепить за ней отображение определенного слоя.Знает ли кто, как это сделать в visio 2000&nbsp;</p>
+<p class="o">Вот фрагмент кода, выполнявшийся в Add-on. Управляет свойством visLayerVisible (включает/выключает по очередному нажатию кнопки).&nbsp;</p>
+<p class="t">If mode = 102 Then 'Layer IP Network Configuration  Set objCell = aV.ActivePage.Layers.Item("IP Network Configuration").CellsC(4)  If Not (objCell Is Nothing) Then    If objCell = 0 Then      objCell = 1    Else      objCell = 0    End If  End IfEnd If&nbsp;</p>
+<p class="o">Каждая кнопка запускает Add-on со своим параметром mode..CellsC(4) это как раз visLayerVisible&nbsp;</p>
+<p class="n">Удаление слоя без удаления шейпов, назначенных на удаляемый слой</p>
+<p class="v">Можно ли удалить слой, а его шейпы оставить?&nbsp;</p>
+<p class="o">Графический интерфейс Visio не допускает такой операции. Удаление слоя влечет за собой удаление всех шейпов назначенных только одному этому слою.Однако, проблему можно решить с помощью VBA.Метод Delete принимает параметр fDeleteShapesLayer.Delete( _fDeleteShapes_ )Если он равен 1 (True), то назначенные шейпы удаляются. Иначе остаются.Таким образом, можно отrрыть окно Immediate и набрать строку&nbsp;</p>
+<p class="t">ActivePage.Layers("NewLayer").Delete 0&nbsp;</p>
+<p class="o">и слой будут удален без изменения изображения.&nbsp;</p>
+<p class="n">Data Graphics и слои</p>
+<p class="v">Можно ли связать Data Graphics со слоями?Я использую Data Graphics, связанные с внешними источниками данных. Поскольку необходимо обмениваться данными с внешними клиентами, иногда требуется скрыть IP адреса. Можно ли вынести одно поле на другой слой, чтобы потом отдельно управлять отображением этого слоя?&nbsp;</p>
+<p class="o">Начиная с Visio 2016 появилось специальное служебное окно "Data Graphic Fields". Оно позволяет управлять отображением отдельных полей Data Graphics. В предыдущих версиях такой возможности не было. Вынести одно из полей Data Graphics на отдельный слой штатными средствами невозможно. Data Graphics ассоциируется с специальным слоям, который так и называется "Data Graphics". Тем не менее, можно написать макрос, выполняющий такую операцию. Он будет иметь примерно такой вид:&nbsp;</p>
+<p class="t">Sub reassignLayer()    For Each shp In ActivePage.Shapes    For Each sh In shp.Shapes        If sh.Name = "Data bar 1" Then sh.Cells("LayerMember").FormulaForceU = """1"""    Next    NextEnd Sub&nbsp;</p>
+<p class="o">В подобном макросе нужно задавать имя шейпа, отображающего нужное поле, и идентификатор требуемого слоя. Макрос использует особенность Data Graphics - все шейпы, отображающие одно поле, имеют одно и то же имя.&nbsp;</p>
+<p class="n">Фантомные слои</p>
+<p class="v">У меня есть файл Visio, используемый в качестве инструмента для дизайна и разработки. В нем примерно 25 старниц, широко используются слои. Некоторые слои являются общими для всех страниц, некоторые уникальны. Однако на каждой странице есть пустые слои, которые отображаются в шейп-листе, но не отображаются в свойствах слоев. Кто-нибудь может объяснить, почему Visio создает эти фантомные слои?&nbsp;</p>
+<p class="o">Visio идентифицирует слои номером, а не именем. Таким образом, слои с одинаковым именем могут иметь разные идентификаторы на каждой странице. Когда слои удаляются, Visio просто удаляет имя, строка в PageSheet не удаляется. Слои с пустыми именами не отображаются в диалоговом окне свойств слоя. Visio может впоследствии использовать строки с пустыми именами при добавлении нового слоя на страницу.Источник: visguy.com/vgforum/index.php?topic=7764&nbsp;</p>
+<p class="n">Шейпы с несколькими слоями не скрываются</p>
+<p class="v">У меня есть шейпы с несколькими слоями. Например, "Инструмент" и "Электрический". Если я снимаю видимость с обоих слоев, шейп скрывается. Если только с одного, шейп остается видимым. Можно ли сделать так, чтобы скрытие любого слоя скрывало шейп?&nbsp;</p>
+<p class="o">Не напрямую. Слои глобальны. Если слой видимый, то все принадлежащие ему шейпы видны.Но можно редактировать шейп-лист. Например в секции геометрии ввести условие IF, управляющее видимостью на основе слоев.Кроме того, можно редактировать шейп-лист страницы, создать пользовательские ячейки, обеспечивающие условный ответ на различные комбинации слоев. Потом каждый многослойный шейп сможет ссылаться на эти ячейки.Источник и пример: http://visguy.com/vgforum/index.php?topic=7516.msg31894&nbsp;</p>
+<p class="n">Как сделать кнопку, открывающую окно Layer Properties?</p>
+<p class="v">У меня много пользователей, которым трудно объяснить, как открыть окно  Layer Properties. Как сделать кнопку на странице для открытия этого окна?&nbsp;</p>
+<p class="o">Обработчик события должен содержать командуApplication.DoCmd (visCmdLayerSetupDlg)&nbsp;</p>
+<p class="n">Подсветка слоя с помощью кода</p>
+<p class="v">Я могу скрывать и показывать слои в том числе с помощью кода. Но хотелось бы не только уметь показать отдельный слой, изолированный от остального, но и выделить, обвести слой другим цветом. Возможно ли это?&nbsp;</p>
+<p class="o">Вот небольшой сниплет, который красит слой в красный цвет:&nbsp;</p>
+<p class="t">Dim visPg as Visio.PageDim visLyr as Visio.LayerSet visPg = Visio.ActivePageSet visLyr = visPg.Layers("Bob")visLyr.CellsC(visio.VisCellIndices.visLayerColor).Formula = "RGB(255,0,0)"&nbsp;</p>
+<p class="o">Вы можете удалить подкраску, очистив формулу:&nbsp;</p>
+<p class="t">visLyr.CellsC(visio.VisCellIndices.visLayerColor).Formula = ""&nbsp;</p>
+<p class="o">Или можно установить результат в 0:&nbsp;</p>
+<p class="t">visLyr.CellsC(visio.VisCellIndices.visLayerColor).ResultIU = 0&nbsp;</p>
+<p class="n">Одинаковые слои на нескольких страницах</p>
+<p class="v">У меня есть чертеж, в котором отдельные страницы используются для раскрытия деталей общего плана. Я настроил несколько слоев для форматирования и управления некоторыми категориями шейпов.Могу ли я использовать слои одной страницы в другой без повторного ввода слоев на каждой странице?&nbsp;</p>
+<p class="o">Все что требуется, это скопировать шейп, содержащий нужный слой, на другую страницу. Слой и все его свойства будут скопированы. Потом шейп можно удалить.&nbsp;</p>
+<p class="n">Каждый шейп на заданном слое</p>
+<p class="v">У меня есть план здания с несколькими слоями, на которые вынесены различные типы оборудования. Проблема в том, что некоторые шейпы имеют маленький фактический размер.Хотелось бы макросом увеличить или уменьшить размер всех шейпов, отнесенных на определенный слой. Как это сделать?&nbsp;</p>
+<p class="o">Вот пример кода&nbsp;</p>
+<p class="t">Public Sub LayersContent2()    Dim PagObj As Visio.Page    Dim layersObj As Visio.Layers, layerObj As Visio.Layer    Dim shpsObj As Visio.Shapes, shpObj As Visio.Shape    Dim I As Long, N As Long    For Each PagObj In ActiveDocument.Pages        For Each shpObj In PagObj.Shapes            N = shpObj.LayerCount            If N > 0 Then                For I = 1 To N                    Set layerObj = shpObj.Layer(I)                    If layerObj.Name = "A" Then                        shpObj.Cells("Width").Result(visMillimeters) = 60                    End If                Next I            End If        Next shpObj    Next PagObjEnd Sub&nbsp;</p>
+<p class="o">Источник: http://visguy.com/vgforum/index.php?topic=3488&nbsp;</p>
+<p class="n">Счетчик шейпов в слое</p>
+<p class="v">Кто-нибудь знает, как исправить счетчик шейпов при назначении слоя шейпу?Например, я создал слой "Computers" и назначил его по умолчанию шейпам Computer и Monitor. Но при опускании такого шейпа на страницу рисунка я получаю приращение количества шейпов на слое на 25 вместо одного.&nbsp;</p>
+<p class="o">Эти шейпы являются группами и в количестве шейпов учитываются все входящие в группу шейпы.&nbsp;</p>
+<p class="n">Как сослаться на слой через универсальное имя?</p>
+<p class="v">Я знаю, что лучше использовать универсальные имена вместо локальных. Но как сослаться на слой через его NameU?&nbsp;</p>
+<p class="o">Синтаксис .Layers("MyLocalName") является сокращенным вариантом.На самом деле это должно выглядеть как&nbsp;</p>
+<p class="t">.Layers.Item("MyLocalName")&nbsp;</p>
+<p class="o">Тогда для универсального имени будет&nbsp;</p>
+<p class="t">.Layers.ItemU("MyUniversalName")&nbsp;</p>
+<p class="n">Баг со слоями и группами?</p>
+<p class="v">Я сделал следующее:Создал два слоя и сделал их видимыми.Создал 3 шейпа: квадрат, круг, треугольник.Назначил два из них (квадрат и треугольник) на первый слой.Сгруппировал все и назначил группу на второй слой.Сделал второй слой скрытым.Квадрат и треугольник остаются видимыми, но не доступны для селектирования.&nbsp;</p>
+<p class="o">Я думаю, при назначении второго слоя был установлен флажок "Preserve group member layers". При этом принадлежность слоям у членов группы остается неизменной, то есть они остались на слое 1.Источник и пример: http://visguy.com/vgforum/index.php?topic=6417&nbsp;</p>
+<p class="n">Скрытие шейпов при нажатии на кнопку</p>
+<p class="v">Ситуация следующая - имеется Visio файл, отражающий структуру серверов и приложений и генерирующий отчеты. Не для каждого отчета нужны все серверы и приложения, поэтому есть желание скрывать ненужные и оставлять то, что требуется для конкретного отчета.&nbsp;</p>
+<p class="o">Обратите внимание на слои. Слои принадлежат странице и ассоциируются с шейпами. Слои можно скрывать. Можно создать меню для скрытия-включения слоев.Альтернативный подход - управление видимостью шейпов на основе шейп-листа. Если вы не желаете использовать VBA, можно делать примерно так:&nbsp;</p>
+<p class="t">action = setf(getref(action.checked), if(action.checked, 0, 1)) + setf(getref(geometry1.noshow), if(action.checked, 0,1))&nbsp;</p>
+<p class="o">Первый SETF переключает флаг в контекстном меню шейпа. Второй в зависимости от флага переключает отображение шейпа.Можно установить флаг в шейп-листе страницы и ссылаться на него из переключаемых шейпов.Некоторые плюсы и минусы решений на основе шейп-листа и VBA.Шейп-лист: не имеет проблем с безопасностью.Недостаток: нужны некоторые априорные сведения для установления связей. И это должно быть сделано на каждой странице, потому что слои привязаны к страницам.VBA: самый большой недостаток - снижение уровня безопасности. И необходимо уметь писать код.Достоинства: наибольшая гибкость, можно обойтись без предварительной настройки, допускает использование дополнительных фильстров.&nbsp;</p>
+<p class="n">План зон безопасности</p>
+<p class="o">Недавно на одном из форумов был задан вопрос о том, как можно применить слои к плану зон безопасности. Пользователь надеялся использовать слои для цветовой маркировки, какие двери относятся к каким зонам.Двери могут быть отнесены к разным зонам. Это означает, что в какой-то момент появляются уникальные списки для каждого шейпа. Именно в управлении этими списками разработчик начинает видеть сложность создания диалогов для назначения дверей зонам.Я принял решение отнести двери к уникальным слоям, а затем присвоить текстовым шейпам одинаковые имена. Наконец, вместо того, чтобы менять цвет дверей, я добавил необходимые макросы, чтобы открывать и закрывать двери, связанные с отдельными слоями зоны.Используются некоторые примеры кода из Visio SDK (получение списка шейпов для выбранного слоя). Открытие и закрытие дверей основано на событии SelectionChanged и распознавании того, что было выбрано одно из текстовых полей.Источник и пример: http://visguy.com/vgforum/index.php?topic=4202&nbsp;</p>
+<p class="n">Включение-выключение слоев</p>
+<p class="o">Существует три основных способа скрытия шейпов:1) переключить ее видимость,2) назначить ее указанному слою и переключить видимость слоя,3) уменьшить ее до нулевого размера. Третий метод хорошо работает для импортируемых изображений. Прикрепленный файл охватывает методы (2) и (3).Предусмотрено два подхода: первый использует контекстное меню в любом месте страницы, второй использует выделенный шейп.Источник и пример: http://visguy.com/vgforum/index.php?topic=5740&nbsp;</p>
+<p class="n">Пересечение с линией на скрытом слое</p>
+<p class="v">Имеются две пересекающиеся линии. Линия 1 "перепрыгивает" линию 2 в точке пересечения. Это нормально. Но когда я делаю слой с линией 2 невидимым, то изображение "перепрыгивания" остается. Есть ли способ сделать так, чтобы пересечение невидимых линий не выделялось?&nbsp;</p>
+<p class="o">Можно попробовать добавить в мастер-шейпе условие к ConLineJumpCode, которое проверяло бы, относится ли шейп к скрытому слою и, если относится, включало бы перескок.Вот такая формула решает проблему&nbsp;</p>
+<p class="t">=IF(FIND("2",LayerMember),2,0)&nbsp;</p>
+<p class="o">Если на невидимом слое, всегда перепрыгивать, иначе поведение по умолчанию.Источник: http://visguy.com/vgforum/index.php?topic=378Если скрытый слой наперед не известен, можно добавить немного VBA кода. Примерно так:&nbsp;</p>
+<p class="t">Sub SetJumpCode()    For Each shp In ActivePage.Shapes        For i = 1 To shp.LayerCount            ln = shp.Layer(i).Name            If ActivePage.Layers(ln).CellsC(4) Then 'Visible                shp.Cells("ConLineJumpCode") = 0            Else                shp.Cells("ConLineJumpCode") = 2            End If        Next    NextEnd Sub&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>
