@@ -1,0 +1,27 @@
+.tit {font-size: 40px; color: #0080C0; text-align: center}
+.menutd{line-height: 100%;}
+#menu-line {background-color: #EEEEEE;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #A0A0A0;
+}
+A.menu {
+    color: #000;
+    font-family: arial;
+    font-weight: bold;
+    font-size: 12px;
+}
+.logo {font-size: 20px; color: #ffffff; text-align: center; font-family: arial; font-weight: bold; }
+.min {font-size: 10px; font-family: arial; vertical-align: bottom; background-color: #eeeeee;
+border-bottom: 1px solid black}
+.min2 {font-size: 4px; bgcolor: #f000f0;}
+h1 {font-size: 25px;}
+p{line-height: 100%; margin: 6px; text-indent: 20px; }
+
+.n {font-size: 20px; border-top: 2px solid black; font-weight: bold; }
+.v {line-height: 120%; margin: 0; background-color: CCFFCC;}
+.o { }
+.t {line-height: 120%; background-color: f0f0f0; font-family: courier new; font-size: 12px; text-indent: 0; margin: 0}
+@media (min-width: 1000px) { 
+.body_div {width:1000px; margin:0 auto;}
+}

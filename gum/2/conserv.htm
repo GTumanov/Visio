@@ -1,0 +1,87 @@
+﻿<html><head>
+<title>Connections server</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="stylesheet" HREF="/gum/visg.css" type="text/css" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<div id="menu-line">Other my products for Visio that might be of interest to you:
+<a class="menu" href="/vd/gum.htm"> sale</a> | <a class="menu" href="/vd/development.htm"> development</a>
+</div>
+<!-- end header --------------------------- -->
+<!-- ============================================= -->
+
+<h1>Connections server</h1>
+ <table border="0" cellpadding="20" cellspacing="0" width="100%">
+<tr>
+<td width="20%" bgcolor="FFFFFF">
+<a href="https://gumroad.com/l/GSExP"><IMG SRC="image000.gif" WIDTH="300" HEIGHT="238" BORDER="0" ALT=""></a>
+</td>
+<td width="50%" bgcolor="FFFFFF">
+<p><b>Connections server - connections scanner for Visio diagrams.</b></p>
+<p>ConnectionServer is a bit like the ConnectedShapes method that appeared later, but it provides the programmer with more features and can work with earlier versions of Visio.</p>
+</td>
+<td width="30%" bgcolor="FFFFFF">
+<script src="https://gumroad.com/js/gumroad.js"></script>
+<a class="gumroad-button" href="https://gum.co/GSExP">Buy on Gumroad</a>
+</td>
+</tr>
+</table>
+<hr>
+
+<p>It is a tool for analyzing diagramms. Suppose you want to know how far extends the influence of certain event, reflected in the chart. Or select all sources, prior to the desired effect.</p>
+<p>In earlier versions of Visio to obtain such information you had to write macros using methods: Connects, FromConnects, FromPart, ToPart, ToSheet... For beginners it was not an easy task. The task becomes even more complicated if you want to analyze not only the shapes nearby, but related, using recursive methods.</p>
+<p>In Visio 2010 adds features that simplify the task of analyzing charts - a method ConnectedShapes. For example, one procedure can get an array of shapes IDs lngShapeIDs, attached to shape vsoShape.</p>
+
+<p class='t'>lngShapeIDs = vsoShape.ConnectedShapes (visConnectedShapesOutgoingNodes, "")</p>
+
+<p>Parameters allow you to select the link direction (incoming, outgoing) and the shapes categories.</p>
+<p>However, the method returns only directly connected shapes. For analysis of remote shapes again is required a recursive program.</p>
+<p>Connection server is an even more powerful tool. It contains greater control and filtering comprises recursive methods contains some additional functions. In addition to the direction of the connectors are recorded directly attached the shapes (without connectors), the shapes belonging to the group affiliation layers and filtering by name master shapes.</p>
+<p>Basic functions like ConnectedShapes, analyzes entourage. For example,</p>
+<p class='t'>Set Result = ConnServ.tstConn (vsoShape, 3,1,1,0,0,"","",0)</p>
+
+<p>returns a collection of shapes Result, the shapes which will meet the following conditions: counted incoming and outgoing communication; communication through connectors; loop; group not to disclose; any connection point; without analyzing the layers and master-shapes; connectors themselves in the collection are not included.</p>
+<table>
+<tr><td><IMG SRC="image001.png" WIDTH="224" HEIGHT="118" BORDER="0" ALT=""></td>
+<td>tstConn working with neighboring shapes.</td>
+</table>
+<p>GetGraph method provides a recursive call to the base function, resulting in a collection contains all the shapes incoming or outgoing tree constructed from the original shapes. Example of treatment:</p>
+<p class='t'>Set Result = ConnServ.GetGraph (vsoShape, 1)</p>
+<table>
+<!-- 336, 167 orig -->
+<tr><td><IMG SRC="image002.png" WIDTH="224" HEIGHT="118" BORDER="0" ALT=""></td>
+<td>original chart, selected shape.</td></tr>
+<tr><td><IMG SRC="image005.png" WIDTH="224" HEIGHT="118" BORDER="0" ALT="">
+<td>inbound tree</td></tr>
+<tr><td><IMG SRC="image007.png" WIDTH="224" HEIGHT="118" BORDER="0" ALT="">
+<td>outgoing tree.</td></tr>
+</table>
+<p>LostConn method used to check the charts and collects all the dangling bonds at-connected to only one end of shapes. The method makes it possible to collect all CreatePaths path between two nodes in a graph, assembled in the picture.</p>
+<p>Tool formed as ActiveX dll. During installation, the dll is installed in the System32 folder and recorded. The utility contains the class clsConnServ with several methods that provide functionality.</p>
+<p>A typical example of the use of the utility. Suppose we want to count the number of nodes that affect the specified node (shape vsoShape). The problem is solved in the following macro:</p>
+
+<p class='t'>Sub tstMoveGraph()</p>
+<p class='t'>&nbsp;Dim cC As clsConnServ</p>
+<p class='t'>&nbsp;Dim Result As Collection</p>
+<p class='t'>&nbsp;Set cC = New clsConnServ  'Creates an instance of the class</p>
+<p class='t'>&nbsp;Set shp = ActiveWindow.Selection(1) 'Select initial shape</p>
+<p class='t'>&nbsp;Set Result = cC.GetGraph (shp, 1) 'Getting target shapes collection</p>
+<p class='t'>&nbsp;Debug.Print Result.Count 'Print result</p>
+<p class='t'>End Sub</p>
+
+<p>Application programmer need only create an object, do one treatment and interpret the results. A connections server does the rest.</p>
+<p><a href="conserv_spec.htm">Read more</a>.</p>
+<p><a href="https://gum.co/GSExP">Download</a>.</p>
+<p>The utility is constantly updated and improved. Stay tuned. At the moment, current version - v1.1.6.</p>
+
+<br/>
+<!-- ============================================= -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+<!-- HotLog -->
+<!-- /HotLog -->
+</body>
+</html>

@@ -1,0 +1,160 @@
+﻿<html><head>
+<title>Connections server's specification</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="stylesheet" HREF="/gum/visg.css" type="text/css" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<div id="menu-line">Other my products for Visio that might be of interest to you:
+<a class="menu" href="/vd/gum.htm"> sale</a> | <a class="menu" href="/vd/development.htm"> development</a>
+</div>
+<!-- end header --------------------------- -->
+
+<!-- ============================================= -->
+<h1>Connections server's specification</h1>
+<p>Connections server is the utility for the connections analysis</p>
+<p>The Utility is made as ActiveX DLL, containing the class clsConnServ.
+To use DLL must be attached to the macro or program.</p>
+<h3>Public attributes</h3>
+<p><b>CollConn</b> - a collection of shapes connected to the given shape. Is used in tstConn.</p>
+<p><b>ColFirst, ColChild</b> - the results of scanning a diagram. Data Formats - Nod and RecGraph.</p>
+<p>ColFirst contains collection of ribs of graph. The rib described with name
+of initial shape, name of target shape and name of connector.</p>
+<p>ColChild contains the names of nodes, presented in ColFirst collection.
+The names corerspond with shapes in diagram.</p>
+<p><b>Scol</b> - a collection of shapes, collected by GetGraph function.</p>
+<p><b>Nodes</b> - a collection of shape's names - the nodes of graph, harvested from the diagram.</p>
+<p><b>Paths</b> - a collection of paths between two vertices of the graph.</p>
+<h3>Public Properties</h3>
+<p><b>sh</b> - researched shape;</p>
+<p><b>cCon</b> - filter for link's direction: 1 - only incoming links; 2 - only outgoing links;
+3 - both incoming and outgoing;</p>
+<p><b>tunn</b> - filter for links through connector's shapes: 0 - take into account only direct
+connected shapes; 1 - take into account shapes, linked through connectors;</p>
+<p><b>Uni</b> - loop filter: 0 - do not take into account a links to same shape; 1 - take into account such links;</p>
+<p><b>Grou</b> - parsing groups: 0 - not to disclose the group, only the connection
+between the groups; 1 - expand groups, considering entering the shapes, connections
+between components ascribe to the group; 2 - do not take into account the group communication
+between the components to be considered.</p>
+<p><b>Part</b> - take into account only the shapes attached to a given point (Connection points):
+0 - take into account all the connections; 100 - only the first point; 101, 102 ... - etc. - other points.</p>
+<p><b>Lay</b> - layer's filter : "" - does not depend on the layers (filter disconnected);
+[Layer name] - take into account only the shapes associated with a given layer;
+the string can contain multiple names separated by commas. For example, "Connectors, Layer2,Layer3".</p>
+<p><b>Mas</b> - master's filter: "" - the filter is disabled;
+[Name of the master-shape] - consider only instances of a given master shapes.
+The string can contain many names of master-shapes, separated by commas.
+For example, "nod,Dynamic connector".</p>
+<p><b>cIn</b> - filter for connector's addition; in addition to forcing shapes
+attached to the connector, connectors may be included in the result too:
+0 - do not include; 1 - only incoming connectors; 2 - only outgoing; 3 - incoming and outgoing.</p>
+<h3>Public Methods</h3>
+<p><b>for shape</b></p>
+<ul>
+<li>Function <b>TstConn</b> scan a diagram and collect into CollConn collection</li>
+the shapes attached to the target shape. The conditions of selection are set as parameters.</li>
+<li><b>GetGraph</b> collect shapes belonging to the subnet connected to the given
+shapes. The result is stored in the internal collection of shapes.</li>
+<li><b>MoveGraph</b> offset subnet of shapes selected via GetGraph function.
+Is used to indicate the subnet.</li>
+<li><b>SelectGraph</b> similarly MoveGraph, but used selection instead moving.</li>
+</ul>
+<p><b>for the page</b></p>
+<ul>
+<li><b>GetTreeFromDoc</b> collect network description from the Visio page.
+Description of the graph is placed in the collections ColFirst and ColChild.</li>
+<li><b>CreatePaths</b> Finds all paths between two nodes of the graph created by GetTreeFromDoc.</li>
+<li><b>LostConn</b> Finds connectors attached at one end. Function used
+the description of the graph created by GetTreeFromDoc.</li>
+</ul>
+<p><b>TstConn</b></p>
+<p>tstConn - universal custom function for collection the attached objects.</p>
+<p class='t'>Public Function tstConn (ByVal tar As Visio.Shape, _</p>
+<p class='t'>ByVal cIn As Integer, _</p>
+<p class='t'>ByVal tunn As Integer, _</p>
+<p class='t'>ByVal Uni As Integer, _</p>
+<p class='t'>ByVal Grou As Integer, _</p>
+<p class='t'>ByVal Part As Integer, _</p>
+<p class='t'>ByVal Lay As String, _</p>
+<p class='t'>ByVal Mas As String, _</p>
+<p class='t'>ByVal cCon As String) As Collection</p>
+<p>The function returns a collection of shapes, satisfying the selection criteria.</p>
+<p>Treatment parameters correspond to the public properties.</p>
+<p><b>Example of a function call:</b></p>
+<p class='t'>Set tstShapes = cC1.tstConn (sh, cIn, tunn, Uni, Grou, Part, Lay, Mas, cCon)</p>
+<p>or</p>
+<p class='t'>Set tstShapes = cC1.tstConn (sh, 3, 1, 1, 0, 0, "", "", 0)</p>
+<p><b>GetGraph</b></p>
+<p>GetGraph - Fetch shapes included in the tree, attached to the original shapes.</p>
+<p class='t'>Public Sub GetGraph (ByVal tar As Visio.Shape, ByVal cCon As Integer)</p>
+<p>The function returns a collection of shapes.</p>
+<p>Parameters:</p>
+<p><b>tar</b> - the initial shape from which the tree is scanned.</p>
+<p><b>cCon</b> - link's direction: 1 - accounted for only incoming links;
+2 - for only outgoing links; 3 - for incoming and outgoing links.</p>
+<p><b>SelectGraph</b></p>
+<p>SelectGraph - procedure select shapes collected via GetGraph function.</p>
+<p class='t'>Public Sub SelectGraph ()</p>
+<p>The procedure is used for display only, and does not return the result.</p>
+<p>The procedure uses an internal collection of shapes Scol,
+that completed during execution of GetGraph.</p>
+<p><b>MoveGraph</b></p>
+<p>MoveGraph - procedure is used for displacement shapes, that selected via GetGraph function.</p>
+<p class='t'>Public Sub MoveGraph ()</p>
+<p>The procedure is used for display only, and does not return the result.</p>
+<p>The procedure uses an internal collection of shapes Scol, that completed during execution of GetGraph.</p>
+<p><b>GetTreeFromDoc</b></p>
+<p>GetTreeFromDoc - the procedure for network's description.</p>
+<p class='t'>Public Sub GetTreeFromDoc (pg As Visio.Page)</p>
+<p>The procedure does not return a result. The output data are entered
+into two collections: ColFirst, ColChild. Output dataare used vis CreatePaths
+and LostLink procedures and can be used by other application.</p>
+<p>The procedure looks at all the OneD shapes on given page (the edges of the graph),
+and stores the names of related nodes (NameID) in ColChild collection.
+Procedure inspects only the connectors are connected at both ends.</p>
+<p>The ColFirst collection is filled with objects of type nLink,
+containing for each link three names: source shape, target shape, connector.</p>
+<p><b>CreatePaths</b></p>
+<p>CreatePaths - finds all paths between two nodes of the graph.</p>
+<p class='t'>Public Function CreatePaths (ByVal nam1 As String, ByVal nam2 As String) As Integer</p>
+<p>The function returns the number of paths found between nodes nam1 and nam2.</p>
+<p>nam1 - starting node. Given as NameID shapes.</p>
+<p>nam2 - end node. Given as NameID shapes.</p>
+<p>Detected paths are available in the Paths collection.
+Each path is a collection of indexes that can be converted into
+a sequence of shape's names through a Nodes collection. Nodes collection
+is a copy of ColChild collection, created by GetTreeFromDoc.</p>
+<p>NameID = clsConnServ.Nodes (ind),</p>
+<p>where ind = Item (j) - a collection of indexes,</p>
+<p>where Item = clsConnServ.Paths (k) - way.</p>
+<p><b>LostConn</b></p>
+<p>LostConn - search broken connections.</p>
+<p class='t'>Public Sub LostConn (pg As Visio.Page, Optional nm As String)</p>
+<p>The procedure does not return a result. The output data is written to
+the CollConn collection. The collection items are the objects nLink.</p>
+<p><b>Installation</b></p>
+<p>Distribution utility comes as a file Links_setup.exe. To install the utility,
+run this file. During the installation file links.dll placed in the System32 folder and recorded.</p>
+<p>The procedure for connecting to the application (macro)</p>
+<p>To use the utility in the custom macros, VBA project must have a reference to it.
+Link is established via the menu Tools / References. You must select in
+the Available References list line Links and click OK. After that, clsConnServ
+class and its properties and methods will be available to the macros.</p>
+<h3>Compatibility</h3>
+<p>The utility should work with Visio 2007, 2010, 2013.</p>
+<p>Utility code is not signed, so there may be a security warning.</p>
+<p>Installation in Windows 7 should be carried out as an administrator.</p>
+<p>Version history</p>
+<p>Will be filled as you make changes, and new releases.</p>
+<p>Start version: v1.1.5.</p>
+
+<br/>
+<!-- ============================================= -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+<!-- HotLog -->
+<!-- /HotLog -->
+</body>
+</html>

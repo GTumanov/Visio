@@ -1,0 +1,93 @@
+﻿<html>
+<head>
+<title>Visio stencil for sorting OrgChart</title>
+
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="stylesheet" HREF="/gum/visg.css" type="text/css" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<div id="menu-line">Other my products for Visio that might be of interest to you:
+<a class="menu" href="/vd/gum.htm"> sale</a> | <a class="menu" href="/vd/development.htm"> development</a>
+</div>
+<!-- end header --------------------------- -->
+<!-- ============================================= -->
+<h1>Visio stencil for sorting OrgChart</h1>
+<table border="0" cellpadding="20" cellspacing="0" width="100%">
+<tr>
+<td width="20%" bgcolor="FFFFFF">
+<IMG SRC="orgs.png" WIDTH="200" HEIGHT="140" BORDER="0" ALT=""></td>
+<td width="50%" bgcolor="FFFFFF">
+<p><b>Instrument for sorting Visio OrgChart diagrams</b></p>
+<p>The stencil contains the service shape and several macros.</p>
+<p>Shape helps you start the sorter in manual mode, and the macro sorts
+the finished OrgChart diagram according to the values of one of the selected data fields.</p>
+</td>
+<td width="30%" bgcolor="FFFFFF">
+<script src="https://gumroad.com/js/gumroad.js"></script>
+<a class="gumroad-button" href="https://gum.co/YFych">Buy on Gumroad</a>
+</td></tr></table>
+<hr>
+
+<h3>Description</h3>
+<p>Stencil is a custom addition for the regular builder OrgChart diagrams Visio
+and works only with diagrams built with the help of a regular builder.</p>
+<p>The stencil can perform only one function - sorting shapes in the diagram.</p>
+
+<h3>How to install</h3>
+<p>You can download the stencil to any convenient location on the user's machine.
+The installation process is not required. But for faster access,
+it is recommended that you place the stencil in the "My Shapes" folder.</p>
+
+<h3>Working with the Stencil</h3>
+<p>To sort the chart, you must do the following:</p>
+<UL>
+<LI> Open the "Sorting.vss" stencil.</li>
+<LI> Drag&Drop the "Form" master to the drawing page.</li>
+<LI> Select the field by which you want to sort the shapes.</li>
+<LI> If the field has the "Date" data type, select the checkbox "Is date".</li>
+<LI> Press "OK" button.</li>
+</UL>
+<p>The process is shown in the video below.</p>
+<IMG SRC="z22.gif" WIDTH="687" HEIGHT="440" BORDER="0" ALT="">
+<h3>Auto start</h3>
+<p>If you use OrgCWiz to build a chart, the sorting process can be started
+automatically immediately after the chart is built.</p>
+<p>Below is an example of a VBS script that opens Visio, runs the OrgCWiz wizard
+to build a chart on the source data in the OrgData_v2.xls file, then starts
+sorting in the "Prop.Range" field (not the Date type).</p>
+<p>The mSort.Resort procedure takes two parameters:</p>
+<UL>
+<LI> field name for sorting</li>
+<LI> "Is date" (True, False).</li>
+</UL>
+
+<p class='t'>Dim vApp</p>
+<p class='t'>Set vApp = WScript.CreateObject("Visio.Application")</p>
+<p class='t'>Set objAddOn = vApp.Addons.ItemU("OrgCWiz")</p>
+<p class='t'>On Error Resume Next</p>
+<p class='t'></p>
+<p class='t'>Dim ArgStr</p>
+<p class='t'>ArgStr = "/FILENAME=""C:\Work\ReSort\TestData\OrgData_v2.xls""" &_ </p>
+<p class='t'>" /NAME-FIELD=""Hierarchy_ID"" /MANAGER-FIELD=""parent_ID""" &_ </p>
+<p class='t'>" /CUSTOM-PROPERTY-FIELDS=Title,Telephone,Range,Date" &_ </p>
+<p class='t'>" /PAGES=""1"" 10" &_ </p>
+<p class='t'>" /DISPLAY-FIELDS=""Hierarchy_ID"",Name_2,Title,Range,Date"</p>
+<p class='t'></p>
+<p class='t'>objAddOn.Run ("/S-INIT")</p>
+<p class='t'>objAddOn.Run ("/S-ARGSTR " + ArgStr)</p>
+<p class='t'>objAddOn.Run ("/S-RUN ")</p>
+<p class='t'>Set stD = vApp.Documents.OpenEx ("C:\Work\ReSort\ProductVSS\Sorting.vss", 4)</p>
+<p class='t'>stD.ExecuteLine "mSort.Resort ""Prop.Range"", False"</p>
+<HR>
+
+<br/>
+<!-- ============================================= -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+<!-- HotLog -->
+<!-- /HotLog -->
+</body>
+</html>

@@ -1,0 +1,121 @@
+﻿<html>
+<head>
+<title>Visio stencil for data import. Addendum</title>
+
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="stylesheet" HREF="/gum/visg.css" type="text/css" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<div id="menu-line">Other my products for Visio that might be of interest to you:
+<a class="menu" href="/vd/gum.htm"> sale</a> | <a class="menu" href="/vd/development.htm"> development</a>
+</div>
+<!-- end header --------------------------- -->
+<!-- ============================================= -->
+<h1>Visio stencil for data import. Addendum</h1>
+<p>Below some receptions which can be used during the work with
+a stencil for import of data are described.</p>
+<h3>Contents</h3>
+<UL>
+	<LI><a href="#id001">How to make a shape with controlled fill color</a>
+	<LI><a href="#id002">How to allow the use of macros</a>
+	<LI><a href="#id003">How to change the layout of shapes</a>
+	<LI><a href="#id004">The "Select subtree" function</a>
+</UL>
+
+<h3 id="id001">How to make a shape with controlled fill color</h3>
+<p>Shape-importer can to transfer the integer into the target shape as a parameter.</p>
+<p>The task contain of two parts:</p>
+<UL>
+<LI>transfer the data to the target shape;
+<LI>display the transmitted data.
+</UL>
+<p>The first task is solved by a shape-importer. The shape transfers
+the data from the column 5 into nodes (2D shapes), and from
+column 6 - into connectors (1D shapes).</p>
+<p>In both cases the "User.importP" cell is used as data receiver.
+If such cell is missing, the data is lost without any error message.</p>
+<p>Columns 5 and 6 are handled only by "Draw Tree with Parameters" and
+"Draw Network with Parameters" functions.</p>
+<p>The second task is solved by using a custom master shape.
+Such shapes are not included in the delaverable package. The user
+has to make own one, as required for his application.</p>
+<p>Here is an example of manufacturing such shapes. Let the parameter
+specifies the number of colors in the palette (see. "Service / Color palette" menu).</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+<tr><td width="20%" bgcolor="FFFFFF">
+<a target="New" href="f/pr000_f1.gif"><IMG SRC="pr002.jpg" WIDTH="290" HEIGHT="285" BORDER="0" ALT=""></a>
+</td>
+<td width="60%" bgcolor="FFFFFF">
+<p>The <a target="New" href="f/pr000_f1.gif">picture</a> shows the following operations in sequence:</p>
+<UL>
+<LI> draw a shape
+<LI> open ShapeSheet
+<LI> add "User-defined cells" section
+<LI> create "User.importP" cells
+<LI> in "FillForegnd" cells insert link to "User.importP" cell
+<LI> check color controlling
+<LI> open Document Stencil
+<LI> move new shape to Document Stencil
+<LI> rename the resulting master shape
+<LI> see the numders in palette.
+</UL>
+</td></tr>
+</table>
+<p>If such a master shape to use when importing data, then shape-importer
+will transmit data to the "User.importP" cell, and the target shape
+will change the fill color, depending on the value of passed parameter.
+Value has to be in range from 0 to 23.</p>
+
+<h3 id="id002">How to allow the use of macros</h3>
+<p>For Visio 2007</p>
+<IMG SRC="pr000_r5.png" WIDTH="420" HEIGHT="200" BORDER="0" ALT="">
+<p>For Visio 2010</p>
+<IMG SRC="pr000_r6.png" WIDTH="420" HEIGHT="200" BORDER="0" ALT="">
+
+<h3 id="id003">How to change the layout of shapes</h3>
+<p>The Visio has an universal built-in tool for lay out the shapes
+and few specialized tools for the indnvndual solutions.</p> 
+<p>Specialized tools are available only in documents based on correspoding
+template such "Mind Map" or "Organization chart".
+Universal tools are available in every documents.</p>
+<p>Shape-importer uses only two combinations of settings of the universal tool.
+Directly during import it is posible to use "Compressed tree" or "horizontal block diagram".
+But at any time after importing you can change the layout of shapes using the universal instrument:
+"Figure / Layout Adjustment", "Figure / Change the position
+of the pieces," "Figure / Center the document."</p>
+<p>If the shape importing used in "Mind Map" chart, you can use the menu .... In the "Organization chart" documents menu is available ....</p>
+
+<h3 id="id004">The "Select subtree" function</h3>
+<p>The stencil also contains a "Select subtree" function, which is useful
+for manual adjustment of the shapes location. Best results are
+achieved when the master shapes contains the formula for calling
+this function. Here's how to make such a master shape.</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+<tr><td width="20%" bgcolor="FFFFFF">
+<a target="New" href="f/pr000_f2.gif"><IMG SRC="pr000_r7.jpg" WIDTH="595" HEIGHT="184" BORDER="0" ALT=""></a>
+</td>
+<td width="60%" bgcolor="FFFFFF">
+<p>The <a target="New" href="f/pr000_f2.gif">picture</a> shows the following operations in sequence:</p>
+<UL>
+<LI> draw a shape
+<LI> open ShapeSheet
+<LI> add the "Actions" section
+<LI> input '=CALLTHIS("mDrawTree.SelectSubTree","import")' into "Action" cell
+<LI> Input "Select Subtree" into "Menu" cell
+<LI> draw a tree and check the function's call
+<LI> copy the shape in the Document Stencil
+</UL>
+</td></tr>
+</table>
+
+<br/>
+<!-- ============================================= -->
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru">Gennady Tumanov</a>
+</div>
+<!-- HotLog -->
+<!-- /HotLog -->
+</body>
+</html>

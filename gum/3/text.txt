@@ -1,0 +1,12 @@
+VisioGraphLab - Visio solution for work with graphs
+Solution allows you to build graphs manually, import them from Excel, and even from the Visio shapesheet. In particular, it can automatically draw the graph of dependencies between shape-sheet cells.
+Solution provides typical operations with graphs: the topological sorting, finding the shortest path, maximum flow.
+There are also the simple tools for layout's optimisation the graphs: such as selection or moving the associated subgraph containing selected vertex.
+According to the degree of readiness solution is somewhere on the beta version level. Declared functions are working, checked in Visio 2007 and Visio 2010. 
+The purpose of the publication is getting the response from potential users, information about bugs and suggestions to modify or expand functionality.
+Instructions for using the application included in the installation package, and if desired, can be downloaded separately without installing the whole package (in format PDF).
+Examples of using:
+The calculation of the flow
+Count interdependencies between shape-sheet cells
+Additional menu in Visio 2007
+Additional menu in Visio 2010
