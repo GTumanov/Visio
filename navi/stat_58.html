@@ -1,0 +1,68 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Цвет</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Цвет</h1>
+<h2> Перечень литературы </h2>
+<p>14.05.2010&nbsp;<b><noindex><a target = new href=http://www.visguy.com/2010/05/14/get-web-hex-color-values-from-visio-shapes/
+ rel="nofollow">&nbspGet Web Hex Color Values from Visio Shapes</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspChris Roth&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>22.04.2010&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2010/04/22/displaying-the-rgb-values-of-shapes/
+ rel="nofollow">&nbspDisplaying the RGB values of Shapes</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Цвет и толщина Network connector</p>
+<p class="v">Еще один вопрос: как программно можно изменить цвет и толщину Network connector  который находится в Stencil Logical Symbols?&nbsp;</p>
+<p class="o">Цвет линии программно меняется в ячейке LineColor. В простейшем случае туда подставляются номера цветов из палитры, которая высвечивается в меню Format/Line/Color. Например, красный цвет имеет индекс 2. Толщина меняется в ячейке LineWeight. По умолчанию она устанавливается в дюймах (0,01 in - примерно 3 pt).Применительно к предыдущему примеру для утолщения коннектора в три раза и окраски его в красный цвет нужно добавитьshpObjConnector.Cells("LineColor") = 2 shpObjConnector.Cells("LineWeight") = 0.01 Примечание. Если этот коннектор вам всегда будет нужен какой-то определенной толщины, может проще изменить его прямо в трафарете, тогда не нужно будет делать это для каждого экземпляра программно. Для этого трафарет открывается для редактирования, выполняется Edit Master, устанавливается нужная толщина и цвет или только толщина и сохраняется. Теперь этот коннектор будет перетаскиваться уже в нужном виде. Если нужно установить толщину в других единицах измерения, то используется конструкция shpObjConnector.Cells("LineWeight").Formula = "2 pt"&nbsp;</p>
+<p class="n">Как VB закрасить прямоугольник?</p>
+<p class="v"> Подскажите, как VB нарисовать прямоугольник и закрасить его, допустим, красным цветом.MyObj = ActivePage.DrawRectangle(5, 5, 6, 6) а дальше?&nbsp;</p>
+<p class="o">Нажимаете Format/Fill/Color. Видите, слева красного цвета стоит цифра 2. Это номер цвета в палитре Visio. Красить шейпы можно цветами из палитры от 0 до 23 (туда можно включать и свои цвета).Делается это так: Рисуем шейп прямоугольник&nbsp;</p>
+<p class="t">Set MyObj = ActivePage.DrawRectangle(5, 5, 6, 6)&nbsp;</p>
+<p class="o"> Определяем ячейку, отвечающую за цвет&nbsp;</p>
+<p class="t">Set cellObj = MyObj.Cells("FillForegnd")&nbsp;</p>
+<p class="o"> Говорим, что шейп должен быть краснымcellObj.Formula = 2Вместо прямого указания индекса палитры можно использовать функцию rgb(), например rgb(255, 0, 0) возвратит индекс красного цвета.&nbsp;</p>
+<p class="t">cellObj.Formula = "RGB(255; 0; 127)"&nbsp;</p>
+<p class="o">Путем определения в документе пользовательских цветов можно нарастить палитру еще на 232 цвета, но при этом нужно быть осторожным при переносе шейпов из одного документа в другой (при некорректной работе могут перекраситься).&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

@@ -1,0 +1,78 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Координаты</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Координаты</h1>
+<h2> Перечень литературы </h2>
+<p>13.10.2022&nbsp;<b><noindex><a target = new href=https://gist.github.com/Surrogate-TM/caa23fb3d3816b19c5d0aecfbc209c71#file-xytopage-md
+ rel="nofollow">&nbspМетод XYToPage</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspKuzin Alexander&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>22.07.2019&nbsp;<b><noindex><a target = new href=https://youtu.be/Gt340w9t-20
+ rel="nofollow">&nbspExcel+Visio+VBA Работаем в Excel - рисуем в Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspVigil&nbsp;</a>
+&nbsp;&nbsp;</noindex>Видео&nbsp</p>
+<p>31.03.2019&nbsp;<b><noindex><a target = new href=https://surrogate-tm.github.io/surrogate/changecoordinates.htm
+ rel="nofollow">&nbspКак изменить координаты фигуры программно</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspKuzin Alexander&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>26.03.2019&nbsp;<b><noindex><a target = new href=blog/9-osobennosti-metoda-drop-shape.html
+ rel="nofollow">&nbspОсобенности метода Drop Shape</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Подскажите, как в VBA получить координаты шейпа</p>
+<p class="v">Подскажите, как в VBA получить координаты шейпа относительно страницы, на которой он находится?&nbsp;</p>
+<p class="o">Координаты шейпа относительно листа рисунка хранятся в шейп-листе данного шейпа в секции ShapeTransform в ячейках PinX и PinY. При этом под координатами шейпа понимаются координаты центра описанного прямоугольника. Доступ из VBA производится по имени ячейки .Cells("PinX") и .Cells("PinY").Например, выражение ActivePage.Shapes(1).Cells("PinX") даст X координату первого шейпа на активной странице.Координаты считаются от левого нижнего угла страницы в дюймах.&nbsp;</p>
+<p class="n">Где взять инфу про Pinx и Piny?</p>
+<p class="v">Где взять инфу про Pinx и Piny?&nbsp;</p>
+<p class="o">Немножко есть прямо в Help'е, только не в основном, а в том, который открывается из окна Visual Basic. Побольше - в DVS - (Developing Visio Solutions), который чаще всего входит в комплект поставки Visio. Правда, и то и другое на английском.Да и что о них говорить-то особо. Просто координаты центра вращения шейпа, которые сидят в секции Shape Transform.&nbsp;</p>
+<p class="n">Как обратиться к шейпу по координатам?</p>
+<p class="v">Подскажите, можно ли узнать принадлежит ли точка с координатами X,Y какому-нибудь шейпу (и соответственно его имя), и принадлежит ли эта точка какой то линии в этом шейпе (если он составной из нескольких фигур (линий))?&nbsp;</p>
+<p class="o">Например, перебираем всю коллекцию шейпов, вычисляя для них&nbsp;</p>
+<p class="t">intRet = object.HitTest(x, y, tolerance)&nbsp;</p>
+<p class="o">где object - очередной шейп.Как только натыкаемся на шейп, выдающий visHitOnBoundary или visHitInside, выбираем имя данного шейпа.&nbsp;</p>
+<p class="n">Как определить путь?</p>
+<p class="v">Я хочу взять элемент из трафарета. У меня на компьютере он лежитC:\Program Files\Visio\Solutions\папкастрафаретами  ,а у соседа чего-то там Visio10/1033/ и вообще какой-то другой путь.Если я напишуSet stnObj = appVisio.Documents.Open(appVisio.Path &"\Solutions\centel\adress_узел.vss"), то соседний компьютер все равно не поймет, у него же между программной директорией и папкой Solutions лежит еще папка 1033.Нельзя ли как-то указать на папку Solutions вне зависимости от версии Visio?&nbsp;</p>
+<p class="o">У объекта Application существуют свойства:AddonPaths, StartupPaths, DrawingPaths, StencilPaths, FilterPaths, TemplatePaths, and HelpPaths.В данном случае следует использоватьSet stnObj = appVisio.Documents.Open(appVisio.StencilPaths &"\centel\adress_узел.vss")&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

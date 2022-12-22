@@ -1,0 +1,80 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Доступ к шейпам</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Доступ к шейпам</h1>
+<h2> Перечень литературы </h2>
+<p>23.08.2012&nbsp;<b><noindex><a target = new href=https://blogs.msdn.microsoft.com/officedevdocs/2012/08/23/change-shapes-in-visio-2013/
+ rel="nofollow">&nbspChange shapes in Visio 2013</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspE. Schmidt&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.11.2004&nbsp;<b><noindex><a target = new href=https://surrogate-tm.github.io/mailant/2004/11/24/dev-luv-identify-visio-shapes-by-id-not-name.htm
+ rel="nofollow">&nbspIdentify Visio Shapes By ID, Not Name</a></noindex></b>&nbsp;&nbsp;<noindex>
+Mai-lan
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Как описать функию, которая возвращала бы объект Visio.Shape?</p>
+<p class="v">Осталась одна маленькая загвоздка: можно ли как-нибудь описать функцию, которая возвращала бы объект Visio.Shape?Например, вот так:Public Function SetupRouter(docObj As Visio.Document, pagObj As Visio.Page, nameAs String) As Visio.ShapeDim mastObj As Visio.MasterDim x As DoubleDim y As Doublex = 4.25y = 9Set mastObj = docObj.Masters("Router")Set SetupRouter = pagObj.Drop(mastObj, x, y)SetupRouter.Text = nameEnd FunctionКак можно объявить массив шейповКак можно объявить массив шейпов, и почему не работает вот это:Dim shpRouters() As Visio.Shape...........Set pagsObj = ThisDocument.PagesSet pagObj = pagsObj.Item(1)Set stnObj = Documents.Add("Logical Symbols.vss")Set mastObj = stnObj.Masters("Router")Set shpRouters(1) = pagObj.Drop(mastObj, 4.25, 9) ?Причем маршрутизатор он на страницу помещает, а вот двигать его в соответствии с координатами не хочет.&nbsp;</p>
+<p class="o">Это не работает, потому что здесь размерность массива нужно объявлять. По умолчанию не работает. Достаточно поставить Dim shpRouters(10) As Visio.Shape и ваш код уже выполняется. А насчет координат. У меня маршрутизатор и так размещается где надо. Только 4.25 и 9 Visio отсчитывает в дюймах и от левого нижнего угла рисунка. Может это вас сбивает?&nbsp;</p>
+<p class="n">Не могу передать строку в .Cells("User....")</p>
+<p class="v">Не могу передать строку в .Cells("User....") (Цифры пишет а строку нет).&nbsp;</p>
+<p class="o">Строка передается с тремя кавычками, типа вот так:&nbsp;</p>
+<p class="t">shpObj.Cells("Prop.ttr.Label").Formula = """Текстовая строка""".&nbsp;</p>
+<p class="n">Как определить удаляемый шейп?</p>
+<p class="v">Некоторые проблемы при работе с событиями:меня интересуют обработка событий работы с шейпами - добавление Events с кодом вып visActCodeRunAddon: а)событие добавления:   evl.Add visEvtAdd + visEvtShape, visActCodeRunAddon, "MyShp.exe", "1"   или evl.Add &H8040, visActCodeRunAddon, "MyShp.exe", "1"работает нормально, а вот с удалением шейпа - проблемы:вроде есть событие BeforeShapeDelete с кодом &H4040. Оно срабатывает, но в программе-обработчике уже	Dim dc As Visio.Window, shp As Visio.Shape, sel As Visio.Selection	 Set app = GetObject(, "visio.application")	 Set dc = app.ActiveWindow:  Set sel = dc.Selection	 i = sel.Countполучаю i=0 тем самым, хотя и вроде до удаления, я не могу получить уникальный идентификатор выделенного шейпа  IDString = shpObj.UniqueID(visGetOrMakeGUID)события на Selection у шейпа нет, событие SelectionChanged (код 701 или &H02BD) - не отрабатывает под Visio2000.  Что делать?&nbsp;</p>
+<p class="o">А почему нельзя взять шейп из параметров?Типа, вот так:&nbsp;</p>
+<p class="t">Private Sub Document_BeforeSelectionDelete(ByVal Selection As IVSelection)MsgBox Selection(1).Name 'Печатается имя предназначенного для удаления шейпаEnd Sub&nbsp;</p>
+<p class="o">И в случае Add-on тоже можно использовать параметры.Вместо того, чтобы после вызова Add-on'а искать селектированный шейп, попробуйте отловить его непосредственно из  параметров вызова Add-on.Например, строчка&nbsp;</p>
+<p class="t">MsgBox Command&nbsp;</p>
+<p class="o">(в запускающемся Add-on) выводит приблизительно такую строку./visio=4194304 /doc=1 /page=1 /shape=Sheet.1 /event=16448 /eventid=89 /args=Shape deleted!Здесь /shape=Sheet.1 - это имя удаляемого шейпа. (/args=... - это могут быть еще и дополнительные аргументы).Такая строка - результат события, формирующегося после&nbsp;</p>
+<p class="t">eventsObj.Add &H4040, visActCodeRunAddon, "SHOWARGS.EXE", "/args=Shape deleted!"&nbsp;</p>
+<p class="o">Вам ведь, как я понял, нужно именно отловить в Add-on удаляемый шейп?&nbsp;</p>
+<p class="n">Как сослаться на шейп другого листа?</p>
+<p class="v">Здравствуйте, уважаемые!!! Помогите пожалуйста новичку! Надо чтобы при наборе текста в шейпе (любимом штампе А4 конечно же!) на одной странице он автоматически появлялся бы на других. С шейпами на одной странице я поэкспериментировал, но сослаться на шейп другого листа так и получилось. Возможно ли это сделать без макросов? Спасибо!&nbsp;</p>
+<p class="o">Приблизительно вот так:&nbsp;</p>
+<p class="t">=ShapeText(Pages[Page-2]!Sheet.1!TheText)&nbsp;</p>
+<p class="o">Page-2 - это имя другой страницы.Если таких страниц (приемников) несколько, то лучше сделать фоновую страницу и копировать текст на нее. Он автоматически будет показываться на остальных, для которых эта страница назначена фоновой.&nbsp;</p>
+<p class="n">Как сослаться на шейп на другой странице?</p>
+<p class="v">Есть созданный мастер-шейп с кучей Custom Properties. Напр., именуемый в шейп-листе как Spec.3Чтобы извлечь нужное свойство, я пишу в Custom formula:=Spec.3!Prop.XXX.Это работает в пределах страницыЧтобы обратиться к нему с другой страницы, я, ессно, пишу=Pages[Page-X]!Spec.3!Prop.XXXв ответ - Bad ShapeSheet name...интересно, что с не-мастер шейпом, т.е. именуемым Sheet.XX все работает... Где загвоздка?З.Ы. Сорри за столь наивные вопросы по синтаксису, но толкового руководства под рукой нет... может, подскажете, где взять?З.З.Ы. MS Visio 2002&nbsp;</p>
+<p class="o">Похоже, что здесь в Visio 2002 просто присутствует ошибка. Я, правда, не наталкивался до этого на нее, потому что стараюсь использовать ссылки только вверх или в сторону, но не вверх-вниз, как в данном случае.Вот что я сейчас высмотрел.Помещаем на Page-1 прямоугольник и два шейпа Triangle. Второму из них даем имя sh1.Первый из них отзывается на:Sheet.2TriangleВторой на:Sheet.3Triangle.3С первой страницы работают ссылки на Triangle.3!Width и Sheet.3!Width. Причем при попытке ввести ссылку Sheet.3!Width она автоматически заменяется на Triangle.3!Width. То есть Visio так сказать "помогает" пользователю.Даем второму треугольнику еще и уникальное имя, например sh1. Теперь он отзывается на:Sheet.3sh1Подмена идет уже на sh1.Начинаем на него ссылаться с Page-2 и видим, что при вводе=Pages[Page-1]!Sheet.3!Width подмена идет уже на =Pages[Page-1]!Triangle.3!Width, а не на =Pages[Page-1]!sh1!Width, как на первой странице.Эта ссылка еще работает.Но! Повторно ее ввести нельзя! То есть, при попытке самому ввести =Pages[Page-1]!Triangle.3!Width получаешь ошибку.Более того. Если этот файл сохранить не в .vsd, а в .vdx, то Visio уже не может его прочитать. Говорит, что формула сломана и он ее изменяет на 0.Вывод:1. Желательно при ссылках в Visio 2002 избегать обратного движения по дереву. То есть, если уж Вы сослались на другую страницу (вверх по дереву), то не опускаться до ее шейпов.2. Если такая ссылка все-таки нужна, то стараться использовать неименованные шейпы, чтобы Visio не имел возможности "помочь" Вам в духе Microsoft.3. Проверить, как это работает в Visio 2003. Ошибка настолько явная, что там она вполне может быть уже исправлена.В DVS написано, что ссылка по имени "Shapename.ID!Cellname" работает только в пределах листа. (DVS.pdf p.74 "Rules for cell references in formulas").В остальных случаях используется "Sheet.ID!Cellname"В Visio 2003 все работает так же.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

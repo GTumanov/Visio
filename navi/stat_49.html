@@ -1,0 +1,188 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Соединения</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Соединения</h1>
+<p>Соединения, коннекторы - это изюминка Visio, исключительно важная вещь.</p>
+<p>В качестве обобщающего материала для пользователей-рисовальщиков предлагается переводная статья
+<a href="https://blogs.technet.microsoft.com/visio_ru/2018/02/07/vse-o-soedinitelnyh-liniyah/"> Все, что нужно знать о соединительных линиях Visio</a>
+с оригинала
+<a href="https://blogs.msdn.microsoft.com/visio/2017/12/01/all-you-need-to-know-about-visio-desktop-connectors/">All you need to know about Visio desktop connectors</a>.</p>
+<p>Название немного смешное, потому как это далеко не все, что нужно знать. Программисты, как обычно, лезут гораздо глубже. Обобщающий материал для программистов - 
+<a href="http://visio.getbb.ru/viewtopic.php?f=39&t=1142">Небольшая справка по соединениям фигур</a>.</p>
+<p>Кроме того, часто возникают вопросы, связанные с изменением (добавлением и удалением) соединений. Поэтому полезно ознакомиться со следующими источниками:</p>
+<p>Вопрос: Можно ли определить присоединенный шейп через ShapeSheet?</p>
+<p>Ответ: Нельзя.</p>
+<p>Связанная статья <a href="https://blog.bvisual.net/2013/05/21/getting-the-name-of-glued-connection-points/">
+Getting the Name of Glued Connection Points</a></p>
+<p>В статье Дэвида Паркера пример кода VBA и совет использовать AddAdvise вместо WithEvents</p>
+<p>Также вопросы в форумах:<br>
+<a href="http://visguy.com/vgforum/index.php?topic=7252.msg30495#msg30495">Find out informations of a connected (glued) shape</a><br>
+<a href="http://visio.getbb.ru/viewtopic.php?f=5&t=1314">Вопрос по коннектору</a><br>
+<a href="http://visio.getbb.ru/viewtopic.php?f=5&t=1057">Имя приклеенной фигуры из таблицы свойств</a></p>
+<p>Кроме того, есть мысль о специальных коннекторах, в которых код можно запускать
+не через ConnectionsAdded, ConnectionsDeleted, а отслеживая изменение ячейки</p>
+<p>Scratch.A = RUNMACRO("ThisDocument.ttt")+DEPENDSON(BegTrigger)</p>
+<p>Если нужно что-то передать, то можно и через CallThis. =CALLTHIS("ThisDocument.ttt")+DEPENDSON(BegTrigger)</p>
+<p>с обработчиком</p>
+<p>Sub ttt(shp As Visio.Shape)<br>
+ MsgBox shp.Cells("BegTrigger").Formula<br>
+End Sub</p>
+
+
+<h2> Перечень литературы </h2>
+<p>15.11.2019&nbsp;<b><noindex><a target = new href=blog/21-dinamicheskoe-otslezhivanie-konnektov.html
+ rel="nofollow">&nbspДинамическое отслеживание коннектов</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>09.06.2019&nbsp;<b><noindex><a target = new href=blog/12-skorost-avtokonnekta-shejpov.html
+ rel="nofollow">&nbspСкорость автоконнекта шейпов</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.06.2014&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/en-us/previous-versions/office/developer/office-xp/aa201778(v=office.10)
+ rel="nofollow">&nbspCreating a Connected Drawing from a Program</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>15.10.2012&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2012/10/15/adding-more-smartness-to-visio-connectors/
+ rel="nofollow">&nbspAdding More Smartness to Visio Connectors</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>07.05.2012&nbsp;<b><noindex><a target = new href=https://blogs.msdn.microsoft.com/officedevdocs/2012/05/07/working-with-connected-diagrams-programmatically/
+ rel="nofollow">&nbspWorking with connected diagrams programmatically</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspE. Schmidt&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>13.07.2009&nbsp;<b><noindex><a target = new href=http://www.visguy.com/2009/07/13/automatically-number-connect-shapes-with-code/
+ rel="nofollow">&nbspAutomatically Number & Connect Shapes – With Code!</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspChris Roth&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>22.04.2009&nbsp;<b><noindex><a target = new href=http://www.visguy.com/2009/04/22/analyze-connectivity-between-process-flows/
+ rel="nofollow">&nbspAnalyze Connectivity Between Process Flows</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspChris Roth&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>17.03.2008&nbsp;<b><noindex><a target = new href=http://www.visguy.com/2008/03/17/connect-all-shapes-to-each-other/
+ rel="nofollow">&nbspConnect All Shapes to Each Other</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspChris Roth&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Как красиво приклеить?</p>
+<p class="v">Для склеивания двух объектов Shape использую Line Connector и Connection Point:CObj, NObj - объекты Shape, хост и сегментconObj - объект Line Connector(1) conObj.Cells("BeginX").GlueTo CObj(2) conObj.Cells("EndX").GlueTo NObj.Cells ("Connections.X1")Часто, при переносе какого-либо из двух объектов, "Line Connector" пересекает изображение объекта, выглядит плохо.Вручную можно "Line Connector" приклеить к Shape объекту целиком, при этом используемый "Connection Point" выбирается автоматически в соответствии с расположением Shape объектов. Как образовать такое соединение программным путём?&nbsp;</p>
+<p class="o">Коннектор можно клеить к:- точкам соединения - Connections.Xn или Connections.Yn (Ваш пример)- изломам геометрии - Geometry.Xn или Geometry.Yn- сторонам шейпа - AlignLeft, AlignCenter, AlignRight, AlignTop, AlignMiddle или AlignBottom- наконец, динамический клей (то, что Вам нужно) - к PinX или PinYТипа: conObj.Cells("EndX").GlueTo NObj.Cells("PinX")А если уж совсем хочется эффектов, то можно еще поманипулировать секцией Shape Layout для совершенстования обтекания (это аналогично вкладке Format/Behavior/Placement).&nbsp;</p>
+<p class="n">Как определить в Visual Basic цепочку из соединенных шейпов?</p>
+<p class="v">Сделал схему ЛВС, рабочие места соединил с портами на патч панели и коммутаторах соединителями. Как можно определить в Visual Basic цепочку из соединенных шейпов и как можно пройти по этой цепочке.Это надо для того, чтобы легко идентифицировать соответствующие порты в коммутаторах по выбранным рабочим местам.&nbsp;</p>
+<p class="o">Доступ к идентификаторам объектов связанных коннектором можно получить из самого коннектора.Имя_коннектора.Connects.Item(i).ToCell.Shape.NameIDNameID - это идентификатор Шейпа на листе Sheet.номерИмя трафарета, который использовался при создании, определяется ссылкой к полю Namei - это номера соединяемых шейповДля того чтобы получить доступ к CustomProperties полям надо&nbsp;</p>
+<p class="t">page.Shapes.Item(i).Cells("Prop.CodeCable").Formula&nbsp;</p>
+<p class="o">Prop.CodeCable - название ячейки, отображаемое в ShapeSheet (в случае патч корда это так и выглядит), отображается название по-другому нежели в CustomPropertiesЕсли такого пропертиса нет, то возвращается ошибка end of expected&nbsp;</p>
+<p class="n">Можно ли получить доступ к Connection points шейпа из VB и удалить ненужные точки?</p>
+<p class="v">Задача:есть мастер (прямоугольник), который имеет 10 Connection points слева и 10 справа. Во время перетаскивания мастера на документ и перехода в шейп требуется убрать лишние Connection points (что бы они были не видны и не доступны пользователю). Количество лишних Connection points определяется программой по заданному алгоритму.&nbsp;</p>
+<p class="o">В шейп-листе есть секция Connection Points. Для удаления Points нужно из этой секции удалить строку.Строка в общем случае удаляется примерно так:&nbsp;</p>
+<p class="t">shpObj.DeleteRow visSectionFirstComponent + 0, visRowVertex + 3&nbsp;</p>
+<p class="o">Для секции Connection Points это будет выглядеть примерно так:&nbsp;</p>
+<p class="t">shpObj.DeleteRow visSectionConnectionPts+0, visRowConnectionPts+2&nbsp;</p>
+<p class="o">В примере удалится точка № 3 (из расчета 0, 1, 2, 3...).&nbsp;</p>
+<p class="t">Sub ttt()ActivePage.Shapes(1).DeleteRow visSectionConnectionPts + 0, visRowConnectionPts + 2End Sub&nbsp;</p>
+<p class="n">Как определить к какому именно конекшен поинту произошло подключение?</p>
+<p class="v">Меня интересует именно раздел работа VB с Visio. Вопрос как определить к какому именно конекшен поинту произошло подключение и запросить у этого объекта кастомные свойства. То есть, есть труба которая подключается например к емкости нужно понять, к чему она подключена (емкость, клапан, насос, узел), к какой части емкости верх низ середина, и запросить кастомные свойства этого объекта в зависимости от места подключения к нему.&nbsp;</p>
+<p class="o">Коннекторы с точки зрения анализа соединений отличаются от прочих шейпов.Труба у Вас наверное будет коннектором. У коннектора нужно смотреть коллекцию Connects. В ней будет столько элементов, сколько раз этот коннектор подключен куда-либо. Если труба - ConnectorObj, то коллекция - ConnectorObj.Connects, число подключений - ConnectorObj.Connects.Count.Вычислить, к чему она подключена, можно через свойство ToSheet. Если у Вас на рисунке выбрана только эта труба, то ActiveWindow.Selection(1).Connects(1).ToSheet.Master.Name даст имя мастер-шейпа элемента, подключенного к первому концу трубы.А вот у емкости и прочих шейпов смотреть надо уже другую коллекцию - FromConnects (вместо Connects) и свойство FromSheet вместо ToSheet. То есть вроде как смотрим с обратной стороны на то же подключение.Ну, и еще два свойства - FromPart и ToPart объекта Connect помогут определить часть шейпа (там куча констант, показывающих низ, верх, номер Connection Point'а  и т.д.)&nbsp;</p>
+<p class="n">Как отменить огибание коннектором при пересечениях</p>
+<p class="v">Есть несколько слоев, ненужные скрыты. На перекрестке видимый коннектор огибает другой коннектор (невидимый). Как сделать видимый коннектор ровным, т.е. без значка дуги в месте пересечения?&nbsp;</p>
+<p class="o">Хитрый случай. Одной кнопкой не решается. Можно использовать свойство страницы LineJumpCode и сделать так, что при пересечении видимого коннектора с невидимым дуга всегда стояла на невидимом коннекторе.1. В свойствах страницы в Layout and Routing в блоке Line jumps нужно указать First displayed line.2. Переместить невидимые коннекторы вниз. Для этого, например, выделить все и выполнить Bring to Front.При этом все невидимое не выделится и окажется внизу. В том числе и невидимые гнутые коннекторы.&nbsp;</p>
+<p class="n">Почему-то не присоединяются конекторы</p>
+<p class="v">Подготовил оргструктуру. Она матричная, поэтому к квадратикам могут идти стрелки от двух - трех других квадратиков. Т.е. к шейпу подключаются по 2-3 конектора.Затем, спустя какое-то время, понадобилось внести изменения.Возникла проблема - если к шейпу ведет один конектор, то второй либо накладывается на первый, либо первый исчезает. Как быть? Что исправить и где?&nbsp;</p>
+<p class="o">Это особенность оргструктуры. В них работает аддон, который задает именно такое поведение.Один из вариантов решения - отключить события автоматизации. Опасно тем, что если потом когда-то их включить, то опять все исчезнет.Второй вариант – для дополнительных подключений использовать не Dynamic connector, а Dotted-line report. Он тоже есть в оргдиаграммах. Его можно отформатировать, чтобы выглядел так же, как Dynamic connector. Этот исчезать не будет.&nbsp;</p>
+<p class="n">Жесткая точка соединения</p>
+<p class="v">Есть разные элементы с точкой соединения (1). Есть главный элемент, у которого много точек соединения (2). Нужно создать жесткую связь, чтобы элементы 1 не отрывались от элемента 2 никак (кроме удаления).&nbsp;</p>
+<p class="o">Сделайте жесткую связь и защиту 2-го элемента.Для этого создайте соединительную точку Внутрь(Inward), а у зависимой фигуры соединительную точку Наружу(Outward). Соедините их жесткой связью и сделайте защиту зависимой фигуры Формат>Защита(Format>Protection). В этом окне отметьте все галочки, кроме удаления.&nbsp;</p>
+<p class="v">Теперь новая проблема. Есть элементы, которые надо сначала вытащить на лист, повернуть, а уже потом цеплять, а с защитой не получается. Что делать?&nbsp;</p>
+<p class="o">Используйте маркеры направления жестких связей.http://www.prodigitall.narod.ru/articles/article12.html&nbsp;</p>
+<p class="v">У меня их нет, как их настроить?&nbsp;</p>
+<p class="o">Тогда вручную через ShapeSheet. Раздел Connection point, ячейки DirX/A и DirY/B. Это положение маркера в мм, относительно центра соединитеьлной точки.&nbsp;</p>
+<p class="n">Соединить 2 фигуры прямой линией</p>
+<p class="v">Нужно соединить линией(стрелкой) две фигуры так, чтобы при перетаскивании одной за ней тянулась и эта линия, а не отрывалась от неё. Но это не всё. Обычный соединитель такое позволяет, но он не проводится по диагонали - только изгибается под прямым углом. А мне нужно, чтобы эта линия всегда была прямая и не изгибалась. Как такое сделать?&nbsp;</p>
+<p class="o">Соедините их обычной прямой линией. Только сначала надо поставить галочку в Tools / Snap & Glue / Glue To - Shape Handles.&nbsp;</p>
+<p class="n">Создание произвольного коннектора</p>
+<p class="v">Необходимо получить коннектор с числом отрезков более 7, т.к. этого недостаточно, можно ли напрямую самому наносить места расположения точек изменения угла?&nbsp;</p>
+<p class="o">Прижмите клавишу Ctrl и дергайте за зеленые точки посредине отрезков.&nbsp;</p>
+<p class="n">Какой конец коннектора присоединился к шейпу?</p>
+<p class="v">Подскажите как определить начало или конец коннектора присоединился к шэйпу. Отлавливаю ConectionsAdded у Page-а, беру FromShape (это коннектор) и смотрю у него коллекцию Connects, никак не могу понять как определить начало коннектора прицепилось или конец.&nbsp;</p>
+<p class="o">Нужно посмотреть FromPart у объекта Connect.visBegin = 9 - началоvisEnd = 12 - конецНапример, если селектирован коннектор, то в данном примере одна строчка даст 9, вторая - 12.&nbsp;</p>
+<p class="t">Sub ttt()MsgBox ActiveWindow.Selection(1).Connects(1).FromPartMsgBox ActiveWindow.Selection(1).Connects(2).FromPartEnd Sub&nbsp;</p>
+<p class="n">Как отловить соединение шейпов</p>
+<p class="v">Как отловить соединение шейпов. И как узнать какие это шейпы.&nbsp;</p>
+<p class="o">Все соединения можно посмотреть в коллекциях Connects или FromConnects шейпа или коллекции Connects страницы.А дальше выбирается из этой коллекции очередной Connect и рассматриваются его свойства FromSheet, ToSheet для определения участвующих шейпов и свойства FromPart, ToPart для уточнения их частей.Или надо событие соединения отловить?Если так, то нужно объявлять страницу с WithEvents. При этом станет возможной обработка события ConnectionsAdded(ByVal Connects As IVConnects). Ну, а здесь уже в обработчике получаем тот же самый объект Connects и начинаем точно также рассматривать его свойства.Вот простейший пример, который показывает соединение 2х шейпов с помощью третьего, например с помощью "Dynamic connector".&nbsp;</p>
+<p class="t">Sub Example1()s1 = ""lastFromSheet = ""lastToSheet = "" For i = 1 To ActivePage.Connects.Count  thisFromSheet = ActivePage.Connects(i).FromSheet  thisToSheet = ActivePage.Connects(i).ToSheet   If lastFromSheet = thisFromSheet Then    s1 = s1 + lastToSheet + " -> " + thisToSheet + vbCrLf   End If  lastFromSheet = thisFromSheet  lastToSheet = thisToSheet NextMsgBox (s1)End Sub&nbsp;</p>
+<p class="n">Разделение соединителей</p>
+<p class="v">Пожалуйста, подскажите, какие параметры или настройки позволяют предотвратить наложение соединителей (connector). настройки страницы почему-то на это не влияют.Есть две фигуры, их надо соединить двумя параллельными коннекторами. Оба коннектора должны выходить из одной connection point на первой фигуре и приходить на одну connection point на другой фигуре. Нужно, чтобы эти коннекторы не накладывались друг на друга, а автоматом разносились&nbsp;</p>
+<p class="o">Автоматом коннекторы разносятся только при динамическом соединении, да и то только в том случае, если выбран прямоугольный тип коннектора (Right-Angle).Если коннектор приклеен к точкам соединения, то они будут накладываться. Но конфигурацию коннектора можно изменить вручную. Для это нужно выбрать коннектор, найти мышью середину коннектора или его сегмента и переместить ее зажимая клавишу Ctrl.&nbsp;</p>
+<p class="n">Доступ к Connection points из VB</p>
+<p class="v">Задача: есть мастер (прямоугольник), который имеет 10 Connection points с лева и 10 с права. Во время перетаскивания мастера на документ и перехода в шейп требуется убрать лишние Connection points (что бы они были не видны и не доступны пользователю). Количество лишних Connection points определяется программой по заданному алгоритму.Вопрос: можно ли получить доступ к Connection points шейпа из VB и удалить ненужные точки?&nbsp;</p>
+<p class="o">В шейп-листе есть секция Connection Points. Для удаления Points нужно из этой секции удалить строку.Строка в общем случае удаляется примерно так:shpObj.DeleteRow visSectionFirstComponent + 0, visRowVertex + 3Для секции Connection Points это будет выглядеть примерно так:shpObj.DeleteRow visSectionConnectionPts+0, visRowConnectionPts+2В примере удалится точка № 3 (из расчета 0, 1, 2, 3...).&nbsp;</p>
+<p class="t">Sub ttt()ActivePage.Shapes(1).DeleteRow visSectionConnectionPts + 0, visRowConnectionPts + 2End Sub&nbsp;</p>
+<p class="n">Как создать много точек соединения?</p>
+<p class="v">Подскажите пожалуйста, как добавить коннекшен поинтс к шейпу...Нашел на форуме тему, но не могу понять как AddRows работает. Подскажите, пожалуйста, конкретно, что в параметры надо забросить, чтоб добавить, к примеру 4, 6, 8 точек.&nbsp;</p>
+<p class="o">Все очень просто. Если фигура не имеет раздела конекшен поинтов, то сначала надо создать его. Делаем это так:&nbsp;</p>
+<p class="t">Dim UndoScopeID1 As LongUndoScopeID1 = Application.BeginUndoScope("Add Section")Application.ActiveWindow.Shape.AddSection visSectionConnectionPtsApplication.EndUndoScope UndoScopeID1, True&nbsp;</p>
+<p class="o">Затем добавляем коннекшен поинт&nbsp;</p>
+<p class="t">Dim UndoScopeID2 As LongUndoScopeID2 = Application.BeginUndoScope("Insert Row")Application.ActiveWindow.Shape.AddRow visSectionConnectionPts, 0, visCnnctXApplication.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctX).FormulaU = "Width*0"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctY).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctDirX).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctDirY).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctType).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctAutoGen).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, 6).FormulaU = ""Application.EndUndoScope UndoScopeID2, True&nbsp;</p>
+<p class="o">Затем добавляем следующий&nbsp;</p>
+<p class="t">Dim UndoScopeID3 As LongUndoScopeID3 = Application.BeginUndoScope("Insert Row")Application.ActiveWindow.Shape.AddRow visSectionConnectionPts, 0, visCnnctXApplication.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctX).FormulaU = "Width*0"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctY).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctDirX).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctDirY).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctType).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctAutoGen).FormulaU = "0 mm"Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, 6).FormulaU = ""Application.EndUndoScope UndoScopeID3, True&nbsp;</p>
+<p class="o">И так далее....В значениях параметров, пишите то что вам нужно... координанты поинта в фигуре и прочее...Да... чуть не забыл самое главное, если хотите задать имя строке точки коннектора, то это делается так:&nbsp;</p>
+<p class="t">Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 0, visCnnctX).RowNameU = "MyConnector1"&nbsp;</p>
+<p class="o">В данном примере мы присваиваем имя MyConnector1 первой строке (первому коннектору), аналогично:&nbsp;</p>
+<p class="t">Application.ActiveWindow.Shape.CellsSRC(visSectionConnectionPts, 1, visCnnctX).RowNameU = "MyConnector2"&nbsp;</p>
+<p class="o">Второму и т.д.&nbsp;</p>
+<p class="n">Умный коннектор</p>
+<p class="v">Нужно создать универсальный коннектор, который будет изменять свой цвет и начертание в зависимости от значений пользовательских свойств. Предполагаю использовать при рисовании схем ЛВС. Скажите с чего начать и куда грести?Если конкретно, то требуется следующее:Создается пользовательское свойство "Технология" значения которого берутся из списка "Ethernet;Fast Ethernet;Gigabit Ethernet".В зависимости от выбранного значения должен меняться цвет коннектора.&nbsp;</p>
+<p class="o">В ячейке где задектся цвет (FillForegnd)&nbsp;</p>
+<p class="t">=if(StrSame(Prop.Row_1;"Ethernet");0;if(StrSame(Prop.Row_1;"Fast Ethernet");1;2))&nbsp;</p>
+<p class="o">где Prop.Row_1 это ваша "Технология"&nbsp;</p>
+<p class="n">Группа не приклеивается</p>
+<p class="v">Сделал я группу и добавил к ней точку подключения типа Out (1). Теперь взяв мышкой эту группу можно приклеить её к какой-либо фигуре, имеющей точку подключения типа In (0). Но если добавить в группу много шейпов, то группа становится слишком "тяжёлой" и перемещение мышкой происходит с задержкой(если удерживать кнопку мышки) - сначала отрисовывается рамка, а потом содержимоею. При этом клей работать перестаёт. Можно это как-нибудь обойти более-менее удобным способом?&nbsp;</p>
+<p class="o">Это ограничение Visio. Если группа содержит более 50 (примерно) шейпов, она перестает приклеиваться.Возможные методы борьбы:- сокращать количество входящих, объединяя их операцией Join;- импортировать часть изображения в EMF и добавлять потом в группу в виде картинки (это будет один шейп).&nbsp;</p>
+<p class="n">Подскажите пример макроса для выбора цепочки связанных объектов</p>
+<p class="v">Не посоветует ли кто пример макроса, который по клику на объект "покрасит" всю цепочку соединенных объектов? Или ссылочку на почитать.&nbsp;</p>
+<p class="o">Это не такой-то простой макрос... Вот для примера макрос, решающий похожую задачу (только с ручным запуском).На листе есть много квадратиков, соединенных коннекторами. Если выделить один квадратик и запустить макрос bounce, то селектируются все связанные квадратики. Коннекторы не селектировались.Используется рекурсивный вызов процедуры recurs. Имена набиваются в коллекцию, потом все селектируется.&nbsp;</p>
+<p class="t">Dim Scol As CollectionSub bounce()    Dim shTmp As Visio.Shape 'временный    Set shTmp = ActiveWindow.Selection(1)    Set Scol = New Collection    Scol.Add shTmp.NameID    recurs shTmp    ActiveWindow.DeselectAll    For i = 1 To Scol.Count        ActiveWindow.Select ActivePage.Shapes(Scol(i)), visSelect    NextEnd SubSub recurs(Sh As Visio.Shape)    Dim shTmp As Visio.Shape 'временный    Dim sc As Visio.Shape 'коннектор    For i = 1 To Sh.FromConnects.Count        Set sc = Sh.FromConnects(i).FromSheet        If sc.Connects.Count > 1 Then            If sc.Connects(1).ToSheet = Sh Then                Flag = 0                For Each stmp In Scol                    If StrComp(stmp, sc.Connects(2).ToSheet.NameID) = 0 Then Flag = 1                Next                If Flag = 0 Then                    Scol.Add (sc.Connects(2).ToSheet.NameID)                    Set shTmp = sc.Connects(2).ToSheet                    recurs shTmp                End If            Else                Flag = 0                For Each stmp In Scol                    If StrComp(stmp, sc.Connects(1).ToSheet.NameID) = 0 Then Flag = 1                Next                If Flag = 0 Then                    Scol.Add (sc.Connects(1).ToSheet.NameID)                    Set shTmp = sc.Connects(1).ToSheet                    recurs shTmp                End If            End If        End If    NextEnd Sub&nbsp;</p>
+<p class="n">Отображение точек соединения</p>
+<p class="v">Подскажите пожалуйста где отключается отображение точек соединения.&nbsp;</p>
+<p class="o">Меню View / Connection Points.Но при этом они перестают коннектиться.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

@@ -1,0 +1,122 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Обработка текста</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Обработка текста</h1>
+<p>Программная работа с текстом в Visio отличается от работы с другими элементами тем, что текст не виден в шейп-листе.
+Начинающих это обескураживает. Все видно, а текста нет.</p>
+<p>Программист может использовать для доступа к тексту шейпа либо свойство Text шейпа (Shape.Text), либо свойство
+Text объекта Characters (Shape.Characters.Text).</p>
+<p>Первый способ попроще, но и возможностей у него меньше. Он работает с текстом в целом.</p>
+<p>Второй способ позволяет работать с отдельными фрагментами текста, в том числе задавать им разное форматирование.</p>
+<p>В общем-то, это основное, что нужно помнить, остальное можно посмотреть в справке.</p>
+
+
+<h2> Перечень литературы </h2>
+<p>28.03.2021&nbsp;<b><noindex><a target = new href=https://johnvisiomvp.ca/2021/03/28/visio-has-some-interesting-characters
+ rel="nofollow">&nbspVisio has some interesting Characters</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspjohnvisiomvp&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>06.11.2015&nbsp;<b><noindex><a target = new href=https://www.orbussoftware.com/blog/simple-macros-in-microsoft-visio/
+ rel="nofollow">&nbspSimple Macros in Microsoft Visio with the Macro Recorder</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>20.10.2004&nbsp;<b><noindex><a target = new href=https://surrogate-tm.github.io/mailant/2004/10/20/dev-luv-processing-text-in-visio.htm
+ rel="nofollow">&nbspProcessing Text in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+Mai-lan
+&nbsp;&nbsp;</noindex>(англ.) Работа с текстом в Visio&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Переключение скрытого текста</p>
+<p class="v">Переключение скрытого текста&nbsp;</p>
+<p class="t">Sub hidden()    If ActiveDocument.Styles("Скрытый").Font.hidden = False Then        ActiveDocument.Styles("Скрытый").Font.hidden = True    Else        ActiveDocument.Styles("Скрытый").Font.hidden = False    End IfEnd Sub&nbsp;</p>
+<p class="o">Если в документе существует текст, выполненный стилем "Скрытый", то данный макрос переключает его отображение. Большой документ при этом, естественно, дергается, что не очень удобно.&nbsp;</p>
+<p class="n">Как программно отформатировать текст в шейпе?</p>
+<p class="v">Как программно отформатировать текст в шейпе используя несколько шрифтов?&nbsp;</p>
+<p class="o">Все параметры шейпов в Visio отображаются и меняются в шейп-листе (ShapeSheet).Если не знаете, как сделать что-то программно, делайте это вручную и смотрите, как это отражается в шейп-листе. Потом пытайтесь внести такое же изменение в ячейку шейп-листа программно.Например.Рисуем на листе только один квадрат, пишем в нем 1234567890. Открываем шейп лист. Находим секцию Character (на будущее). Теперь на листе рисунка красим текст в красный цвет. В шейп листе тут же в ячейке Color секции Character появляется 2 (номер красного цвета). Делаем вывод - если записать в ячейку Color значение 2, текст станет красным.Проверяем. Отменяем ручные изменения и выполняем макрос&nbsp;</p>
+<p class="t">Sub ttt()ActivePage.Shapes(1).Cells("Char.Color").Result("") = "2"End Sub&nbsp;</p>
+<p class="o">Убеждаемся, что текст после этого макроса опять становится красным.Точно также можно работать и с другими атрибутами секции Character: Font, Size, Scale и т.д.Примечание.Если в одном шейпе текст имеет разное форматирование (например 3 буквы красные, потом 5 синих), то в секции Character это будет отражено двумя строчками и можно менять параметры каждой группы текста отдельно. Больше групп - больше строчек. Однако, если первоначально текст был отформатирован одинаково (в секции была только одна строка), то возникнет проблема. В документации прямо указывается, что добавление и удаление строк из четырех секций запрещено (visSectionCharacter, visSectionParagraph, visSectionTextField, or visSectionTab).Так что хорошо бы  заранее готовить шейпы с нужным числом строк.Если известно, что в каком-то типе шейпа может понадобиться менять форматирование фрагмента текста - взять и подправить мастер-шейп, то-есть внести несколько строк в секцию еще на уровне мастер-шейпа. Будет специальный мастер. А на рисунке уже работать с подготовленными секциями. Вот только разметка позиций будет фиксированной. Еще один кривой вариант - работать с группой. В принципе наверно можно иметь несколько шейпов-текстовых блоков, менять их размер в зависимости от введенного текста (типа Width = GUARD(EVALTEXT(TheText)) и позиционировать один за другим. Тогда каждый будет управляться сам по себе, а выглядеть это будет как одна текстовая строка (сам не пробовал, но почему бы не работать).Некоторые эффекты получаются с использованием ячеек Scale и Transparency. То есть фрагмент текста можно сделать невидимым и сжать, а когда нужно развернуть.&nbsp;</p>
+<p class="n">Пример работы с текстом и файлами.</p>
+<p class="v">Я никогда не программировала для Visio и, чтобы разобраться как это делается, не поможете ли с программой для примера.В открытом документе по указанию на какой-либо допустим квадратик (double-click?), берется его подпись (может activePage.Shapes.Text ?), открывается другой более общий файл visio, находится там квадратик с тем же текстом, увеличивается просмотр с центром экрана на этом квадратике.Заранее спасибо.&nbsp;</p>
+<p class="t">Sub ttt()  s0 = ActiveWindow.Selection.Item(1).Text  Dim docObj As Visio.Document  Dim selObj As Visio.Selection  Dim winObj As Window  Set docObj = Documents.Open("C:\FileБолееОбщий.vsd")  Set pagObj = docObj.Pages(1)  For i = 1 To pagObj.Shapes.Count	s = pagObj.Shapes(i).Text	If (InStr(s, s0) > 0) Then	  Set winObj = ActiveWindow	  winObj.Select pagObj.Shapes(i), visSelect + visDeselectAll	  px = winObj.Selection.Item(1).Cells("PinX")	  py = winObj.Selection.Item(1).Cells("PinY")	  winObj.SetViewRect px - 1, py + 1, 5, 5	  MsgBox ("pX= " & px & " pY= " & py)	End If  NextEnd Sub&nbsp;</p>
+<p class="o">Двойной щелчок по любому из квадратиков загружает более общий файл, находит в нем шейпы с похожим текстом и позиционирует на них окно. MsgBox пишет координаты шейпа (и тормозит программу на время просмотра).После выполнения макроса "Более общий" файл закрыть вручную (забыл Close написать)&nbsp;</p>
+<p class="n">Помогите подсчитать программно сколько в тексте на шейпе wrapped строк.</p>
+<p class="v">Помогите подсчитать программно сколько в тексте на шейпе wrapped строк.&nbsp;</p>
+<p class="o">Вот такая штуковина&nbsp;</p>
+<p class="t">Sub ttt()s = ActivePage.Shapes(1).Texti = 1While i > 0i = InStr(i, s, vbLf) + 1MsgBox i - 1WendEnd Sub&nbsp;</p>
+<p class="o">Вот по такому тексту шейпаРаз строкаДва строкаТри строкаГоворит последовательно: 11, 22, 0. То есть переводы строк на 11, 22 позиции, а больше нету.&nbsp;</p>
+<p class="n">Как подсчитать получившееся количество строк при заполнении шейпа текстом?</p>
+<p class="v">При добавлении текста на прямоугольник получается автоматический перенос строк(wrap) по ширине шейпа. Вопрос состоит в подсчете получившегося количества строк, независимо от нажатий  при вводе этого текста.&nbsp;</p>
+<p class="o">Здесь вычисления могут быть только приближенными. Существует функция, которая выдает расчетную высоту текста с учетом ограничения текстового блока по ширине и прочих параметров форматирования.&nbsp;</p>
+<p class="t">TEXTHEIGHT(shapename!TheText,maximumwidth)&nbsp;</p>
+<p class="o">В принципе, пользуясь ей и зная высоту одной строки, можно рассчитать и число строк. Только не забыть все делать в одинаковых единицах измерения и помнить, что отступы текстового блока тоже входят в высоту.&nbsp;</p>
+<p class="n">Как программно изменить размер и выравнивание шрифта в шейпе?</p>
+<p class="v">Подскажите pls как программно изменить размер и выравнивание шрифта в шейпе и как пользоваться стилями?ПишуSet shpObj = pagObj.DrawRectangle(2, 8, 6, 9)shpObj.Text = "Hello World!"shpObj.TextStyle = "Arial 24pt centered"Ошибка: стиль задан неверно!&nbsp;</p>
+<p class="o">А Вы создали предварительно стиль с таким названием? Этот способ работает с уже имеющимися стилями.Создать новый стиль и изменить шрифт - это совершенно разные вещи.Изменить шрифт легко. Вот эти две строчки сделают размер шрифта 6 pt и выравняют параграф по центру. Для этого стилей создавать не нужно.&nbsp;</p>
+<p class="t">Sub tty()ActivePage.Shapes(1).Cells("Char.Size").Formula = "=6 pt."ActivePage.Shapes(1).Cells("Para.HorzAlign") = 1End Sub&nbsp;</p>
+<p class="o">А создавать новый стиль лучше все-таки вручную, а программно его только применять. То, что Вы пытались показать в примере, это только применение стиля.&nbsp;</p>
+<p class="n">Как менять несколько надписей сразу?</p>
+<p class="v">Требуется, чтобы при изменении одного текста на листе менялось также несколько надписей. Нашел почти подходящий шейп в Organization Chart (Position и др.), но он, при помощи метода create synchronized copy создает связанные предметы только для разных листов. Можно ли этот метод как-то использовать для простых объектов?Заранее спасибо.&nbsp;</p>
+<p class="o">А может попроще?Вставить в зависимые шейпы поле вот с такой формулой (в данном случае ссылка на шейп Sheet.1). И то, что появится в Sheet.1, будет транслироваться в эти шейпы.&nbsp;</p>
+<p class="t">=ShapeText(Sheet.1!TheText)&nbsp;</p>
+<p class="n">Как менять несколько надписей сразу 2?</p>
+<p class="v">1.Создаю прямоугольник с текстом внутри.(тут вопросы: Нужно ли его помещать в shapes и если да то для мастера менять свойства? Дальше куда - в custom properties в format или открыть shape list? куда эту формулу =ShapeText(Sheet.1!TheText) вставлять)2.Копирую его по всему листу(документу) и хочу, что бы при изменении текста внутри любого (можно одного главного) везде текст также менялся.&nbsp;</p>
+<p class="o">1) Создаете прямоугольник.2) Когда он выделен либо нажимаете F2, либо 2-м нажатием левой кн. мыши.3) Далее нажимаете правой кнопкой мыши и выбираете Insert Field...(Вставка поля...)4) В появившемся окне в Category(Категория) выберите Custom Formula(Другая формула).5) И в строке снизу введите необходимую формулу.Вот и все.&nbsp;</p>
+<p class="n">Как программно прижать текстовый блок коннектора к одному из концов?</p>
+<p class="v">Как программно прижать текстовый блок коннектора к одному из концов. Пожалуйста, помогите.&nbsp;</p>
+<p class="o">Например, так.&nbsp;</p>
+<p class="t">Sub Text_position()Dim shpObj As Visio.ShapeSet pagsObj = ThisDocument.PagesSet pagObj = pagsObj.Item(1)Set selectObj = ActiveWindow.SelectionSet shpObj = ActiveWindow.Selection.Item(1)Set celObj1 = shpObj.Cells("TxtPinX") 'назначаем ячейкуSet celObj2 = shpObj.Cells("TxtPinY") 'назначаем ячейкуcelObj1.Formula = "Width*1" 'прижимаем к низуcelObj2.Formula = "Height*1" 'прижимаем к низуcelObj1.Formula = "Width*0" 'прижимаем к верхуcelObj2.Formula = "Height*0" 'прижимаем к верхуEnd Sub&nbsp;</p>
+<p class="n">Отображается прямоугольник OBJ вместо текста шейпа</p>
+<p class="v">Имеется два шейпа. В одном в виде текста отображается значение свойства Prop.Row_1. Если для второго шейпа использовать Shape2.Text=Shape1.Text, то вместо текста появляется прямоугольник OBJ. Как добиться того, чтобы Shape2.Text был точно такой же как и Shape1.Text?&nbsp;</p>
+<p class="o">Дело в том, что в первом шейпе вместо чистого текста использовано поле, ссылающееся на ячейку данных. В таком случае ссылка .Text работает некорректно. Нужно использовать Shape.Characters.Text. Например так&nbsp;</p>
+<p class="t">ActivePage.Shapes(2).Text = ActivePage.Shapes(1).Characters.Text&nbsp;</p>
+<p class="o">&nbsp;</p>
+<p class="n">Подскажите пожалуйста как записать текст из shp.text в ячейку свойств?</p>
+<p class="o">Строка&nbsp;</p>
+<p class="t"> .Cells("Prop.ShapeNumberText").FormulaForceU = shp.Text&nbsp;</p>
+<p class="v">пишет только если shp.text - число. Она кстати ещё убирает "0" если он есть перед числом. Можно ли как-то их сохранить (01, 001)?&nbsp;</p>
+<p class="t">shp.Cells("Prop.Prop1").FormulaForceU = shp.Text&nbsp;</p>
+<p class="v">вызывает ошибку #NAME?&nbsp;</p>
+<p class="o">При записи строки в формулу нужно добавлять дополнительные кавычки, то есть&nbsp;</p>
+<p class="t">.FormulaForceU = Chr(34) & shp.Text & Chr(34)&nbsp;</p>
+<p class="o">При этом и нули появятся.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

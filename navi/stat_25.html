@@ -1,0 +1,77 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>PowerShell</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>PowerShell</h1>
+<h2> Перечень литературы </h2>
+<p>08.08.2020&nbsp;<b><noindex><a target = new href=https://johnvisiomvp.ca/2020/08/08/exploring-the-visio-file/
+ rel="nofollow">&nbspExploring the Visio file</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspjohnvisiomvp&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>21.08.2019&nbsp;<b><noindex><a target = new href=https://saveenr.gitbook.io/visiopowershell/
+ rel="nofollow">&nbspVisio PowerShell</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspSaveen Reddy&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>18.05.2016&nbsp;<b><noindex><a target = new href=https://powershellstation.com/2016/05/18/translating-visio-vba-to-powershell/
+ rel="nofollow">&nbspTranslating Visio VBA to PowerShell</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspmike&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.01.2010&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/heyscriptingguy/2010/01/14/hey-scripting-guy-how-can-i-create-a-windows-visio-drawing-of-my-workstations-disk-subsystem/
+ rel="nofollow">&nbspHow Can I Create a Windows Visio Drawing of My Workstations Disk Subsystem?</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspScriptingGuy&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>12.01.2010&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/heyscriptingguy/2010/01/12/hey-scripting-guy-can-i-make-a-microsoft-visio-drawing-with-network-shapes-and-symbols/
+ rel="nofollow">&nbspCan I Make a Microsoft Visio Drawing with Network Shapes and Symbols?</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspScriptingGuy&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>11.01.2010&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/heyscriptingguy/2010/01/11/hey-scripting-guy-is-it-possible-to-automate-microsoft-visio/
+ rel="nofollow">&nbspIs It Possible to Automate Microsoft Visio?</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspScriptingGuy&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Отображение данных шейпа в PDF</p>
+<p class="v">Существует ли возможность отобразить данные шейпа при конвертировании в PDF?&nbsp;</p>
+<p class="o">Это возможно, если у вас установлен Acrobat Standard. Ниже приведен пример файла Visio с макросом (см. источник). Макрос сохраняет документ в формате PDF в той же папке, затем читает данные шейпов на всех страницах и записывает их в виде комментариев в PDF.Проверено в Visio 2013 Pro, Acrobat XI Standard, документ Visio в метрической системе.2. Использование Acrobat - не единственная возможность. Существует множество библиотек, работающих с комментариями. Например, можно воспользоваться open-source PdfSharp.Преобразование координат должно быть несложным. Внутренние единицы Visio - это дюймы, в PDF - точки, начало координат одинаковое (левый нижний угол). Поэтому формулы Visio_X*72, Visio_Y * 72 должны давать координаты X и Y в PDF.Пример размещения комментариев есть в http://www.pdfsharp.net/wiki/Annotations-sample.ashx.Ниже приведен скрипт powershell для добавления аннотаций с использованием рассмотренной выше методики (PdfSharp).&nbsp;</p>
+<p class="t">$visioFileName = $PSScriptRoot + "\demo\PdfNote.vsd"$pdfFileName = $PSScriptRoot + "\demo\PdfNote.pdf"Write-Host converting $visioFileName to $pdfFileName# Load PdfSharp assemblyAdd-Type -Path (Get-ChildItem -Filter PdfSharp.dll -Recurse $PSScriptRoot).FullName# start Visio and open the document$visio = New-Object -ComObject Visio.Application$visio.Visible = $true$visioDoc = $visio.Documents.Open($visioFileName)# Export PDF, all pages$visioDoc.ExportAsFixedFormat(1, $pdfFileName, 1, 0)# Open exported PDF with PdfSharp$pdfDoc = [PdfSharp.Pdf.IO.PdfReader]::Open($pdfFileName);for ($i = 0; $i -lt $pdfDoc.PageCount; $i = $i + 1) {    $pdfPage = $pdfDoc.Pages[$i]    $visioPage = $visioDoc.Pages[1 + $i]    foreach ($visioShape in $visioPage.Shapes) {        # if comment exists        $comment = $visioShape.CellsU("Comment").ResultStr(0)        if ($comment) {            # add it as annotation            $x = $visioShape.CellsU("PinX").ResultIU - $visioShape.CellsU("Width").ResultIU / 2            $y = $visioShape.CellsU("PinY").ResultIU + $visioShape.CellsU("Height").ResultIU / 2            $annotation = New-Object PdfSharp.Pdf.Annotations.PdfTextAnnotation            $annotation.Title = $visioShape.Characters.Text            $annotation.Contents = $comment            $annotation.Icon = 6 # "note" icon            # inches to points            $point = New-Object PdfSharp.Drawing.XPoint(($x * 72), ($y * 72))            $size = New-Object PdfSharp.Drawing.XSize(0, 0)            $rect = New-Object PdfSharp.Drawing.XRect($point, $size)            $annotation.Rectangle = New-Object PdfSharp.Pdf.PdfRectangle($rect)            $pdfPage.Annotations.Add($annotation)        }    }}&nbsp;</p>
+<p class="o">Источник (и подробности) - http://visguy.com/vgforum/index.php?topic=8581&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

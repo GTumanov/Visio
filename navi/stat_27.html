@@ -1,0 +1,77 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>XML</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<LINK REL="STYLESHEET" HREF="../vis.css">
+<link rel="icon" href="../favicon.ico" />
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="../index.html"><img SRC="../vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="../reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="../bib.htm">Библиотека</a> |
+ <a class="menu" href="../faq.htm">Частые вопросы</a> |
+ <a class="menu" href="../bookpdf.htm">Литература</a> |
+ <a class="menu" href="../loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="../navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="../blog/">Blog</a> |
+ <a class="menu" href="../inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="../site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="../visicorp.htm">История Visio</a> |
+ <a class="menu" href="../product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>XML</h1>
+<h2> Перечень литературы </h2>
+<p>14.06.2014&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/en-us/previous-versions/office/developer/office-xp/aa218409(v=office.10)
+ rel="nofollow">&nbspAn XML for Visio overview</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>27.12.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/12/27/xml-schema-definition/
+ rel="nofollow">&nbspВыпуск XML Schema Definition</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>19.09.2009&nbsp;<b><noindex><a target = new href=biblio/st015.htm
+ rel="nofollow">&nbspВыборка данных из файла Visio по XML технологии</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>Описывается способ выборки данных из файла Visio в случае отсутствия Visio. Данные выбираются внешней программой по XML технологии с использованием MSXML. Показаны варианты работы с DOM и через XSLT-преобразование&nbsp</p>
+<p>17.10.2008&nbsp;<b><noindex><a target = new href=https://bvisual.net/2008/10/17/importing-kml-files-into-visio/
+ rel="nofollow">&nbspImporting KML Files into Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>30.09.2008&nbsp;<b><noindex><a target = new href=https://bvisual.net/2008/09/30/moving-between-visio-and-kml/
+ rel="nofollow">&nbspMoving Between Visio and KML</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>30.11.2006&nbsp;<b><noindex><a target = new href=http://www.visguy.com/2006/11/30/visio-and-xml-conference-resources/
+ rel="nofollow">&nbspVisio and Xml Conference Resources</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspChris Roth&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Shape Data не видны в XML</p>
+<p class="v">Имеется электрическая схема в Visio, которую я пытаюсь проанализировать для отображения данных в другой программе. Я распаковываю файл visio и анализирую страницы XML для полей данных. Проблема в том, что в определенном случае поле данных не видно в XML. Но оно по-прежнему отображается в Visio. То есть информация должна быть где-то, но я не могу ее найти. Причем это происходит только тогда, когда значение поля данных равно 1, любое другое значение работает нормально.&nbsp;</p>
+<p class="o">Возможно, данные в XML не отображаются в том случае, если когда значение наследуется. Значение поля в шейпе равно значению этого же поля в мастер-шейпе.Это можно проверить экспериментально.&nbsp;</p>
+<p class="t"><Master ID='0'...<Shapes><Shape ID='5'...><Prop NameU='p' ID='1'><Value Unit='STR'>2</Value>...<Shape ID='1' ...</XForm></Shape><Shape ID='2' ...</XForm><Prop NameU='p' ID='1'><Value Unit='STR'>1</Value>&nbsp;</p>
+<p class="o">Кроме того, взгляните на ShapeSheet. Наследуемые и вновь введенные значения отличаются цветом.Такое поведение характерно как для старого XML формата (.vdx), так и для нового (.vsdx).(источник http://visguy.com/vgforum/index.php?topic=8645.0)&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>
