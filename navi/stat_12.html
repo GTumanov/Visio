@@ -1,0 +1,168 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Оргсхемы</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="/index.html"><img SRC="/vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="/reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="/bib.htm">Библиотека</a> |
+ <a class="menu" href="/faq.htm">Частые вопросы</a> |
+ <a class="menu" href="/bookpdf.htm">Литература</a> |
+ <a class="menu" href="/loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="/navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="/blog/">Blog</a> |
+ <a class="menu" href="/inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="/site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="/visicorp.htm">История Visio</a> |
+ <a class="menu" href="/product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Оргсхемы</h1>
+<p>Построение организационных диаграмм поддерживается дополнительным программным обеспечением,
+автоматизирующим импорт данных, настройку отображаемых полей, управление размещением шейпов.</p>
+<p>Прямо на старте включается визард, обеспечивающий настройку на источник данных, выбор
+полей и параметров размещения. Визард состоит из нескольких последовательно вызываемых экранных
+форм с настроечными параметрами. Большинство диаграмм может быть построено автоматически.
+Функцию импорта можно задействовать и позже.</p>
+<p>Вместо ручной настройки можно задействовать специальную утилиту ORGWIZ.EXE. Она обеспечивает
+аналогичные настройки, но вызывается из скрипта или другой программы. Вместо экранных форм
+настроечные данные передаются в виде параметров обращения. Пример вызова ORGWIZ.EXE:</p>
+<p>"C:\Program Files\Microsoft Office\Office12\OrgWiz.exe" /FILENAME="C:\temp\test.xls"</p>
+<p>Перечень параметров можно посмотреть в <a href="http://howtomicrosoftofficetutorials.blogspot.com/2018/07/make-visio-organization-charts-from.html">Make Visio organization charts from personnel files</a>.</p>
+<p>После первичного построения можно использовать еще ряд функций для оптимизации размещения
+или изменения внешнего вида диаграммы. Эти функции обеспечивает Add-On, вызываемый через
+дополнительную вкладку в риббоне. Microsoft не афиширует тот факт, что практически все эти
+функции можно вызвать программно, обращаясь к OrgC11.dll. Формат обращения примерно такой:</p>
+<p>AppVisio.Addons("OrgC11").Run ("/cmd=relayout")</p>
+<p>Нужно помнить, что до версии Visio 2010 программные обращения были тоже возможны,
+но параметры обращения несколько отличались.</p>
+<p>Одним из недостатков штатного аддона является невозможность управлять сортировкой при
+автопостроении. Частично этот недостаток устраняется с помощью дополнительной приставки.
+Разработан трафарет (программный), позволяющий выбрать нужное поле и изменить порядок следования
+шейпов на существующей диаграмме. Трафарет доступен через  Gumroad https://gumroad.com/l/YFych</p>
+<p>Нужно помнить, что оргдиаграмма в Visio имеет древовидную структуру. То есть у подчиненного
+может быть только один начальник. При попытке ввести дополнительную связь уже имеющаяся просто
+исчезает. Это можно обойти, если для дополнительных связей использовать другой тип коннектора, имеющийся в трафарете.</p>
+<p>Пользователи часто задают вопрос - можно ли изменить внешний вид шейпов, используемых в диаграмме.
+Штатное решение - настройка перечня отображаемых полей, места их размещения и выбор стиля из
+имеющейся галереи стилей оргдиаграммы.</p>
+<p>Возможны нештатные решения. Например, в статье <a href="https://blog.bvisual.net/2009/02/24/creating-an-org-chart-without-the-org-chart-wizard/">Creating an Org Chart without the Org Chart Wizard"</a> предлагается
+метод построения оргдиаграммы без использования штатного аддона за счет того, что и без него
+Visio имеет некоторые средства импорта данных и управления авторазмещением шейпов.</p>
+<p>Возможны и варианты с использованием штатного аддона, но как правило они
+требуют разработки дополнительного программного обеспечения, участия программистов.</p>
+<h2> Перечень литературы </h2>
+<p>06.12.2020&nbsp;<b><noindex><a target = new href=https://www.youtube.com/watch?v=rf4r6ujeyzo
+ rel="nofollow">&nbspОрганизационные диаграмы в MS Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspKuzin Alexander&nbsp;</a>
+&nbsp;&nbsp;</noindex>Video&nbsp</p>
+<p>05.12.2019&nbsp;<b><noindex><a target = new href=https://bvisual.net/2019/12/05/org-chart-from-exchange/
+ rel="nofollow">&nbspUsing Visio Org Chart Wizard to work with Exchange Online</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>08.07.2015&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2015/07/08/3931/
+ rel="nofollow">&nbspИзменение макета и внешнего вида организационной диаграммы</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>17.04.2015&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2015/04/17/visio-org-charts-with-multiple-languages/
+ rel="nofollow">&nbspVisio Org Charts with Multiple Languages</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>03.04.2015&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2015/04/03/3693/
+ rel="nofollow">&nbspИспользование мастера организационных диаграмм с новыми данными</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>07.08.2014&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2014/08/07/902/
+ rel="nofollow">&nbspДобавление фотографий и изменение стилей организационных диаграмм</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.06.2014&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/en-us/previous-versions/office/developer/office-xp/aa140377(v=office.10)
+ rel="nofollow">&nbspUsing the Visio 2002 Organization Chart Solution</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>08.06.2014&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2014/06/08/854/
+ rel="nofollow">&nbspИзменение фигур в организационной диаграмме</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>03.10.2013&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2013/10/03/726/
+ rel="nofollow">&nbspВсе кадры в одном кадре</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>26.10.2012&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2012/10/26/468/
+ rel="nofollow">&nbspБеспрецедентно эффективная визуализация данных вашей организации</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>13.08.2012&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2012/08/13/380/
+ rel="nofollow">&nbspПостроение организационной диаграммы вручную</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>08.05.2012&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2012/05/08/creating-a-custom-org-chart-template-with-extra-properties/
+ rel="nofollow">&nbspCreating a Custom Org Chart Template with Extra Properties</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.02.2009&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2009/02/24/creating-an-org-chart-without-the-org-chart-wizard/
+ rel="nofollow">&nbspCreating an Org Chart without the Org Chart Wizard</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Автоматизация Organization Chart</p>
+<p class="v">Я могу построить Organization Chart в Visio, импортируя данные из Excel. Но мне хотелось бы автоматизировать это процесс. Я пытался записать макрос, но импорт не записывается. Предполагаю, что придется использовать VBA. Кто может что-нибудь посоветовать.&nbsp;</p>
+<p class="o">Не обязательно использовать VBA. Возможно, будет достаточно использовать встроенный Add-On OrgChart.&nbsp;</p>
+<p class="n">Изменение прямоугольного шейпа</p>
+<p class="v">Я создаю орггдиаграмму своей компании в Visio 2016 standard. Можно ли изменить шейп прямоугольника, чтобы он содержал несколько больше, чем имя и заголовок?Я хотел бы добавить адрес, номер сотрудника и день рождения. Возможно ли это в стандартной версии и как это настроить?&nbsp;</p>
+<p class="o">Вы можете начать со статьи "Add data to shapes" https://support.office.com/en-ie/article/add-data-to-shapes-09272394-5243-4e1b-bcfa-425a8b4d1ce2&nbsp;</p>
+<p class="n">Простой шейп с изображением вверху и текстом внизу</p>
+<p class="v">Я делаю генеалогическое дерево и хотел бы использовать простой прямоугольный шейп, чтобы вверху была картинка, а внизу имя. Для экономии нужно, чтобы шейп не содержал пустых мест. Почему бы по умолчанию не быть такому шейпу?Кроме того, хотелось бы, чтобы фон был раскрашен в цвета флага страны, так как некоторые участники из разных стран. Можно ли сделать различный фон у шейпов?&nbsp;</p>
+<p class="o">Пользователей много, на всех не угодишь. Но вы можете создать свой мастер-шейп, сохранить его в своем трафарете и использовать. В том числе и сделать изменяемый фон.Для этого вам придется изучить ряд вопросов:- как группировать шейпы- как редактировать шейп-лист- как связать отображение внутреннего шейпа с данными шейпа-группы- как превратить шейп в мастер-шейп- как управлять трафаретами.Перечисленные шаги не требуют знания VBA.&nbsp;</p>
+<p class="n">Несколько связей в OrgChart</p>
+<p class="v">Я делаю оргдиаграмму, на которой у человека может быть более одного начальника. Но когда я добавляю такую связь, первая связь исчезает. Как быть?&nbsp;</p>
+<p class="o">Начальник может быть только один, это правило не может быть нарушено. Но вы можете использовать другой тип линии - Dotted-line report. Отформатируйте ее, чтобы была сплошной, и отличия будут незаметны.&nbsp;</p>
+<p class="n">Несколько имен в одном блоке</p>
+<p class="v">Я работаю в большой компании, более чем 1500 сотрудников. Для экономии места нужно, чтобы в одном квадрате отображались несколько сотрудников. Как это сделать?&nbsp;</p>
+<p class="o">Смарт-шейпы часто сопровождаются поддерживающим кодом, который мешает что-либо изменять. Либо ломается шейп, либо код перекрывает попытку изменения.В вашем случае можно добавить столбец в Excel, в котором будут объединяться несколько имен. Причем это должно выглядеть так, как будет отображаться в Visio, то есть каждое имя в отдельной строке.&nbsp;</p>
+<p class="n">Удаляются соединения</p>
+<p class="v">Я создаю оргдиаграмму с соединениями между разными позициями. Когда приходится добавлять вторую соединительную линию к руководителю, то первая линия исчезает. Как это исправить?&nbsp;</p>
+<p class="o">Единственное, что приходит на ум, - оргдиаграмма сделана так, что подчиненный может иметь только одного руководителя. Что обойти это ограничение, вы можете использовать другой тип соединения - пунктирную линию. Однако нужно помнить, что такое решение может привести к ошибкам при создании отчетов.&nbsp;</p>
+<p class="n">В Visio 2010 изменился OrgC11</p>
+<p class="v">В Visio 2003 я мог использовать для изменения размещения такие команды как&nbsp;</p>
+<p class="t">Application.Addons("OrgC11").Run("/toolbar_horiz1")Application.Addons("OrgC11").Run("/toolbar_sidebyside2")&nbsp;</p>
+<p class="v">В Visio 2010 эти команды не работают. Хотя некоторые (например .run("/cmd=layoutdlg") продолжают работать.В результате часть кода в новой версии перестала работать. Кто-нибудь знает, с чем это связано и как исправляется?&nbsp;</p>
+<p class="o">Я думаю, теперь это&nbsp;</p>
+<p class="t">Application.Addons("OrgC11").Run ("/gallery_horiz1")Application.Addons("OrgC11").Run ("/gallery_sidebyside2")&nbsp;</p>
+<p class="o">Вы можете посмотреть новые команды просто рассматривая OrgChart.DLL как текст. Вот какой список можно увидеть:layoutdlg, relayout, shapedropped, fittopage, linkcopybranchgallery_horiz1, gallery_horiz2, gallery_horiz3, gallery_horiz4, gallery_horiz5, gallery_horiz6gallery_vert1, gallery_vert2, gallery_vert3, gallery_vert4, gallery_vert5, gallery_vert6, gallery_vert7, gallery_vert8gallery_sidebyside1, gallery_sidebyside2, gallery_sidebyside3, gallery_sidebyside4changepicture, insertpicture, insertpictures, showdivider, deletepicture, showpicturehidedivider, togglepicture, hidepicture, shiftright, shiftleft, disableredraw, scalechangedenableevents, enableredraw, wizardchanges_doc, disableevents, forcedocprocessingsetupforinteraction, addpage, waitforidle, addsyncshape, addnewshape, showdivider_docdisplay5, layoutpage, hidedivider_doc, hidesubordinates, showsubordinates, convertshapestogglesubordinates, options, editoverallprops, reduceheight, increaseheight, reducewidth, increasewidthstyle01, style00, style03, style02, style05, style04, style07, style06, style09, style08, style10togglelayoutstyle, movecloser, editalprops, exportorgdata, movefurther, diffcompareexpandsubordinates, addpicturetoposition, convertdoc, importsetstyle, picturepath&nbsp;</p>
+<p class="n">Удалить фотографии из OrgChart</p>
+<p class="v">Можно ли в Visio 2013 использовать VBA для удаления всех полей с фотографиями? Устал делать это вручную на всех страницах.&nbsp;</p>
+<p class="o">Не обязательно скрывать фотографии в каждом шейпе. Можно селектировать сразу несколько шейпов и выбрать в контекстном меню соответствующий пункт. Фотографии будут скрыты сразу во всех селектированных шейпах.&nbsp;</p>
+<p class="n">Как у фигуры в организационной диаграмме программно показать разделительную линию?</p>
+<p class="v">Т.е. когда нажимаешь правой кнопкой мыши и выбираешь пункт меню "Show divider line"?&nbsp;</p>
+<p class="t">Sub ttt()Set sh = ActivePage.Shapes(1)sh.Cells("User.ShowDivider") = 1End Sub&nbsp;</p>
+<p class="n">Как программно загрузить картинку Shape.Picture?</p>
+<p class="v">Как программно загрузить картинку?&nbsp;</p>
+<p class="o">Картинка грузится через импортsh.Import picxгде picx - путь к картинке.Но, боюсь, в стандартных шейпах Вам это не поможет. По импорту создается новый шейп с картинкой. Значит нужно будет не только создать такой шейп, но и встроить его в чужой шейп, да еще и так, чтобы его не сломать.&nbsp;</p>
+<p class="n">Как программно импортировать структуру из Excell или csv файла?</p>
+<p class="v">Перерыл всю объектную модель, ничего похожего не нашел :(&nbsp;</p>
+<p class="o">Есть такая утилитка - ORGWIZ.EXEЕсли ее вызвать из программы с соответствующими ключами (а их там море), то скорее всего получите нужный результат.Аргументы командной строки прописаны в статье "Make Visio organization charts from personnel files" https://support.office.com/en-us/article/Make-Visio-organization-charts-from-personnel-files-a6ce56cf-1714-45a8-863a-e1a8001a2e5e?CorrelationId=5c6eb855-9ac1-4dd3-a663-940c3d825a2c&ui=en-US&rs=en-US&ad=US&ocmsassetID=HA001077464 . Но она относится к Visio 2007, теоретически что-то могло измениться.&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

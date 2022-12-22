@@ -1,0 +1,219 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Структуры</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="/index.html"><img SRC="/vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="/reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="/bib.htm">Библиотека</a> |
+ <a class="menu" href="/faq.htm">Частые вопросы</a> |
+ <a class="menu" href="/bookpdf.htm">Литература</a> |
+ <a class="menu" href="/loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="/navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="/blog/">Blog</a> |
+ <a class="menu" href="/inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="/site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="/visicorp.htm">История Visio</a> |
+ <a class="menu" href="/product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Структуры</h1>
+<p>В Visio 2010 впервые появились специальные элементы для построения структурированных диаграмм:
+контейнеры (Container), списки (List), выноски (Callout). Эти элементы отличаются от обычных шейпов
+тем, что не используются сами по себе. Они по умолчанию взаимодействуют с другими шейпами, объединяют или дополняют их.</p>
+<p>Контейнер слегка напоминает группу и предназначен для объединения нескольких шейпов.</p>
+<p>Список, являясь контейнером, имеет дополнительные возможности по упорядочению входящих
+шейпов, может автоматически выстроить их в линейку или колонку и подстраивает свои размеры под содержимое.</p>
+<p>Списки и контейнеры идеально подходят для структурирования функциональных диаграмм,
+но могут применяться и в других областях.</p>
+<p>Выноски выполняют другую задачу. Они являются носителем дополнительной информации к шейпу,
+или можно сказать, являются контейнером для дополнительной информации.</p>
+<p>Перечисленные типы шейпов объединяет то, что все они содержат ячейку User.msvStructureType.
+Это признак, по которому Visio отличает их от остальных шейпов и обрабатывает особым образом.</p>
+<p>По минимуму, для того, чтобы превратить шейп в контейнер, достаточно добавить ему секцию
+User-defined Cells с именованной строкой msvStructureType и присвоить ей значение Container, List или Callout.</p>
+<p>Кроме того существует еще целый набор необязательных специализированных ячеек, которые
+управляют дополнительными свойствами. Вот их список</p>
+<p>Для контейнера</p>
+<UL>
+<LI>User.msvSDContainerMargin
+<LI>User.msvSDContainerResize
+<LI>User.msvSDContainerStyle
+<LI>User.msvSDContainerStyleCount
+<LI>User.msvSDHeadingStyle
+<LI>User.msvSDHeadingStyleCount
+<LI>User.msvSDContainerLocked
+<LI>User.msvSDContainerRequiredCategories
+<LI>User.msvSDContainerExcludedCategories
+<LI>User.msvSDContainerNoHighlight
+<LI>User.msvSDContainerNoRibbon
+<LI>User.msvSDContainerHeadingEdge
+<LI>User.msvSDMembersOnHiddenLayer
+</UL>
+<p>Для списка</p>
+<UL>
+<LI>User.msvSDListAlignment
+<LI>User.msvSDListDirection
+<LI>User.msvSDListSpacing
+<LI>User.msvSDListItemMaster
+<LI>User.msvSDListNoReorder
+<LI>User.msvSDListRequiredCategories
+<LI>User.msvSDListExcludedCategories
+</UL>
+<p>Для выноски</p>
+<UL>
+<LI>User.msvSDCalloutNoHighlight
+<LI>User.msvSDTargetIntersection
+</UL>
+<p>Назначение и допустимые значения этих ячеек хорошо описаны в статьях
+<a href="https://techcommunity.microsoft.com/t5/visio-blogs-archive/custom-containers-lists-and-callouts-in-visio-2010/ba-p/237586">Custom Containers, Lists and Callouts in Visio 2010</a> и
+<a href="https://docs.microsoft.com/en-us/previous-versions/office/developer/office-2010/ff959245(v=office.14)?redirectedfrom=MSDN">Adding Structure to Diagrams in Visio 2010</a>.
+Я не буду дублировать это описание.</p>
+<p>Следует отметить, что указанные ячейки используются в первую очередь для ручной настройки
+контейнеров через шейп-лист, а программное управление контроллерами производится не напрямую
+через них, а через свойства объекта ContainerProperties. Так что программисты в справке должны искать именно этот объект.</p>
+<p>Нужно упомянуть и еще одну специальную ячейку User.msvShapeCategories. Именно в этой ячейке
+указывается (при необходимости) категория шейпа (как контейнера, так и любого другого шейпа).
+Категории могут быть назначены произвольно. Эти категории участвуют в настройке контейнеров на типы обрабатываемых шейпов.</p>
+<h2> Перечень литературы </h2>
+<p>06.07.2022&nbsp;<b><noindex><a target = new href=https://bvisual.net/2022/07/06/a-visio-list-shape-is-also-a-container/
+ rel="nofollow">&nbspA Visio List Shape is also a Container</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>01.03.2022&nbsp;<b><noindex><a target = new href=https://bvisual.net/2022/03/01/referencing-container-data-in-visio/
+ rel="nofollow">&nbspReferencing Container Data in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>25.03.2020&nbsp;<b><noindex><a target = new href=https://bvisual.net/2020/03/25/preventing-deletion-of-container-members-in-visio/
+ rel="nofollow">&nbspPreventing Deletion of Container Members in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>19.01.2016&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2016/01/19/4645/
+ rel="nofollow">&nbspОрганизация фигур с помощью контейнеров</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>18.05.2015&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2015/05/18/3823/
+ rel="nofollow">&nbspСравнение контейнеров и групп</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>15.05.2015&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2015/05/15/3793/
+ rel="nofollow">&nbspПоведение фигур на границе контейнера</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>07.05.2015&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2015/05/07/3803/
+ rel="nofollow">&nbspИзменение размеров контейнеров</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.04.2015&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2015/04/14/3683/
+ rel="nofollow">&nbspСхемы с дорожками</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.11.2014&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2014/11/24/998/
+ rel="nofollow">&nbspДобавление структуры в схемы</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.09.2014&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2014/09/24/967/
+ rel="nofollow">&nbspДобавление фигур в списки</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.07.2014&nbsp;<b><noindex><a target = new href=https://docs.microsoft.com/en-us/previous-versions/office/developer/office-2010/ff959245(v=office.14)?redirectedfrom=MSDN
+ rel="nofollow">&nbspAdding Structure to Diagrams in Visio 2010</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>23.04.2014&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2014/04/23/816/
+ rel="nofollow">&nbspСоздание контейнеров и списков</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>20.06.2013&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2013/06/20/643/
+ rel="nofollow">&nbspСоздание схемы с дорожками</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.10.2012&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2012/10/14/1078/
+ rel="nofollow">&nbspРабота с контейнерами и их содержимым</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>25.11.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/11/25/169/
+ rel="nofollow">&nbspРуководство по новым структурированным диаграммам</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>31.08.2011&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2011/08/31/visio-2010-container-problems/
+ rel="nofollow">&nbspVisio 2010 Container Problems</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>27.07.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/07/27/123/
+ rel="nofollow">&nbspСобытия структурированных схем</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>25.07.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/07/25/122/
+ rel="nofollow">&nbspВключение и отключение режимов структурированных схем в решениях</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>21.07.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/07/21/api/
+ rel="nofollow">&nbspОбзор API структурированных схем</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>19.07.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/07/19/118/
+ rel="nofollow">&nbspСохранение отношений структурированных схем</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>15.07.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/07/15/116/
+ rel="nofollow">&nbspФункции таблицы свойств фигуры для отношений структурированных схем</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>14.07.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/07/14/1080/
+ rel="nofollow">&nbspФункции платформы, связанные с фигурами структурированных схем</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>04.07.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/07/04/106/
+ rel="nofollow">&nbspНастраиваемые списки</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>29.06.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/06/29/105/
+ rel="nofollow">&nbspНастраиваемые контейнеры</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>27.06.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/06/27/101/
+ rel="nofollow">&nbspРабота с выносками</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>24.06.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/06/24/97/
+ rel="nofollow">&nbspРабота со списками</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>23.06.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/06/23/92/
+ rel="nofollow">&nbspРабота с контейнерами</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>26.05.2011&nbsp;<b><noindex><a target = new href=https://blogs.technet.microsoft.com/visio_ru/2011/05/26/49/
+ rel="nofollow">&nbspСоздание стратегической карты с помощью контейнеров</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspAlla Vasilieva&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>12.01.2010&nbsp;<b><noindex><a target = new href=https://techcommunity.microsoft.com/t5/visio-blogs-archive/custom-containers-lists-and-callouts-in-visio-2010/ba-p/237586
+ rel="nofollow">&nbspCustom Containers, Lists and Callouts in Visio 2010</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>

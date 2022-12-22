@@ -1,0 +1,146 @@
+﻿<html><head>
+<LINK REL="STYLESHEET" HREF="vis.css">
+<title>Кроме программ</title>
+<meta name="GENERATOR" content="MSHTML 5.00.2614.3500">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+</head>
+<body bgcolor="white">
+<div class="body_div">
+<table class="tft" width="100%"><tr>
+<td width="15%" align="center"><a href="/index.html"><img SRC="/vl1.gif" WIDTH="177" HEIGHT="80" BORDER="0" ALT=""></a>&nbsp;</td>
+<td width="5%" align="center">&nbsp;</td>
+<td class='menutd' width="50%" align="center">
+ <a class="menu" href="http://visio.getbb.ru/">Форум visio.getbb.ru</a> |
+ <a class="menu" href="/reg.htm">О форумах</a>
+<br/>
+ <a class="menu" href="/bib.htm">Библиотека</a> |
+ <a class="menu" href="/faq.htm">Частые вопросы</a> |
+ <a class="menu" href="/bookpdf.htm">Литература</a> |
+ <a class="menu" href="/loading.htm">Склад материалов</a>
+<br/>
+ <a class="menu" href="/navi/png_1.htm">Visio Navigator</a> |
+ <a class="menu" href="/blog/">Blog</a> |
+ <a class="menu" href="/inforesurs.htm">Полезные ссылки</a> |
+ <a class="menu" href="/site.htm">О сайте</a>
+<br/>
+ <a class="menu" href="/visicorp.htm">История Visio</a> |
+ <a class="menu" href="/product.htm">Продукты Visio</a>
+</td>
+<td width="5%" align="center">&nbsp;</td>
+<td width="25%" align="center">
+<script async src="https://cse.google.com/cse.js?cx=f5e9a9cb1467f4600">
+</script>
+<div class="gcse-search"></div>
+</td></tr></table>
+<table width="100%" cellpadding="0" cellspacing="0" class="min"><tr><td width="10%" align="center">&nbsp;</td>
+	<td width="90%">&nbsp;&nbsp;Для русскоязычных пользователей Visio. Начинающих и профессионалов.
+Где взять, как сделать, что купить и т.д.
+</td></tr></table>
+<!-- основной контент -->
+
+<h1>Кроме программ</h1>
+<p>Буквально после первых шагов в Visio возникает ситуация, когда еще страшно
+браться за программирование, но уже хочется поглубже влезть в управление шейпами.
+Делать свои шейпы, в том числе смарт-шейпы, связывать шейпы с данными, сделать специфический
+стиль линнии или заливку и т.д. Наконец, требуется добавить интерактивность, например, переключить
+видимое изображение шейпа или настроить шейп (выбрать ту или иную опцию).</p>
+<p>Visio позволяет очень много делать и без программирования. Основной инструмент при этом - шейп-лист
+(ShapeSheet или как его еще иногда называют - "таблица фигур"). </p>
+<p>Обычно возникают такие вопросы:</p>
+<p>- как добиться того или иного поведения шейпа и можно ли это вообще сделать без программирования;</p>
+<p>- как делать некоторые специфические виды шейпов (легенды, data graphics, контейнеры...);</p>
+<p>- как создавать и изменять темы, стили линий, заливки;</p>
+<p>- как сделать шейп чувствительным к командам пользователя</p>
+<p>Примеры задач, которые решаются с помощью шейп-листа:</p>
+<p>- Сделать шейп, высота которого изменяется в зависимости от количества текста в шейпе.</p>
+<p>- Сделать "мультифигуру", чтобы шейп содержал несколько изображений и можно было выбрать нужное.</p>
+<p>- Сделать шейп, изображение которого изменяется на отраженное при "правом" и "левом" подключении к родительскому шейпу.</p>
+<p>- Сделать шейп невидимым после удалении текста.</p>
+<p>- Добавить контекстное меню для выбора одной из возможных конфигураций изображения.</p>
+<p>- Подкрашивать шейп при перемещении.</p>
+<p>И этот список можно наращивать до бесконечности. Большинство из таких возможностей реализуется как
+зависимости между ячейками шейп-листа. В ячейке может находиться либо постоянное значение, либо формула,
+связывающая ячейку с значением другой ячейки. Как только появляются хитрые связи с формулами, так шейп
+становится "умным", приобретает специфическое поведение. </p>
+<p>Чаще всего достаточно иметь просто зависимость между ячейками. Тогда изменение одной ячейки будет
+автоматически приводить к изменению другой, зависимой. Однако иногда требуется "толкнуть" первичное изменение,
+причем сделать эту операцию поудобнее для неподготовленного пользователя. Смотрим, что предлагает шейп-лист для такого случая:</p>
+<p>- изменение ShapeData;</p>
+<p>- использование секции Action для создания контекстного меню;</p>
+<p>- использование встроенных событий;</p>
+<p>- настройка поведения шейпа по двойному щелчку.</p>
+<p>Заметьте, что перечислены только варианты, позволяющие обойтись без программирования.
+С программированием набор существенно расширяется, причем программы как правило взаимодействуют с шейпом тоже через шейп-лист.</p>
+<p>Изменение ShapeData. Простейший способ настройки шейпа. Простейший, потому что достаточно задать
+просто данные шейпа, а все остальное выполняется штатным инструментарием. Уже есть специальное окно,
+которое и отобразит данные шейпа, и примет изменения данных.</p>
+<p>Секция Action немного посложнее. Нужно будет уметь добавить секцию к шейпу, добавить и настроить
+строки секции. Зато шейп приобретает удобное контекстное меню. При этом для исполнения команды требуется
+буквально два клика и все делается рядом с шейпом источником без открывания дополнительных окон.</p>
+<p>Встроенные события. Привычный подход к обработке событий - это когда пишется (например, на VBA) код
+обработчика, который запускается при наступлении события. Но есть несколько событий, которые привязаны
+к каждому шейпу и могут работать даже без программного кода. Это перемещение шейпа, изменение текста,
+"опускание" шейпа на страницу и двойной щелчок по шейпу.</p>
+<p>Действия по двойному щелчку, помимо прямого ввода формул в ячейку, могут настраиваться и через
+специальное диалоговое окно Format / Behavior, что несколько упрощает работу с ячейкой EventDblClick.</p>
+<p><b>Рекомендуемые источники информации по работе с шейп-листом</b></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/office/ff768297.aspx">Документация Microsoft</a></p>
+<p>Подфорумы <a href="http://visguy.com/vgforum/index.php?board=3.0">visguy</a> и <a href="http://visio.getbb.ru/viewforum.php?f=5">visio.getbb.ru</a></p>
+<p><a href="https://shapesheet-kb.github.io/">База знаний от Surrogate</a></p>
+&nbsp;<br>
+<h2> Перечень литературы </h2>
+<p>13.06.2022&nbsp;<b><noindex><a target = new href=https://bvisual.net/2022/06/13/taking-visio-actions-rows-to-the-limit/
+ rel="nofollow">&nbspTaking Visio Actions Rows to the limit</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>19.07.2019&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2019/07/19/what-makes-visio-smart/
+ rel="nofollow">&nbspWhat makes Visio smart?</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>27.06.2019&nbsp;<b><noindex><a target = new href=blog/13-pro-kontekstnye-menyu.html
+ rel="nofollow">&nbspПро контекстные меню</a></noindex></b>&nbsp;&nbsp;<noindex>
+Геннадий Туманов
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>26.08.2018&nbsp;<b><noindex><a target = new href=https://techcommunity.microsoft.com/t5/Visio-Blogs-Archive/ShapeSheet-Formula-AutoComplete-Other-Improvements/ba-p/237571
+ rel="nofollow">&nbspShapeSheet Formula AutoComplete, Other Improvements</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>20.02.2017&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2017/02/20/understanding-visios-color-formulas/
+ rel="nofollow">&nbspUnderstanding Visio’s Color Formulas</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>09.02.2017&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2017/02/09/more-secrets-of-the-visio-legend-shape/
+ rel="nofollow">&nbspMore secrets of the Visio Legend shape</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>08.01.2017&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2017/01/08/a-blackstar-alphabet-in-visio/
+ rel="nofollow">&nbspA Blackstar alphabet in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>12.07.2016&nbsp;<b><noindex><a target = new href=https://youtu.be/4F63bv_1Lf4
+ rel="nofollow">&nbspСекция Actions - описание</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspVigil&nbsp;</a>
+&nbsp;&nbsp;</noindex>Видео&nbsp</p>
+<p>13.10.2011&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2011/10/13/formatting-custom-units-in-visio/
+ rel="nofollow">&nbspFormatting Custom Units in Visio</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>01.01.2010&nbsp;<b><noindex><a target = new href=http://download.microsoft.com/download/F/0/0/F00E7198-CD99-40A9-A3B0-48E2EE0EAB34/Visio%202010%20Developer%20Training%2001%20-%20Shapes%20and%20ShapeSheet%20Fundamentals.docx
+ rel="nofollow">&nbspMicrosoft Visio 2010 Developer Training</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspMicrosoft&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>05.11.2007&nbsp;<b><noindex><a target = new href=https://blog.bvisual.net/2007/11/05/a-working-visio-clock/
+ rel="nofollow">&nbspA Working Visio Clock</a></noindex></b>&nbsp;&nbsp;<noindex>
+<a target=new href="rel ="nofollow">&nbspDavid Parker&nbsp;</a>
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<p>&nbsp;<b><noindex><a target = new href=https://surrogate-tm.github.io/digitall/articles/article6.html
+ rel="nofollow">&nbspКак создать будильник? Методы создания интерактивных объектов</a></noindex></b>&nbsp;&nbsp;<noindex>
+Ничков А.В.
+&nbsp;&nbsp;</noindex>&nbsp</p>
+<h2> Ответы на вопросы</h2>
+<p class="n">Сортировка меню Action</p>
+<p class="v">Я пытаюсь создать меню Action, что делал уже несколько раз. Но теперь мне нужно, чтобы пункты располагались в самом низу списка.Знаю, что есть свойство Sort Order. Но оно действует только в верхней части, выше пункта Show ShapeSheet. Можно ли расположить свой пункт в самом низу списка?&nbsp;</p>
+<p class="o">Просто вставьте знак % перед текстом меню. Например %Mark for Delete.Напомню, что есть еще специальные знаки:Знак "&" для подчеркивания следующего символа. Знак "_" для вставки разделителя.Источник - http://visguy.com/vgforum/index.php?topic=8816&nbsp;</p>
+<div id="menu-line">
+<a href="mailto:gCroc@yandex.ru"> Gennady Tumanov </a>
+</div></div></body></html>
